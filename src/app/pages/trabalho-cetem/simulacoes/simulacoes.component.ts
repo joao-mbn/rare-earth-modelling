@@ -11,14 +11,16 @@ import { Simulacoes } from 'src/app/classes/simulacoes';
 
 export class SimulacoesComponent implements OnInit {
 
-  mcCabeThieleChart!: Chart;
+  pHInputValue: number = 1;
+  nEstagiosInputValue: number = 20;
+  raoInputValue: number = 1;
+
   chartCanvas!: HTMLCanvasElement;
   simulacoes!: Simulacoes[];
 
-  constructor(private _simulacoesService: SimulacoesService) {
-    Chart.register(...registerables);
+  constructor(private simulacoesService: SimulacoesService) {
 
-    this._simulacoesService.getSimulacoes()
+    this.simulacoesService.getSimulacoes()
       .subscribe(retorno => {
         this.simulacoes = retorno.map((simulacao: Simulacoes) => {
           return new Simulacoes(simulacao);
@@ -28,8 +30,14 @@ export class SimulacoesComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // graph construction
+    Chart.register(...registerables);
     this.chartCanvas = <HTMLCanvasElement>document.getElementById('mcCabe-Thiele-chart-canvas');
-    this.mcCabeThieleChart = new Chart(this.chartCanvas, {
+    this.createMcCabeThieleChart();
+  }
+
+  createMcCabeThieleChart = (): void => {
+    const McThieleChart = new Chart(this.chartCanvas, {
       type: 'bar',
       data: {
         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -57,4 +65,21 @@ export class SimulacoesComponent implements OnInit {
       }
     });
   }
+
+  onInputValueUpdate(event: Event): void {
+    const eventTarget = <HTMLInputElement>event.target;
+    const eventTargetValue = parseFloat(eventTarget.value);
+    const eventTargetId = eventTarget.id;
+    switch (eventTargetId) {
+      case 'pH-slider':
+        this.pHInputValue = eventTargetValue;
+        break;
+      case 'nEstagios-slider':
+        this.nEstagiosInputValue = eventTargetValue;
+        break;
+      case 'rao-slider':
+        this.raoInputValue = eventTargetValue;
+    }
+  }
+
 }
