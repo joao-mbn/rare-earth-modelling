@@ -1,0 +1,16 @@
+$orange: #da7d02;
+
+.uk-card-footer {
+  display: flex;
+}
+
+.social-medias {
+  padding-left: 100px;
+}
+
+a {
+  &.uk-icon:hover {
+    color: $orange;
+  }
+}
+

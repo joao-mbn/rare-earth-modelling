@@ -1,0 +1,8 @@
+<p appLorem *ngFor="let lorem of [1, 2, 3, 4]"></p>
+<div class="uk-button-group">
+  <div *ngFor="let simboloEtr of listaSimbolosEtrs; let i = index">
+    <button appPeriodicTableButton routerLink="{{simboloEtr}}" (click)="showEtrSummary(simboloEtr, i)">
+      {{ simboloEtr | lowercase }}
+    </button>
+  </div>
+</div>

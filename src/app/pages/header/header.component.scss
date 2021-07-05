@@ -1,0 +1,16 @@
+.uk-container {
+  min-width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0px;
+  margin: 0px;
+
+  button {
+    padding: 0px 15px;
+  }
+
+  button:not(.uk-icon){
+    flex-grow: 1;
+  }
+}
