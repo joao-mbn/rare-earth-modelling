@@ -3,6 +3,11 @@
 ---
 ## <span style='color:yellow'> Um Modelo Não-Linear para a Otimização de um Processo de Separação de Elementos de Terras-Raras (ETR) </span>
 ---
+### <span style='color:yellow'> Contexto e Fundamentos </span>
+
+Considere um sistema, conforme a figura abaixo, de separação de duas espécies químicas, utilizando [extração por solvente](https://pt.wikipedia.org/wiki/Extra%C3%A7%C3%A3o_l%C3%ADquido-l%C3%ADquido) para isso.
+
+![tempoEquilibrio](./assets/TempoDeEquilibrio.png)
 
 O problema central de um modelo para um processo de extração é conseguir prever razoavelmente a [razão de distribuição (D)](https://pt.wikipedia.org/wiki/Coeficiente_de_parti%C3%A7%C3%A3o) das espécies a serem separadas. Quando um produto comercial só possui valor com purezas altíssimas, digamos 99%, ou 99.9% (até mesmo 99.999% para algumas aplicações), uma mínima incongruência do modelo com a realidade pode gerar uma mínima diferença entre a meta de pureza e o resultado obtido suficiente para acabar com o valor do produto.
 
@@ -20,7 +25,9 @@ No processo, hólmio é um elemento com maior afinidade pelo extratante orgânic
 
 Para cada estágio (ou célula) de extração, temos duas equações e duas variáveis. Entretanto, pelos balanços de massa, as equações de um estágio são interdependentes com as do próximo e do anterior. Dessa forma, um sistema com 10 estágios possui 20 equações e 20 variáveis (as concentrações de Dy e Ho em cada célula).
 
-A dedução completa das equações, abaixo, obtidas a partir do modelo, pode ser conferida $\huge {\red {aqui}}$.
+A dedução completa das equações, abaixo, obtidas a partir do modelo, pode ser conferida $\huge {\red {aqui}}$. **Todas** as equações foram postas em termos das concentrações na fase **aquosa**.
+
+*Não se preocupe com as concentrações na fase orgânica, embora pela dedução do balanço de massa mostrado em anexo seja facilmente percebível como elas podem ser obtidas.*
 
 <span style='font-size: 1.2em; color:rgb(101, 227, 243)'>
 Para qualquer estágio que não seja o último:
@@ -50,9 +57,27 @@ $$
 - $a$ e $b$ são parâmetros empíricos obtidos dos modelos.
 - K é o número total de cargas (positivas ou negativas), que, pelo balanço de carga, será o mesmo para qualquer estágio, pois a fase orgânica é neutra.
 
-$$ K = [H^+] + 3[Dy^{3+}] + 3[Ho^{3+}]$$
+$$ K = [H_{0}^+] + 3[Dy_{0}^{3+}] + 3[Ho_{0}^{3+}]$$
 
 Lembrando que: $pH = -log[H^+]$ e $[H^+] = 10^{-pH}$.
+
+---
+
+### <span style='color:red'> Dados Experimentais </span>
+
+$\huge {\red {Revisar-após-o-término-do-algoritmo}}$
+
+Aqui você encontrará os dados para fazer uso das equações acima.
+
+- tolerância do método: $t = 0.00001$
+- Nº de Estágios: $n = 30$
+- Razão A/O: $R = 2$
+- $pH = 0.8$
+- $Dy_0 = 8.06 \cdot 10^{-3} mol/L$
+- $Ho_0 = 1.53 \cdot 10^{-2} mol/L$
+- Recomenda-se um chute inicial para os demais elementos do vetor x ($\underline{x}$) (ver seção abaixo), onde x são todas as concentrações de Dy ($Dy_1, Dy_2, ..., Dy_{n}$), seguidos por todas as concentrações de Ho ($Ho_1, Ho_2, ..., Ho_{n}$), como segue:
+  - Para um dado elemento, os chutes iniciais começando em 1 e terminando em n podem seguir uma progressão *decrescente* e *linear*, começando pelo valor de 100% do elemento com subscrito 0 (a alimentação da primeira célula) e terminando em 1% desse valor.  
+*Note que a alimentação não tem um chute inicial para o modelo iterativo, ele é uma informação conhecida!*
 
 ---
 ---
@@ -71,9 +96,9 @@ Considere o sistema de equações não-lineares:
 $$
 \large
 \begin{cases}
-f_3(x_1, x_2, x_3,  \dots, x_n) = 0 \\
-f_2(x_1, x_2, x_3,  \dots, x_n) = 0 \\
 f_1(x_1, x_2, x_3,  \dots, x_n) = 0 \\
+f_2(x_1, x_2, x_3,  \dots, x_n) = 0 \\
+f_3(x_1, x_2, x_3,  \dots, x_n) = 0 \\
 \vdots \\
 f_n(x_1, x_2, x_3,  \dots, x_n) = 0 \\
 \end{cases}
@@ -252,3 +277,158 @@ $$\large (\underline{\underline{J}}^{(n)})^{-1} \cdot \underline{f}(\underline{x
       7. Atualizar os valores de $\underline{x} \rightarrow \underline{x}^{(n+1)} = \underline{x}^{(n)} + \Delta \underline{x}^{(n)}$
 
 ---
+### <span style='color:yellow'> Para não restar dúvidas </span>
+
+O seu vetor de funções $\underline{f}(\underline{x})$
+
+$$
+\large
+\begin{bmatrix}
+f_1(x_1, x_2, x_3,  \dots, x_n) \\
+f_2(x_1, x_2, x_3,  \dots, x_n) \\
+f_3(x_1, x_2, x_3,  \dots, x_n) \\
+\vdots \\
+f_n(x_1, x_2, x_3,  \dots, x_n) \\
+\end{bmatrix}
+$$
+
+Deverá ficar assim:
+
+$$
+\large
+\begin{bmatrix}
+
+f_1 = Dy_1  \Bigg(\bigg({K \over 3 (Dy_1 + Ho_1)} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{2}  \Bigg(\bigg({K \over 3 (Dy_{2} + Ho_{2})} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} \Bigg) - Dy_{0} \cdot R \\[4ex]
+
+f_2 = Dy_2  \Bigg(\bigg({K \over 3 (Dy_2 + Ho_2)} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{3}  \Bigg(\bigg({K \over 3 (Dy_{3} + Ho_{3})} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} \Bigg) - Dy_{1} \cdot R \\[4ex]
+
+\vdots \\[4ex]
+
+f_{n-1} = Dy_{n-1}  \Bigg(\bigg({K \over 3 (Dy_{n-1} + Ho_{n-1})} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{n}  \Bigg(\bigg({K \over 3 (Dy_{n} + Ho_{n+1})} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} \Bigg) - Dy_{n-2} \cdot R \\[4ex]
+
+f_{n} = Dy_n  \Bigg(\bigg({K \over 3 (Dy_n + Ho_n)} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{n-1} \cdot R \\[4ex]
+
+f_{n+1} = Ho_1  \Bigg(\bigg({K \over 3 (Dy_{n-1} + Ho_{n-1})} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{2}  \Bigg(\bigg({K \over 3 (Dy_{2} + Ho_{2})} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} \Bigg) - Ho_{0} \cdot R \\[4ex]
+
+f_{n+2} = Ho_2  \Bigg(\bigg({K \over 3 (Dy_2 + Ho_2)} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{3}  \Bigg(\bigg({K \over 3 (Dy_{3} + Ho_{3})} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} \Bigg) - Ho_{1} \cdot R \\[4ex]
+
+\vdots \\[4ex]
+
+f_{2n-1} = Ho_{n-1}  \Bigg(\bigg({K \over 3 (Dy_n + Ho_n)} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{n}  \Bigg(\bigg({K \over 3 (Dy_{n} + Ho_{n})} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} \Bigg) - Ho_{n-2} \cdot R \\[4ex]
+
+f_{2n} = Ho_{n}  \Bigg(\bigg({K \over 3 (Dy_n + Ho_n)} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{n-1} \cdot R \\
+\end{bmatrix}
+$$
+
+Onde $n$ é o número de estágios de separação. Logo, com 10 estágios de separação, haverão 20 linhas no vetor (indo de 0 até 19).
+
+A sua Matriz Jacobiana deverá ficar assim:
+
+$$
+\Large
+J =
+\begin{bmatrix}
+  \frac{\partial f_1}{\partial Dy_1} &
+    \frac{\partial f_1}{\partial Dy_2} &
+    \dots & \dots & \dots & \dots &
+    \frac{\partial f_1}{\partial Ho_1} &
+    \frac{\partial f_1}{\partial Ho_2} &
+    \dots & \dots & \dots & \dots &
+    \\[1ex]
+
+  \frac{\partial f_2}{\partial Dy_1} &
+    \frac{\partial f_2}{\partial Dy_2} &
+    \frac{\partial f_2}{\partial Dy_3} &
+    \dots & \dots & \dots &
+    \frac{\partial f_2}{\partial Ho_1} &
+    \frac{\partial f_2}{\partial Ho_2} &
+    \frac{\partial f_2}{\partial Ho_3} &
+    \dots & \dots & \dots &
+    \\[1ex]
+
+  \dots &
+    \frac{\partial f_3}{\partial Dy_2} &
+    \frac{\partial f_3}{\partial Dy_3} &
+    \frac{\partial f_3}{\partial Dy_4} &
+    \dots & \dots & \dots &
+    \frac{\partial f_3}{\partial Ho_2} &
+    \frac{\partial f_3}{\partial Ho_3} &
+    \frac{\partial f_3}{\partial Ho_4} &
+    \dots & \dots &
+    \\[4ex]
+
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots &
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots &\\[4ex]
+
+  \dots & \dots & \dots &
+    \frac{\partial f_{n-1}}{\partial Dy_{n-2}} &
+    \frac{\partial f_{n-1}}{\partial Dy_{n-1}} &
+    \frac{\partial f_{n-1}}{\partial Dy_{n}} &
+    \dots & \dots & \dots &
+    \frac{\partial f_{n-1}}{\partial Ho_{n-2}} &
+    \frac{\partial f_{n-1}}{\partial Ho_{n-1}} &
+    \frac{\partial f_{n-1}}{\partial Ho_{n}} &
+    \\[1ex]
+
+  \dots & \dots & \dots & \dots &
+    \frac{\partial f_{n}}{\partial Dy_{n-1}} &
+    \frac{\partial f_{n}}{\partial Dy_{n}} &
+    \dots & \dots & \dots & \dots &
+    \frac{\partial f_{n}}{\partial Ho_{n-1}} &
+    \frac{\partial f_{n}}{\partial Ho_{n}} &
+    \\[4ex]
+
+  \frac{\partial f_{n+1}}{\partial Dy_1} &
+    \frac{\partial f_{n+1}}{\partial Dy_2} &
+    \dots & \dots & \dots & \dots &
+    \frac{\partial f_{n+1}}{\partial Ho_1} &
+    \frac{\partial f_{n+1}}{\partial Ho_2} &
+    \dots & \dots & \dots & \dots &
+    \\[1ex]
+
+  \frac{\partial f_{n+2}}{\partial Dy_1} &
+    \frac{\partial f_{n+2}}{\partial Dy_2} &
+    \frac{\partial f_{n+2}}{\partial Dy_3} &
+    \dots & \dots & \dots &
+    \frac{\partial f_{n+2}}{\partial Ho_1} &
+    \frac{\partial f_{n+2}}{\partial Ho_2} &
+    \frac{\partial f_{n+2}}{\partial Ho_3} &
+    \dots & \dots & \dots &
+    \\[1ex]
+
+  \dots &
+    \frac{\partial f_{n+3}}{\partial Dy_2} &
+    \frac{\partial f_{n+3}}{\partial Dy_3} &
+    \frac{\partial f_{n+3}}{\partial Dy_4} &
+    \dots & \dots & \dots &
+    \frac{\partial f_{n+3}}{\partial Ho_2} &
+    \frac{\partial f_{n+3}}{\partial Ho_3} &
+    \frac{\partial f_{n+3}}{\partial Ho_4} &
+    \dots & \dots &
+    \\[4ex]
+
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots &
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots &\\[4ex]
+
+  \dots & \dots & \dots &
+    \frac{\partial f_{2n-1}}{\partial Dy_{n-2}} &
+    \frac{\partial f_{2n-1}}{\partial Dy_{n-1}} &
+    \frac{\partial f_{2n-1}}{\partial Dy_{n}} &
+    \dots & \dots & \dots &
+    \frac{\partial f_{2n-1}}{\partial Ho_{n-2}} &
+    \frac{\partial f_{2n-1}}{\partial Ho_{n-1}} &
+    \frac{\partial f_{2n-1}}{\partial Ho_{n}} &
+    \\[1ex]
+
+  \dots & \dots & \dots & \dots &
+    \frac{\partial f_{2n}}{\partial Dy_{n-1}} &
+    \frac{\partial f_{2n}}{\partial Dy_{n}} &
+    \dots & \dots & \dots & \dots &
+    \frac{\partial f_{2n}}{\partial Ho_{n-1}} &
+    \frac{\partial f_{2n}}{\partial Ho_{n}} &
+    \\[4ex]
+
+\end{bmatrix}
+$$
+
+Note que no estágio 1, por exemplo, temos as equações $f_1$ e $f_{n+1}$ que se referem ao balanço de massa, do Dy e do Ho, respectivamente. As únicas variáveis que aparecem nessas equações são $Dy_1$, $Dy_2$, $Ho_1$ e $Ho_2$; logo, as derivadas em relação à quaisquer outros elementos que não sejam esses dois serão zero, sempre. Dessa forma, a matriz de zeros que você construiu já estará bem "preenchida". Note que na forma disposta ela tem todos os pivôs, muito importante para a resolução utilizando a Eliminação Gaussiana.
