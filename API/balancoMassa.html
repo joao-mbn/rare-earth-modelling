@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projeto Final</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
+    * {
+      color: white;
+    }
+
+    html {
+      display: flex;
+      flex-direction: column;
+    }
+
+    body {
+      background-color: #1e1647;
+      width: 80vw;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1,
+    h2,
+    h3,
+    span,
+    a,
+    p,
+    li {
+      font-family: 'Lexend Deca', sans-serif;
+      font-weight: 400;
+    }
+
+    h1,
+    h2,
+    h3,
+    span,
+    p,
+    li {
+      margin: 10px 50px;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+
+    h3,
+    span {
+      color: #614ad3 !important;
+    }
+
+    a {
+      text-decoration: none;
+      color: yellow;
+    }
+
+    a:hover {
+      font-weight: bold;
+      color: yellow;
+      text-decoration: none;
+      text-decoration-line: underline;
+      text-decoration-color: yellow;
+    }
+
+    p,
+    li {
+      text-align: justify;
+      font-size: 12px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    div {
+      display: flex;
+      align-self: center;
+      justify-content: space-between;
+      width: 80%;
+    }
+
+    .aligncenter {
+      padding: 0;
+      text-align: center;
+      max-width: 100%;
+    }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+  <p>Pelo princípio da conservação de massa:</p>
+  <section>$$n_{saída} = n_{entrada}$$</section>
+  <p>Onde 'n' é quantidade de matéria, seja mols, massa ou qualquer outra.</p>
+  <p>Considere a imagem abaixo:</p>
+  <p class="aligncenter"><img
+      src="https://lh3.googleusercontent.com/j1PpXcw77bH4PNYrKOGUoEJBENufO2C7VzUlV4rdta7n8BH6DscA0HqNcY1punTO99BkQLjaLLbd0r1oYKqtIbLbfnMcCd_UuTtG2L1qZaDdbIAUSvrFtM3-dv1-W01X5221266FGw=w2400"
+      alt="estágios de equilíbrio"></p>
+  <div>
+    <section>$$n_{o1} + n_{a1} = n_{o2} + n_{a0} $$</section>
+    <p>(1)</p>
+  </div>
+  <p>Onde os subescritos 'a' e 'o' representam fases aquosa e orgânica, respectivamente.</p>
+  <p>Os números sobrescritos representam a concentração no dado estágio, assumindo equilíbrio.</p>
+  <p>Quantidade de matéria pode ser expressa como o produto da concentração (C) pelo volume (V):</p>
+  <div>
+    <section>$$n = C \cdot V$$</section>
+    <p>(2)</p>
+  </div>
+  <p>Aplicando (2) em (1) temos que:</p>
+  <div>
+    <section> $$C_{o1} \cdot V_{o1} + C_{a1} \cdot V_{a1} = C_{o2} \cdot V_{o2} + C_{a0} \cdot V_{a0} $$</section>
+    <p>(3)</p>
+  </div>
+  <p>Seja 'R' a razão volumétrica entre as fases aquosa e orgânica:</p>
+  <div>
+    <section>$$R = V_a/V_o$$ </section>
+    <p>(4)</p>
+  </div>
+  <p>Sabendo que o volume das fases em cada estágio é aproximadamente constante, dividindo (3) por \(V_o\) e aplicando
+    (4) em (3), temos que:</p>
+  <div>
+    <section>$$C_{o1} + C_{a1} \cdot R = C_{o2} + C_{a0} \cdot R $$</section>
+    <p>(5)</p>
+  </div>
+  <p>Seja o <a href="https://pt.wikipedia.org/wiki/Coeficiente_de_parti%C3%A7%C3%A3o">coeficiente de partição ou razão
+      de distribuição (D)</a>, dado pela proporção das concentrações orgânica e aquosa
+    num estágio de separação. Então, no estágio 'i', temos que:</p>
+  <div>
+    <section>$$D_i = C_{oi}/C_{ai}$$</section>
+    <p>(6)</p>
+  </div>
+  <p>Aplicando (6) em (5) para substituir \(C_o\), obtemos:</p>
+  <div>
+    <section>$$C_{a1} \cdot D_1 + C_{a1} \cdot R = C_{a2} \cdot D_2 + C_{a0} \cdot R $$ </section>
+    <p>(7)</p>
+  </div>
+  <p>D foi determinado experimentalmente por um modelo que correlaciona seu \(log_{10}\) com o <a
+      href="https://pt.wikipedia.org/wiki/PH">pH</a>.</p>
+  <section>$$ log D = a \cdot pH + b $$</section>
+  <p>Onde 'a' e 'b' são parâmetros empíricos.</p>
+  <p>Sendo \(pH = -log_{10} [H^+] \), onde \([H^+]\) é a concentração de prótons na fase aquosa, a seguinte correlação
+    foi obtida, utilizando as propriedades dos logaritmos:</p>
+  <div>
+    <section>$$D_i = [H_i^+]^{-a} \cdot 10^b$$</section>
+    <p>(8)</p>
+  </div>
+  <p>Substituindo (8) em (7), temos que:</p>
+  <div>
+    <section>$$C_{a1} \cdot ([H_i^+]^{-a} \cdot 10^b) + C_{a1} \cdot R = C_{a2} \cdot ([H_i^+]^{-a} \cdot 10^b) + C_{a0}
+      \cdot R $$</section>
+    <p>(9)</p>
+  </div>
+  <p>Passando todos os termos para a esquerda e aplicando a propriedade distributiva, temos que:</p>
+  <div>
+    <section>$$C_{a1} \cdot \big( ([H_1^+]^{-a} \cdot 10^b) + R \big) - C_{a2} \cdot ([H_2^+]^{-a} \cdot 10^b) - C_{a0}
+      \cdot R = 0$$</section>
+    <p>(10)</p>
+  </div>
+  <p>A conservação de massa é válida para todos as espécies presentes na separação. Num sistema com dois componentes,
+    descrito no Trabalho Final, \(Dy\) e \(Ho\), podemos renomear 'C' pelo símbolo do elemento e adicionar subscritos
+    nos parâmetros empíricos do modelo, que é específico para cada espécie. Além disso, podemos remover o subscrito 'a',
+    para clarear a notação, visto que colocamos a equação em termos apenas da fase aquosa.</p>
+  <div>
+    <section>
+      $$Dy_{1} \cdot \big( ([H_1^+]^{-a_{Dy}} \cdot 10^{b_{Dy}}) + R \big) - Dy_{2} \cdot ([H_2^+]^{-a_{Dy}} \cdot
+      10^{b_{Dy}}) - Dy_{0} \cdot R = 0$$
+    </section>
+    <p>(11)</p>
+  </div>
+  <div>
+    <section>
+      $$Ho_{1} \cdot \big( ([H_1^+]^{-a_{Ho}} \cdot 10^{b_{Dy}}) + R \big) - Ho_{2} \cdot ([H_2^+]^{-a_{Ho}} \cdot
+      10^{b_{Ho}}) - Ho_{0} \cdot R = 0$$
+    </section>
+    <p>(12)</p>
+  </div>
+  <p>No mecanismo de extração por solventes, para que o extratante capture uma espécie do elemento de terras-raras, ele
+    deve doar uma quantidade de prótons tal que a carga das fases se mantenham constantes. Dessa forma, também existe um
+    balanço de conservação de cargas no sistema. Seja a reação de complexação, que descreve o mecanismo de extração de
+    um elemento:</p>
+  <section>$$3(HA)_2 + 1 Etr^{3+} \rightleftharpoons 1[Etr(HA_2)] + 3H^+ $$</section>
+  <p>Onde \( (HA)_2 \) é o extratante na sua forma de dímero, que doa um \( H^+ \). E \( Etr^{3+} \) é a forma em que as
+    espécies \( Dy \) e \( Ho \) se encontram na fase aquosa.</p>
+  <p>Dessa forma, podemos escrever a equação de conservação de cargas da seguinte forma:</p>
+  <div>
+    <section>$$K = [H_0^+] + 3Dy_0 + 3Ho_0$$ (13)</section>
+    <p>(13)</p>
+  </div>
+  <p>Onde K é a constante de carga do meio e \([H_0^+]\), \(Dy_0\) e \(Ho_0\) são as concentrações das espécies,
+    <b><i>em base molar</i></b>, na alimentação (entrando no estágio 1).
+  </p>
+  <p>K é determinado usando (13) pois todos os termos do lado direito são conhecidos. Entretanto, K é válido em qualquer
+    estágio:</p>
+  <div>
+    <section>$$K = [H_i^+] + 3Dy_i + 3Ho_i$$</section>
+    <p>(14)</p>
+  </div>
+  <p>Colocando (14) em termos de \([H_i^+]\), temos que:</p>
+  <div>
+    <section>$$[H_i^+] = {K \over 3Dy_i + 3Ho_i}$$</section>
+    <p>(15)</p>
+  </div>
+  <p>Substituindo (15) em (11) e (12):</p>
+  <section>
+    $$ Dy_1 \Bigg(\bigg({K \over 3 (Dy_1 + Ho_1)} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{2}
+    \Bigg(\bigg({K \over 3 (Dy_{2} + Ho_{2})} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} \Bigg) - Dy_{0} \cdot R = 0 $$
+  </section>
+  <section>
+    $$ Ho_1 \Bigg(\bigg({K \over 3 (Dy_1 + Ho_1)} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{2}
+    \Bigg(\bigg({K \over 3 (Dy_{2} + Ho_{2})} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} \Bigg) - Ho_{0} \cdot R = 0 $$
+  </section>
+  <p>O balanço de massa é válido para todos os estágios. Bastanto mudar os subscritos em (2) e acompanhar o resto. No
+    último estágio entretanto, a concentração da fase orgânica que entra é necessariamente zero. Por conta disso, o
+    primeiro termo do lado direito que aparece em (1) é zero, e as equações podem ser simplificadas para:</p>
+  <section>
+    $$ Dy_n \Bigg(\bigg({K \over 3 (Dy_n + Ho_n)} \bigg)^{-a_{Dy}} \cdot 10^{b_{Dy}} + R \Bigg) - Dy_{n-1} \cdot R = 0
+    $$
+  </section>
+  <section>
+    $$Ho_n \Bigg(\bigg({K \over 3 (Dy_n + Ho_n)} \bigg)^{-a_{Ho}} \cdot 10^{b_{Ho}} + R \Bigg) - Ho_{n-1} \cdot R = 0 $$
+  </section>
+  <p>Onde 'n' seria o último estágio <i>(cuidado que 'n' é referido ao longo das demonstrações no documento principal
+      ora como um estágio qualquer, ora como o número total de estágios)</i>.</p>
+</body>
+
+</html>
