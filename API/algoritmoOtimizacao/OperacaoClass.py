@@ -3,7 +3,6 @@ import pandas as pd
 from ProtonClass import Proton
 from IsotermaClass import Isoterma
 
-
 class Operacao():
 
     def __init__(operacao, lista_etrs,

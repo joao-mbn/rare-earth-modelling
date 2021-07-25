@@ -12,3 +12,12 @@ class Proton(Elemento):
 
         pH = -np.log10(ca)
         return pH
+
+    def chutes_iniciais(elemento, rao: float, n_celulas: int, valor_esperado_final: float, isExtracao: bool):
+
+        if isExtracao:
+            chutes = np.linspace(elemento.ca0, valor_esperado_final, n_celulas)
+        else:
+            chutes = np.linspace(valor_esperado_final, elemento.ca0, n_celulas)
+            
+        return chutes

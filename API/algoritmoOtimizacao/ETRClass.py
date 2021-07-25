@@ -1,3 +1,4 @@
+import numpy as np
 from ElementoClass import Elemento
 
 class ETR(Elemento):
@@ -15,18 +16,6 @@ class ETR(Elemento):
         etr.ca0 = etr.ca0_gl * etr.proporcao_estequiometrica / etr.massa_molar_oxido
         etr.con = etr.con_gl * etr.proporcao_estequiometrica / etr.massa_molar_oxido
         etr.pureza_minima = pureza_minima
-
-    def propriedades(etr): #o método '__dict__' ou 'vars(objeto)' fazem a mesma coisa, só que mais feio.
-
-        print ('Nome: '
-               + etr.nome
-               + '\nConcentração da Alimentação Aquosa (g/L): '
-               + str(etr.ca0_gl)
-               + '\nConcentração da Alimentação Orgânica (g/L): '
-               + str(etr.con_gl)
-               + '\nMassa Molar (g/mol): '
-               + str(etr.massa_molar_oxido)
-               + '\nLog D =', etr.a, '* pH ', etr.b)
 
     def D (etr, H):
 
@@ -57,3 +46,12 @@ class ETR(Elemento):
                   )
 
         return cm_etr
+
+    def chutes_iniciais(elemento, rao: float, n_celulas: int, valor_esperado_final: float, isExtracao: bool):
+
+        if isExtracao:
+            chutes = np.linspace(elemento.ca0, valor_esperado_final, n_celulas)
+        else:
+            chutes = np.linspace(valor_esperado_final / rao, elemento.con / rao, n_celulas)
+
+        return chutes

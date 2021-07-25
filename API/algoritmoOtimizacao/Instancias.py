@@ -16,7 +16,6 @@ mixset = Celula('Mixer-Settler', 54200, None, 10) #preco em R$/unit.
 disprosio = ETR('Disprósio', 'Dy', 600, 99.5, 3.19, 0, 372.998, 2, 3.22552, -0.99999)
 holmio = ETR('Hólmio', 'Ho', 40, 99.9, 6.71, 0, 377.858, 2, 3.05008, -0.68760)
 H = Proton('Próton', 'H+', None, 0.55)
-isoterma = Isoterma(40, 0.6, [H, disprosio, holmio])
 operacao = Operacao([disprosio, holmio], p507, 0.26, isoparafina, hcl, mixset, 2, 40, 0.5, 2, 0, 0.5)
 
 # D2EHPA 10%
@@ -25,14 +24,13 @@ neodimio1 = ETR('Neodímio', 'Nd', 75, 99.5, 12.808, 0, 336.48, 2, 1.0539, -1.70
 samario1 = ETR('Samário', 'Sm', 10, 99.9, 0.923, 0, 348.72, 2, 1.5262, -1.1515)
 operacao1 = Operacao([praseodimio1, neodimio1, samario1], dehpa, 0.1, isoparafina, hcl, mixset, 2, 10, 0.5, 2, 1, 2)
 H2 = Proton('Próton', 'H+', None, 10**-2)
-isoterma = Isoterma(2, 0.8, [H2, praseodimio1, neodimio1, samario1])
+
 # D2EHPA 6%
 praseodimio2 = ETR('Praseodímio', 'Pr', 75, 99.5, 0.480, 0, 1021.44, 6, 0.4026, -1.5661)
 neodimio2 = ETR('Neodímio', 'Nd', 75, 99.5, 12.808, 0, 336.48, 2, 0.8569, -1.9035)
 samario2 = ETR('Samário', 'Sm', 10, 99.9, 0.923, 0, 348.72, 2, 1.1924, -1.2654)
 operacao2 = Operacao([praseodimio2, neodimio2, samario2], dehpa, 0.06, isoparafina, hcl, mixset, 2, 10, 0.5, 2, 1, 2)
 H2 = Proton('Próton', 'H+', None, 10**-2)
-isoterma = Isoterma(2, 0.8, [H2, praseodimio2, neodimio2, samario2])
 
 # P507 10%
 praseodimio3 = ETR('Praseodímio', 'Pr', 75, 99.5, 0.480, 0, 1021.44, 6, 0.7487, -2.3629)

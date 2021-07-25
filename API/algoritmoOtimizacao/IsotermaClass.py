@@ -2,12 +2,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
+# from API.algoritmoOtimizacao.ETRClass import ETR
+from ETRClass import ETR
 from CelulaClass import Celula
 from ProtonClass import Proton
 
 class Isoterma():
 
-    def __init__ (isoterma, n_celulas, rao, lista_elementos):
+    def __init__ (isoterma, n_celulas, rao, lista_elementos: list):
 
         assert type(lista_elementos) == list
         assert type(lista_elementos[0]) == Proton
@@ -17,38 +19,41 @@ class Isoterma():
         isoterma.lista_elementos = lista_elementos
 
         if isoterma.lista_elementos[1].ca0 > 0:
-            isoterma.tipo = 'Extração'
+            isoterma.isExtracao = True
         else:
-            isoterma.tipo = 'Lavagem'
+            isoterma.isExtracao = False
 
     def junta_chutes_iniciais(isoterma):
 
-        proton = isoterma.lista_elementos[0]
-        lista_etrs = isoterma.lista_elementos[1:]
+        proton: Proton = isoterma.lista_elementos[0]
+        lista_etrs: list = isoterma.lista_elementos[1:]
 
-        if isoterma.tipo == 'Extração':
-            chutes_H = proton.chutes_iniciais(isoterma.n_celulas, 1.2 * proton.ca0)
-            chutes_etrs = np.concatenate([etr.chutes_iniciais(isoterma.n_celulas, 0.001 * etr.ca0) for etr in lista_etrs])
-
+        if isoterma.isExtracao:
+            chutes_H = proton.chutes_iniciais(isoterma.rao, isoterma.n_celulas, 1.2 * proton.ca0, isoterma.isExtracao)
+            chutes_etrs = np.concatenate(
+              [etr.chutes_iniciais(isoterma.rao, isoterma.n_celulas, 0.001 * etr.ca0, isoterma.isExtracao) for etr in lista_etrs]
+            )
         else:
-            chutes_H = proton.chutes_iniciais(isoterma.n_celulas, 0.8 * proton.ca0)
-            chutes_etrs = np.concatenate([etr.chutes_iniciais(isoterma.n_celulas, 0.001 * etr.con) for etr in lista_etrs])
+            chutes_H = proton.chutes_iniciais(isoterma.rao, isoterma.n_celulas, 0.8 * proton.ca0, isoterma.isExtracao)
+            chutes_etrs = np.concatenate(
+              [etr.chutes_iniciais(isoterma.rao, isoterma.n_celulas, 0.001 * etr.con, isoterma.isExtracao) for etr in lista_etrs]
+            )
         chutes = np.concatenate((chutes_H, chutes_etrs))
 
         return chutes
 
-    def junta_variaveis(isoterma, chutes):
+    def junta_variaveis(isoterma, chutes: list):
 
-        proton = isoterma.lista_elementos[0]
-        chutes_H = chutes[0 : isoterma.n_celulas]
+        proton: Proton = isoterma.lista_elementos[0]
+        chutes_H: list = chutes[0 : isoterma.n_celulas]
 
-        cas_H = proton.concentracoes_aquoso(chutes_H)
-        cas = [cas_H]
+        cas_H: list  = proton.concentracoes_aquoso(chutes_H, isoterma.n_celulas)
+        cas: list = [cas_H]
 
         for i in range(1, len(isoterma.lista_elementos)):
-            etr = isoterma.lista_elementos[i]
-            chutes_etr = chutes[i * isoterma.n_celulas : (i + 1) * isoterma.n_celulas]
-            cas_etr = etr.concentracoes_aquoso(chutes_etr)
+            etr: ETR = isoterma.lista_elementos[i]
+            chutes_etr: list = chutes[i * isoterma.n_celulas : (i + 1) * isoterma.n_celulas]
+            cas_etr: list = etr.concentracoes_aquoso(chutes_etr, isoterma.n_celulas)
             cas.append(cas_etr)
 
         return cas
@@ -155,7 +160,7 @@ class Isoterma():
         tabela_resumida.loc['Composição org. Carregado (%)'] = (tabela_resumida.loc['Carregado Orgânico (mol/L)']
                                                                 * 100 / (tabela_resumida.loc['Carregado Orgânico (mol/L)']
                                                                 .sum()))
-        if isoterma.tipo == 'Extração':
+        if isoterma.isExtracao == True:
             tabela_resumida.loc['Recuperação Rafinado (%)'] = (tabela_resumida.loc['Rafinado (mol/L)'] * 100
                                                                / tabela_resumida.loc['Alimentação aq. (mol/L)'])
         else:
@@ -203,4 +208,4 @@ class Isoterma():
             axes.set_ylim([0, None])
             axes.set_xlim([0, None])
             axes.legend(loc = 0)
-            axes.set_title('Isoterma de ' + isoterma.tipo + ' de ' + elemento.nome)
+            axes.set_title('Isoterma de ' + isoterma.isExtracao + ' de ' + elemento.nome)
