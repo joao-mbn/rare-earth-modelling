@@ -1,5 +1,4 @@
-import numpy as np
-from CoisaFisicaClass import Coisa_Fisica
+from algoritmoOtimizacao.CoisaFisicaClass import Coisa_Fisica
 
 class Elemento(Coisa_Fisica):
 

@@ -1,5 +1,5 @@
+from algoritmoOtimizacao.ElementoClass import Elemento
 import numpy as np
-from ElementoClass import Elemento
 
 class Proton(Elemento):
 

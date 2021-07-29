@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 from typing import Union
 from scipy.optimize import fsolve
-from ETRClass import ETR
-from CelulaClass import Celula
-from ProtonClass import Proton
+from algoritmoOtimizacao.ETRClass import ETR
+from algoritmoOtimizacao.CelulaClass import Celula
+from algoritmoOtimizacao.ProtonClass import Proton
 class Isoterma():
 
     def __init__ (isoterma, n_celulas, rao, lista_elementos: list):
@@ -107,7 +107,7 @@ class Isoterma():
         element: Union[Proton, ETR];
         index: int;
         for index, element in enumerate(isoterma.lista_elementos):
-            isotherm_results_dto[element.nome] = isotherm_results[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas];
+            isotherm_results_dto[element.simbolo] = list(isotherm_results[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas]);
         return isotherm_results_dto;
 
     def monta_tabela(isoterma, uso, excel = False):

@@ -1,5 +1,5 @@
 import numpy as np
-from ElementoClass import Elemento
+from algoritmoOtimizacao.ElementoClass import Elemento
 
 class ETR(Elemento):
 

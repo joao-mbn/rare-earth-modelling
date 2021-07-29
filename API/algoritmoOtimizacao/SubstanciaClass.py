@@ -1,4 +1,4 @@
-from CoisaFisicaClass import Coisa_Fisica
+from algoritmoOtimizacao.CoisaFisicaClass import Coisa_Fisica
 
 class Substancia(Coisa_Fisica):
 

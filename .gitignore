@@ -46,5 +46,6 @@ testem.log
 Thumbs.db
 
 # cache
+*.pyc
 __pycache__/
 .ipynb_checkpoints/

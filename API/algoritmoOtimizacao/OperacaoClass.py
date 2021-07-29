@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-from ProtonClass import Proton
-from IsotermaClass import Isoterma
+from algoritmoOtimizacao.ProtonClass import Proton
+from algoritmoOtimizacao.IsotermaClass import Isoterma
 
 class Operacao():
 
