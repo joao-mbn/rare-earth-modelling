@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+from typing import Union
 from scipy.optimize import fsolve
-# from API.algoritmoOtimizacao.ETRClass import ETR
 from ETRClass import ETR
 from CelulaClass import Celula
 from ProtonClass import Proton
-
+from ElementoClass import Elemento
 class Isoterma():
 
     def __init__ (isoterma, n_celulas, rao, lista_elementos: list):
@@ -101,6 +100,17 @@ class Isoterma():
         resultados = fsolve(isoterma.equacoes_massa_carga, isoterma.junta_chutes_iniciais())
         return resultados
 
+    def create_isotherm_results_dto(isoterma) -> dict[Union[Proton, ETR]]:
+
+        isotherm_results: np.array = isoterma.resolve_equacoes_massa_carga();
+        isotherm_results_dto: dict = {};
+
+        element: Union[Proton, ETR];
+        index: int;
+        for index, element in enumerate(isoterma.lista_elementos):
+            isotherm_results_dto[element.nome] = isotherm_results[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas];
+        return isotherm_results_dto;
+
     def monta_tabela(isoterma, uso, excel = False):
 
         resultados = isoterma.resolve_equacoes_massa_carga()
@@ -171,41 +181,3 @@ class Isoterma():
         tabela_resumida.loc['Recuperação Orgânico (%)'] = 100 - tabela_resumida.loc['Recuperação Rafinado (%)']
 
         return tabela_resumida
-
-    def monta_grafico(isoterma):
-
-        tabela = isoterma.monta_tabela(uso = 'externo')
-
-        for elemento in isoterma.lista_elementos[1:]:
-            posicao_na_lista = 1
-            reta_operacional = np.concatenate(
-                                              (
-                                               [elemento.ca0_gl],
-                                               np.array(tabela['[' + elemento.simbolo + ']aq(g/L)']),
-                                               np.array(tabela['[' + elemento.simbolo + ']org(g/L)']),
-                                               [elemento.con_gl]
-                                               )
-                                              ).reshape(2, isoterma.n_celulas + 1)
-
-            estagios_aquoso = [reta_operacional[0, 0]]
-            for n in range(1, isoterma.n_celulas + 1):
-                estagios_aquoso += 2 * [reta_operacional[0, n]]
-
-            estagios_organico = []
-            for n in range(0, isoterma.n_celulas):
-                estagios_organico += 2 * [reta_operacional[1, n]]
-            estagios_organico += [reta_operacional[1, -1]]
-
-            fig = plt.figure()
-            axes = fig.add_axes([0, posicao_na_lista - 1.2, 1, 1])
-            axes.plot(estagios_aquoso, estagios_organico, '.-', markersize = 8, label = "Estágios")
-            axes.plot(reta_operacional[0, :], reta_operacional[1, :], '.-', markersize = 8, label = 'Reta de Operação')
-            axes.plot(np.array(tabela['[' + elemento.simbolo + ']aq(g/L)']),
-                      np.array(tabela['[' + elemento.simbolo + ']org(g/L)']),
-                      '.-', markersize = 8, label = 'Reta de Equilíbrio')
-            axes.set_xlabel('Aquoso')
-            axes.set_ylabel('Orgânico')
-            axes.set_ylim([0, None])
-            axes.set_xlim([0, None])
-            axes.legend(loc = 0)
-            axes.set_title('Isoterma de ' + isoterma.isExtracao + ' de ' + elemento.nome)

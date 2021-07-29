@@ -1,19 +1,16 @@
 
+from API.algoritmoOtimizacao.ETRClass import ETR
+from API.algoritmoOtimizacao.ProtonClass import Proton
+from typing import Union
 from flask import Flask, jsonify, request, render_template
-import imp
-import os
+import algoritmoOtimizacao.Instancias as Instancias
 
-filename = 'projetoFinal.py'
-path = 'projetoFinal/'
-full_path = os.path.join(path, filename)
-projetoFinal = imp.load_source(filename, full_path)
-
-app = Flask(__name__)
-
+app: Flask = Flask(__name__);
+isoterma: dict[Union[Proton, ETR]] = Instancias.isoterma;
 
 @app.route('/', methods=['GET', 'POST'])
-def hello():
-    return str(projetoFinal.casDy)
+def send_isotherm_results():
+    return jsonify(isoterma)
     # POST request
     if request.method == 'POST':
         print('Incoming..')
@@ -24,9 +21,3 @@ def hello():
     else:
         message = {'greeting': 'Hello from Flask!'}
         return jsonify(message)  # serialize and use JSON headers
-
-
-@app.route('/test')
-def test_page():
-    # look inside `templates` and serve `index.html`
-    return render_template('index.html')
