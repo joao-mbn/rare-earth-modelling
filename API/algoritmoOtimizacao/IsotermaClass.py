@@ -5,7 +5,6 @@ from scipy.optimize import fsolve
 from ETRClass import ETR
 from CelulaClass import Celula
 from ProtonClass import Proton
-from ElementoClass import Elemento
 class Isoterma():
 
     def __init__ (isoterma, n_celulas, rao, lista_elementos: list):
