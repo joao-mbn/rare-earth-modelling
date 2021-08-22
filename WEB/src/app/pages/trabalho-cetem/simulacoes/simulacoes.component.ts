@@ -1,7 +1,8 @@
+import { IElementExtractionData, IElementsExtractionData } from './../../../interfaces/IElementExtractionData';
+import { ISingleElementDataSet, IAllElementsDataSets } from '../../../interfaces/IDataSet';
 import { SimulacoesService } from './../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { Simulacoes } from 'src/app/classes/simulacoes';
 
 @Component({
   selector: 'app-simulacoes',
@@ -16,60 +17,71 @@ export class SimulacoesComponent implements OnInit {
   raoInputValue: number = 1;
 
   chartCanvas!: HTMLCanvasElement;
-  simulacoes!: Simulacoes[];
+  mcCabeThieleChartData!: IElementsExtractionData;
+  allElementsDataSets: IAllElementsDataSets = {};
 
   constructor(private simulacoesService: SimulacoesService) {
 
-    this.simulacoesService.getSimulacoes()
-      .subscribe(retorno => {
-        this.simulacoes = retorno.map((simulacao: Simulacoes) => {
-          return new Simulacoes(simulacao);
-        });
-      });
   }
 
   ngOnInit(): void {
 
-    // graph construction
     Chart.register(...registerables);
     this.chartCanvas = <HTMLCanvasElement>document.getElementById('mcCabe-Thiele-chart-canvas');
-    this.createMcCabeThieleChart();
+    this.updateMcCabeThieleChart();
+
   }
 
-  createMcCabeThieleChart = (): void => {
-    const McThieleChart = new Chart(this.chartCanvas, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.5)',
-            'rgba(54, 162, 235, 0.5)',
-            'rgba(255, 206, 86, 0.5)',
-            'rgba(75, 192, 192, 0.5)',
-            'rgba(153, 102, 255, 0.5)',
-            'rgba(255, 159, 64, 0.5)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      }
+  private async updateMcCabeThieleChart(): Promise<void> {
+
+    await this.getMcCabeThieleChartData();
+    this.createDataSets();
+    this.createMcCabeThieleChart();
+
+  }
+
+  private async getMcCabeThieleChartData(): Promise<void> {
+
+    const simulationPromise = await this.simulacoesService.getSimulacoes().toPromise();
+    this.mcCabeThieleChartData = simulationPromise;
+
+  }
+
+  private createMcCabeThieleChart() {
+
+    const dysprosium = Object.keys(this.mcCabeThieleChartData)[0];
+    new Chart(this.chartCanvas, {
+      type: 'line',
+      data: this.allElementsDataSets[dysprosium],
     });
+
+  }
+
+  private createDataSets(): void {
+
+    Object.keys(this.mcCabeThieleChartData).forEach(key => {
+
+      const singleElementData: IElementExtractionData = this.mcCabeThieleChartData[key];
+      const singleElementDataSet: ISingleElementDataSet = {
+        labels: singleElementData.aqueousConcentrations,
+        datasets: [{
+          label: singleElementData.name,
+          data: singleElementData.organicConcentrations
+        }]
+      };
+
+      this.allElementsDataSets[singleElementData.symbol] = singleElementDataSet;
+
+    });
+
   }
 
   onInputValueUpdate(event: Event): void {
+
     const eventTarget = <HTMLInputElement>event.target;
     const eventTargetValue = parseFloat(eventTarget.value);
     const eventTargetId = eventTarget.id;
+
     switch (eventTargetId) {
       case 'pH-slider':
         this.pHInputValue = eventTargetValue;

@@ -94,21 +94,39 @@ class Isoterma():
 
         return equacoes
 
-    def resolve_equacoes_massa_carga(isoterma):
+    def resolve_equacoes_massa_carga(isoterma) -> np.array:
 
-        resultados = fsolve(isoterma.equacoes_massa_carga, isoterma.junta_chutes_iniciais())
-        return resultados
+        all_elements_aqueous_concentrations: np.array = fsolve(isoterma.equacoes_massa_carga, isoterma.junta_chutes_iniciais());
 
-    def create_isotherm_results_dto(isoterma) -> dict[Union[Proton, ETR]]:
+        return all_elements_aqueous_concentrations;
 
-        isotherm_results: np.array = isoterma.resolve_equacoes_massa_carga();
-        isotherm_results_dto: dict = {};
+    def create_all_elements_extraction_data_dto(isoterma) -> dict[dict[Union[str, list]]]:
 
-        element: Union[Proton, ETR];
+        all_elements_aqueous_concentrations: np.array = isoterma.resolve_equacoes_massa_carga();
+        proton_concentrations: np.array;
+        all_elements_extraction_data_dto: dict = {};
+        element: ETR;
         index: int;
+
         for index, element in enumerate(isoterma.lista_elementos):
-            isotherm_results_dto[element.simbolo] = list(isotherm_results[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas]);
-        return isotherm_results_dto;
+            if index == 0:
+                proton_concentrations = all_elements_aqueous_concentrations[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas];
+            else:
+                single_element_D = map(element.D, proton_concentrations);
+                single_element_aqueous_concentrations = list(
+                    all_elements_aqueous_concentrations[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas]);
+                single_element_organic_concentrations = list(
+                    map(element.concentracoes_organico, single_element_D, single_element_aqueous_concentrations));
+                
+                single_element_extraction_data_dto: dict = {};
+                single_element_extraction_data_dto['name'] = element.nome;
+                single_element_extraction_data_dto['symbol'] = element.simbolo;
+                single_element_extraction_data_dto['aqueousConcentrations'] = single_element_aqueous_concentrations;
+                single_element_extraction_data_dto['organicConcentrations'] = single_element_organic_concentrations;
+
+                all_elements_extraction_data_dto[element.simbolo] = single_element_extraction_data_dto;
+
+        return all_elements_extraction_data_dto;
 
     def monta_tabela(isoterma, uso, excel = False):
 

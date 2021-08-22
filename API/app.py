@@ -1,12 +1,14 @@
 from flask.wrappers import Response
+from flask import Flask, jsonify
+from flask_cors import CORS
+from typing import Union
 from algoritmoOtimizacao.ETRClass import ETR
 from algoritmoOtimizacao.ProtonClass import Proton
 import algoritmoOtimizacao.Instancias as Instancias
-from flask import Flask, jsonify
-from typing import Union
 
 # return jsonify(isoterma)
 app = Flask(__name__);
+CORS(app);
     
 @app.route('/')
 def get_isoterma_dto() -> Response:
