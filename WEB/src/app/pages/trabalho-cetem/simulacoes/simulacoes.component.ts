@@ -1,9 +1,12 @@
+import { IScatterPlot } from './../../../interfaces/IScatterPlot';
 import { IElementExtractionData, IElementsExtractionData } from './../../../interfaces/IElementExtractionData';
 import { ISingleElementDataSet, IAllElementsDataSets } from '../../../interfaces/IDataSet';
 import { SimulacoesService } from './../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
+import * as PlotlyJS from 'plotly.js-dist-min';
+import { PlotlyModule } from 'angular-plotly.js';
 
+PlotlyModule.plotlyjs = PlotlyJS;
 @Component({
   selector: 'app-simulacoes',
   templateUrl: './simulacoes.component.html',
@@ -16,9 +19,9 @@ export class SimulacoesComponent implements OnInit {
   nEstagiosInputValue: number = 20;
   raoInputValue: number = 1;
 
-  chartCanvas!: HTMLCanvasElement;
-  mcCabeThieleChartData!: IElementsExtractionData;
   allElementsDataSets: IAllElementsDataSets = {};
+  mcCabeThieleChartData!: IElementsExtractionData;
+  public mcCabeThieleChart!: IScatterPlot;
 
   constructor(private simulacoesService: SimulacoesService) {
 
@@ -26,8 +29,6 @@ export class SimulacoesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    Chart.register(...registerables);
-    this.chartCanvas = <HTMLCanvasElement>document.getElementById('mcCabe-Thiele-chart-canvas');
     this.updateMcCabeThieleChart();
 
   }
@@ -50,10 +51,15 @@ export class SimulacoesComponent implements OnInit {
   private createMcCabeThieleChart() {
 
     const dysprosium = Object.keys(this.mcCabeThieleChartData)[0];
-    new Chart(this.chartCanvas, {
-      type: 'line',
-      data: this.allElementsDataSets[dysprosium],
-    });
+    const dysprosiumDataSet = this.allElementsDataSets[dysprosium];
+    const layout = {
+      title: 'Dysprosium extraction'
+    }
+
+    this.mcCabeThieleChart = {
+      data: [dysprosiumDataSet],
+      layout: layout
+    }
 
   }
 
@@ -63,13 +69,11 @@ export class SimulacoesComponent implements OnInit {
 
       const singleElementData: IElementExtractionData = this.mcCabeThieleChartData[key];
       const singleElementDataSet: ISingleElementDataSet = {
-        labels: singleElementData.aqueousConcentrations,
-        datasets: [{
-          label: singleElementData.name,
-          data: singleElementData.organicConcentrations
-        }]
+        x: singleElementData.aqueousConcentrations,
+        y: singleElementData.organicConcentrations,
+        mode: 'lines+markers',
+        name: singleElementData.name
       };
-
       this.allElementsDataSets[singleElementData.symbol] = singleElementDataSet;
 
     });
@@ -92,6 +96,7 @@ export class SimulacoesComponent implements OnInit {
       case 'rao-slider':
         this.raoInputValue = eventTargetValue;
     }
+
   }
 
 }

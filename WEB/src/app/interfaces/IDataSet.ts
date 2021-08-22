@@ -1,9 +1,8 @@
 export interface ISingleElementDataSet {
-  labels: number[],
-  datasets: [{
-    label: string,
-    data: number[],
-  }]
+  x: number[],
+  y: number[],
+  mode: string,
+  name: string,
 };
 
 export interface IAllElementsDataSets {

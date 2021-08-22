@@ -42,4 +42,5 @@ import { SimulacoesService } from './services/simulacoes.service';
   providers: [SimulacoesService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

@@ -4,6 +4,7 @@ import { ViabilidadeEconomicaComponent } from './viabilidade-economica/viabilida
 import { FuturoComponent } from './futuro/futuro.component';
 import { TrabalhoCetemComponent } from './trabalho-cetem.component';
 
+import { PlotlyModule } from 'angular-plotly.js';
 import { DirectivesModule } from './../../directives/directives.module';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -37,6 +38,7 @@ const cetemRoutes: Routes = [
     CommonModule,
     DirectivesModule,
     HttpClientModule,
+    PlotlyModule,
   ],
   exports: [RouterModule],
   providers: [SimulacoesService],
