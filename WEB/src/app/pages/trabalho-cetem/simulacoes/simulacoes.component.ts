@@ -1,12 +1,14 @@
+import { Observable } from 'rxjs';
 import { IScatterPlot } from './../../../interfaces/IScatterPlot';
 import { IElementExtractionData, IElementsExtractionData } from './../../../interfaces/IElementExtractionData';
 import { ISingleElementDataSet, IAllElementsDataSets } from '../../../interfaces/IDataSet';
-import { SimulacoesService } from './../../../services/simulacoes.service';
+import { SimulationsService } from './../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 
 PlotlyModule.plotlyjs = PlotlyJS;
+
 @Component({
   selector: 'app-simulacoes',
   templateUrl: './simulacoes.component.html',
@@ -23,7 +25,7 @@ export class SimulacoesComponent implements OnInit {
   mcCabeThieleChartData!: IElementsExtractionData;
   public mcCabeThieleChart!: IScatterPlot;
 
-  constructor(private simulacoesService: SimulacoesService) {
+  constructor(private SimulationsService: SimulationsService) {
 
   }
 
@@ -43,7 +45,7 @@ export class SimulacoesComponent implements OnInit {
 
   private async getMcCabeThieleChartData(): Promise<void> {
 
-    const simulationPromise = await this.simulacoesService.getSimulacoes().toPromise();
+    const simulationPromise = await this.SimulationsService.getSimulations().toPromise();
     this.mcCabeThieleChartData = simulationPromise;
 
   }
@@ -96,6 +98,15 @@ export class SimulacoesComponent implements OnInit {
       case 'rao-slider':
         this.raoInputValue = eventTargetValue;
     }
+
+    this.SimulationsService.postSimulations({
+      pH: this.pHInputValue,
+      rao: this.raoInputValue,
+      nStages: this.nEstagiosInputValue
+    }).subscribe(
+      (response) => this.updateMcCabeThieleChart(),
+      (error: Error) => error,
+    )
 
   }
 

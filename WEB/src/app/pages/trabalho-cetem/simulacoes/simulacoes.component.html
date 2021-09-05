@@ -1,7 +1,7 @@
 <div class="uk-container">
   <div>
     <span>pH</span>
-    <input type="range" min="0" max="2" step="0.1" [value]="pHInputValue" (input)="onInputValueUpdate($event)"
+    <input type="range" min="0" max="2" step="0.1" [value]="pHInputValue" (change)="onInputValueUpdate($event)"
       id="pH-slider">
     <label for="pH-slider">{{pHInputValue}}</label>
   </div>

@@ -16,8 +16,6 @@ import { CadeiaProdutivaModule } from './pages/cadeia-produtiva/cadeia-produtiva
 import { TrabalhoCetemModule } from './pages/trabalho-cetem/trabalho-cetem.module';
 import { TabelaPeriodicaModule } from './pages/tabela-periodica/tabela-periodica.module';
 import { DirectivesModule } from './directives/directives.module';
-
-import { SimulacoesService } from './services/simulacoes.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +37,6 @@ import { SimulacoesService } from './services/simulacoes.service';
     DirectivesModule,
     AppRoutingModule,
   ],
-  providers: [SimulacoesService],
   bootstrap: [AppComponent]
 })
 

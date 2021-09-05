@@ -11,7 +11,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { SimulacoesService } from './../../services/simulacoes.service';
+import { SimulationsService } from './../../services/simulacoes.service';
 
 const cetemRoutes: Routes = [
   {
@@ -41,7 +41,7 @@ const cetemRoutes: Routes = [
     PlotlyModule,
   ],
   exports: [RouterModule],
-  providers: [SimulacoesService],
+  providers: [SimulationsService],
 })
 
 export class TrabalhoCetemModule { }

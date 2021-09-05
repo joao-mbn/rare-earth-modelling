@@ -6,18 +6,20 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SimulacoesService {
+export class SimulationsService {
 
-  private url = 'http://127.0.0.1:5000/';
+  private url = 'http://127.0.0.1:5000/simulations/';
 
   constructor(private httpClient: HttpClient) {
 
   }
 
-  public getSimulacoes(): Observable<IElementsExtractionData> {
+  public getSimulations(): Observable<IElementsExtractionData> {
+    return this.httpClient.get<IElementsExtractionData>(this.url + 'get-results/');
+  }
 
-    return this.httpClient.get<IElementsExtractionData>(this.url)
-
+  public postSimulations(requestParameters: {pH: number, rao: number, nStages: number}): Observable<ArrayBuffer> {
+    return this.httpClient.post<ArrayBuffer>(this.url + 'post-conditions/', requestParameters);
   }
 
 }

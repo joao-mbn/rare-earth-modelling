@@ -17,7 +17,7 @@ disprosio = ETR('Dysprosium', 'Dy', 600, 99.5, 3.19, 0, 372.998, 2, 3.22552, -0.
 holmio = ETR('Holmium', 'Ho', 40, 99.9, 6.71, 0, 377.858, 2, 3.05008, -0.68760)
 H = Proton('Proton', 'H+', None, 0.55)
 operacao = Operacao([disprosio, holmio], p507, 0.26, isoparafina, hcl, mixset, 2, 40, 0.5, 2, 0, 0.5)
-isotherm_dto = Isoterma(40, 0.6, [H, disprosio, holmio]).create_all_elements_extraction_data_dto();
+isotherm = Isoterma(40, 0.6, [H, disprosio, holmio]);
 
 # D2EHPA 10%
 praseodimio1 = ETR('Praseodímio', 'Pr', 75, 99.5, 0.480, 0, 1021.44, 6, 2.84, -3.6807)
