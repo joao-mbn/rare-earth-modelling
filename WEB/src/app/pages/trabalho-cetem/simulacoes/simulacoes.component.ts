@@ -1,7 +1,6 @@
-import { Observable } from 'rxjs';
-import { IScatterPlot } from './../../../interfaces/IScatterPlot';
-import { IElementExtractionData, IElementsExtractionData } from './../../../interfaces/IElementExtractionData';
-import { ISingleElementDataSet, IAllElementsDataSets } from '../../../interfaces/IDataSet';
+import { SingleElementMcCabeThieleChart } from '../../../classes/SingleElementMcCabeThieleChart';
+import { SingleElementDto } from '../../../classes/SingleElementDto';
+import { SingleElementDataSet } from '../../../classes/SingleElementDataSet';
 import { SimulationsService } from './../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
@@ -21,9 +20,9 @@ export class SimulacoesComponent implements OnInit {
   nEstagiosInputValue: number = 20;
   raoInputValue: number = 1;
 
-  allElementsDataSets: IAllElementsDataSets = {};
-  mcCabeThieleChartData!: IElementsExtractionData;
-  public mcCabeThieleChart!: IScatterPlot;
+  simulationData!: { [elementSymbol: string]: SingleElementDto };
+  public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
+  public mcCabeThieleChartsKeys!: string[];
 
   constructor(private SimulationsService: SimulationsService) {
 
@@ -35,54 +34,53 @@ export class SimulacoesComponent implements OnInit {
 
   }
 
-  private async updateMcCabeThieleChart(): Promise<void> {
+  public async updateMcCabeThieleChart(): Promise<void> {
 
     await this.getMcCabeThieleChartData();
-    this.createDataSets();
     this.createMcCabeThieleChart();
 
   }
 
   private async getMcCabeThieleChartData(): Promise<void> {
 
-    const simulationPromise = await this.SimulationsService.getSimulations().toPromise();
-    this.mcCabeThieleChartData = simulationPromise;
+    this.simulationData = await this.SimulationsService.getSimulations().toPromise();
+    this.mcCabeThieleChartsKeys = Object.keys(this.simulationData);
 
   }
 
-  private createMcCabeThieleChart() {
+  private createMcCabeThieleChart(): void {
 
-    const dysprosium = Object.keys(this.mcCabeThieleChartData)[0];
-    const dysprosiumDataSet = this.allElementsDataSets[dysprosium];
-    const layout = {
-      title: 'Dysprosium extraction'
-    }
+    Object.keys(this.simulationData).forEach(key => {
 
-    this.mcCabeThieleChart = {
-      data: [dysprosiumDataSet],
-      layout: layout
-    }
+      const singleElementData = this.simulationData[key];
 
-  }
+      const singleElementEquilibriumPointsDataSet = new SingleElementDataSet();
+      singleElementEquilibriumPointsDataSet.x = singleElementData.aqueousConcentrations;
+      singleElementEquilibriumPointsDataSet.y = singleElementData.organicConcentrations;
+      singleElementEquilibriumPointsDataSet.name = `${singleElementData.name} Equilibrium Curve`;
+      singleElementEquilibriumPointsDataSet.mode = 'lines';
 
-  private createDataSets(): void {
+      const singleElementStagesDataSet = new SingleElementDataSet();
+      [singleElementStagesDataSet.x,
+        singleElementStagesDataSet.y] = singleElementStagesDataSet.stageConcentrations(
+          singleElementData.aqueousConcentrations, singleElementData.organicConcentrations);
+      singleElementStagesDataSet.name = `${singleElementData.name} Stages`;
+      singleElementStagesDataSet.mode = 'lines+markers';
 
-    Object.keys(this.mcCabeThieleChartData).forEach(key => {
+      const mcCabeThieleChartInfo: SingleElementMcCabeThieleChart = {
+        data: [singleElementEquilibriumPointsDataSet, singleElementStagesDataSet],
+        layout: {
+          title: `${singleElementData.name} Extraction`
+        }
+      }
 
-      const singleElementData: IElementExtractionData = this.mcCabeThieleChartData[key];
-      const singleElementDataSet: ISingleElementDataSet = {
-        x: singleElementData.aqueousConcentrations,
-        y: singleElementData.organicConcentrations,
-        mode: 'lines+markers',
-        name: singleElementData.name
-      };
-      this.allElementsDataSets[singleElementData.symbol] = singleElementDataSet;
+      this.mcCabeThieleChartsInfos[key] = mcCabeThieleChartInfo;
 
     });
 
   }
 
-  onInputValueUpdate(event: Event): void {
+  public async onInputValueUpdate(event: Event): Promise<void> {
 
     const eventTarget = <HTMLInputElement>event.target;
     const eventTargetValue = parseFloat(eventTarget.value);
@@ -99,14 +97,13 @@ export class SimulacoesComponent implements OnInit {
         this.raoInputValue = eventTargetValue;
     }
 
-    this.SimulationsService.postSimulations({
+    await this.SimulationsService.postSimulations({
       pH: this.pHInputValue,
       rao: this.raoInputValue,
       nStages: this.nEstagiosInputValue
-    }).subscribe(
-      (response) => this.updateMcCabeThieleChart(),
-      (error: Error) => error,
-    )
+    }).toPromise();
+
+    this.updateMcCabeThieleChart();
 
   }
 

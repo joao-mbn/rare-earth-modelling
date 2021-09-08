@@ -1,4 +1,4 @@
-import { IElementsExtractionData } from './../interfaces/IElementExtractionData';
+import { SingleElementDto } from '../classes/SingleElementDto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,8 +14,8 @@ export class SimulationsService {
 
   }
 
-  public getSimulations(): Observable<IElementsExtractionData> {
-    return this.httpClient.get<IElementsExtractionData>(this.url + 'get-results/');
+  public getSimulations(): Observable<{ [elementSymbol: string]: SingleElementDto}> {
+    return this.httpClient.get<{[elementSymbol: string]: SingleElementDto}>(this.url + 'get-results/');
   }
 
   public postSimulations(requestParameters: {pH: number, rao: number, nStages: number}): Observable<ArrayBuffer> {

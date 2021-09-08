@@ -1,7 +1,7 @@
 <div class="uk-container">
   <div>
     <span>pH</span>
-    <input type="range" min="0" max="2" step="0.1" [value]="pHInputValue" (change)="onInputValueUpdate($event)"
+    <input type="range" min="0" max="2" step="0.1" [value]="pHInputValue" (input)="onInputValueUpdate($event)"
       id="pH-slider">
     <label for="pH-slider">{{pHInputValue}}</label>
   </div>
@@ -21,4 +21,11 @@
   </div>
 </div>
 
-<plotly-plot [data]="mcCabeThieleChart.data" [layout]="mcCabeThieleChart.layout"></plotly-plot>
+
+<plotly-plot
+  *ngFor="let key of mcCabeThieleChartsKeys"
+  [data]="mcCabeThieleChartsInfos[key].data"
+  [layout]="mcCabeThieleChartsInfos[key].layout">
+</plotly-plot>
+
+
