@@ -14,7 +14,7 @@ export class SimulationsService {
 
   }
 
-  public getSimulations(): Observable<{ [elementSymbol: string]: SingleElementDto}> {
+  public getSimulations(): Observable<{[elementSymbol: string]: SingleElementDto}> {
     return this.httpClient.get<{[elementSymbol: string]: SingleElementDto}>(this.url + 'get-results/');
   }
 

@@ -2,4 +2,5 @@
     "editor.fontFamily": "Victor Mono Regular, 'Courier New', monospace",
     "editor.fontLigatures": true,
     "git.ignoreLimitWarning": true,
+    "editor.formatOnSave": true,
 }

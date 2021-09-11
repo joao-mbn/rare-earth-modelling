@@ -1,5 +1,5 @@
+import { SimulationsComponent } from './simulations/simulations.component';
 import { ResultadosComponent } from './resultados/resultados.component';
-import { SimulacoesComponent } from './simulacoes/simulacoes.component';
 import { ViabilidadeEconomicaComponent } from './viabilidade-economica/viabilidade-economica.component';
 import { FuturoComponent } from './futuro/futuro.component';
 import { TrabalhoCetemComponent } from './trabalho-cetem.component';
@@ -8,6 +8,8 @@ import { PlotlyModule } from 'angular-plotly.js';
 import { DirectivesModule } from './../../directives/directives.module';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -19,7 +21,7 @@ const cetemRoutes: Routes = [
     children: [
       { path: 'futuro', component: FuturoComponent },
       { path: 'resultados', component: ResultadosComponent },
-      { path: 'simulacoes', component: SimulacoesComponent },
+      { path: 'simulations', component: SimulationsComponent },
       { path: 'viabilidade-economica', component: ViabilidadeEconomicaComponent },
     ]
   },
@@ -29,7 +31,7 @@ const cetemRoutes: Routes = [
   declarations: [
     FuturoComponent,
     ResultadosComponent,
-    SimulacoesComponent,
+    SimulationsComponent,
     ViabilidadeEconomicaComponent,
     TrabalhoCetemComponent,
   ],
@@ -38,6 +40,8 @@ const cetemRoutes: Routes = [
     CommonModule,
     DirectivesModule,
     HttpClientModule,
+    MatTabsModule,
+    MatTableModule,
     PlotlyModule,
   ],
   exports: [RouterModule],

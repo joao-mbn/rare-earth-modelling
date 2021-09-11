@@ -1,7 +1,7 @@
 import { SingleElementMcCabeThieleChart } from '../../../classes/SingleElementMcCabeThieleChart';
 import { SingleElementDto } from '../../../classes/SingleElementDto';
 import { SingleElementDataSet } from '../../../classes/SingleElementDataSet';
-import { SimulationsService } from './../../../services/simulacoes.service';
+import { SimulationsService } from '../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -9,16 +9,31 @@ import { PlotlyModule } from 'angular-plotly.js';
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @Component({
-  selector: 'app-simulacoes',
-  templateUrl: './simulacoes.component.html',
-  styleUrls: ['./simulacoes.component.scss']
+  selector: 'app-simulations',
+  templateUrl: './simulations.component.html',
+  styleUrls: ['./simulations.component.scss']
 })
 
-export class SimulacoesComponent implements OnInit {
+export class SimulationsComponent implements OnInit {
 
-  public pHInputValue: number = 1;
-  public nEstagiosInputValue: number = 20;
-  public raoInputValue: number = 1;
+  dataSource = [
+    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
+    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
+    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
+    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
+    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
+    { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
+    { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
+    { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
+    { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
+    { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
+  ];
+
+  columnsToDisplay = Object.keys(this.dataSource[0]);
+
+  public pHInputValue: number = 0.25;
+  public nEstagiosInputValue: number = 40;
+  public raoInputValue: number = 0.6;
 
   public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
   public mcCabeThieleChartsKeys!: string[];
@@ -35,17 +50,23 @@ export class SimulacoesComponent implements OnInit {
 
   }
 
-  public async updateMcCabeThieleChart(): Promise<void> {
+  public updateMcCabeThieleChart(): void {
 
-    await this.getMcCabeThieleChartData();
-    this.createMcCabeThieleChart();
+    this.getMcCabeThieleChartData();
 
   }
 
-  private async getMcCabeThieleChartData(): Promise<void> {
+  private getMcCabeThieleChartData(): void {
 
-    this.simulationData = await this.SimulationsService.getSimulations().toPromise();
-    this.mcCabeThieleChartsKeys = Object.keys(this.simulationData);
+    this.SimulationsService.getSimulations().subscribe(
+      (response: { [elementSymbol: string]: SingleElementDto }) => {
+
+        this.simulationData = response;
+        this.mcCabeThieleChartsKeys = Object.keys(this.simulationData);
+
+        this.createMcCabeThieleChart();
+      }
+    );
 
   }
 
@@ -86,7 +107,7 @@ export class SimulacoesComponent implements OnInit {
 
   }
 
-  public async onInputValueUpdate(event: Event): Promise<void> {
+  public onInputValueUpdate(event: Event): void {
 
     const eventTarget = <HTMLInputElement>event.target;
     const eventTargetValue = parseFloat(eventTarget.value);
@@ -103,13 +124,13 @@ export class SimulacoesComponent implements OnInit {
         this.raoInputValue = eventTargetValue;
     }
 
-    await this.SimulationsService.postSimulations({
+    this.SimulationsService.postSimulations({
       pH: this.pHInputValue,
       rao: this.raoInputValue,
       nStages: this.nEstagiosInputValue
-    }).toPromise();
-
-    this.updateMcCabeThieleChart();
+    }).subscribe(() => {
+      this.updateMcCabeThieleChart();
+    });
 
   }
 
