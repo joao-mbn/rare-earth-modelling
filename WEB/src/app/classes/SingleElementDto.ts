@@ -1,6 +1,12 @@
 export class SingleElementDto {
+
   name!: string;
   symbol!: string;
-  aqueousConcentrations!: number[];
-  organicConcentrations!: number[];
+  aqueousEquilibriumConcentrations!: number[];
+  organicEquilibriumConcentrations!: number[];
+  aqueousOperatingConcentrations!: number[];
+  organicOperatingConcentrations!: number[];
+  aqueousStageConcentrations!: number[];
+  organicStageConcentrations!: number[];
+
 }

@@ -16,13 +16,14 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 export class SimulacoesComponent implements OnInit {
 
-  pHInputValue: number = 1;
-  nEstagiosInputValue: number = 20;
-  raoInputValue: number = 1;
+  public pHInputValue: number = 1;
+  public nEstagiosInputValue: number = 20;
+  public raoInputValue: number = 1;
 
-  simulationData!: { [elementSymbol: string]: SingleElementDto };
   public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
   public mcCabeThieleChartsKeys!: string[];
+
+  private simulationData!: { [elementSymbol: string]: SingleElementDto };
 
   constructor(private SimulationsService: SimulationsService) {
 
@@ -55,20 +56,25 @@ export class SimulacoesComponent implements OnInit {
       const singleElementData = this.simulationData[key];
 
       const singleElementEquilibriumPointsDataSet = new SingleElementDataSet();
-      singleElementEquilibriumPointsDataSet.x = singleElementData.aqueousConcentrations;
-      singleElementEquilibriumPointsDataSet.y = singleElementData.organicConcentrations;
+      singleElementEquilibriumPointsDataSet.x = singleElementData.aqueousEquilibriumConcentrations;
+      singleElementEquilibriumPointsDataSet.y = singleElementData.organicEquilibriumConcentrations;
       singleElementEquilibriumPointsDataSet.name = `${singleElementData.name} Equilibrium Curve`;
       singleElementEquilibriumPointsDataSet.mode = 'lines';
 
+      const singleElementOperatingPointsDataSet = new SingleElementDataSet();
+      singleElementOperatingPointsDataSet.x = singleElementData.aqueousOperatingConcentrations;
+      singleElementOperatingPointsDataSet.y = singleElementData.organicOperatingConcentrations;
+      singleElementOperatingPointsDataSet.name = `${singleElementData.name} Operating Line`;
+      singleElementOperatingPointsDataSet.mode = 'lines';
+
       const singleElementStagesDataSet = new SingleElementDataSet();
-      [singleElementStagesDataSet.x,
-        singleElementStagesDataSet.y] = singleElementStagesDataSet.stageConcentrations(
-          singleElementData.aqueousConcentrations, singleElementData.organicConcentrations);
+      singleElementStagesDataSet.x = singleElementData.aqueousStageConcentrations;
+      singleElementStagesDataSet.y = singleElementData.organicStageConcentrations;
       singleElementStagesDataSet.name = `${singleElementData.name} Stages`;
       singleElementStagesDataSet.mode = 'lines+markers';
 
       const mcCabeThieleChartInfo: SingleElementMcCabeThieleChart = {
-        data: [singleElementEquilibriumPointsDataSet, singleElementStagesDataSet],
+        data: [singleElementEquilibriumPointsDataSet, singleElementOperatingPointsDataSet, singleElementStagesDataSet],
         layout: {
           title: `${singleElementData.name} Extraction`
         }

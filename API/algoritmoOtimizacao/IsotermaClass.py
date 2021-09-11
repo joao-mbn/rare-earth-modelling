@@ -102,8 +102,8 @@ class Isoterma():
 
     def create_all_elements_extraction_data_dto(isoterma) -> dict[dict[Union[str, list]]]:
 
-        all_elements_aqueous_concentrations: np.array = isoterma.resolve_equacoes_massa_carga();
-        proton_concentrations: np.array;
+        all_elements_aqueous_concentrations: np.array([np.float]) = isoterma.resolve_equacoes_massa_carga();
+        proton_concentrations:  np.array([np.float]);
         all_elements_extraction_data_dto: dict = {};
         element: ETR;
         index: int;
@@ -113,88 +113,58 @@ class Isoterma():
                 proton_concentrations = all_elements_aqueous_concentrations[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas];
             else:
                 single_element_D = map(element.D, proton_concentrations);
-                single_element_aqueous_concentrations = list(
+
+                single_element_aqueous_equilibrium_concentrations = list(
                     all_elements_aqueous_concentrations[index * isoterma.n_celulas: (index + 1) * isoterma.n_celulas]);
-                single_element_organic_concentrations = list(
-                    map(element.concentracoes_organico, single_element_D, single_element_aqueous_concentrations));
+                single_element_organic_equilibrium_concentrations = list(
+                    map(element.concentracoes_organico, single_element_D, single_element_aqueous_equilibrium_concentrations));
+                
+                single_element_aqueous_operating_concentrations, single_element_organic_operating_concentrations = isoterma.create_operating_line(
+                    element, single_element_aqueous_equilibrium_concentrations, single_element_organic_equilibrium_concentrations
+                );
+
+                single_element_aqueous_stage_concentrations, single_element_organic_stage_concentrations = isoterma.create_stage_concentrations(
+                    single_element_aqueous_operating_concentrations, single_element_organic_operating_concentrations
+                );
                 
                 single_element_extraction_data_dto: dict = {};
                 single_element_extraction_data_dto['name'] = element.nome;
                 single_element_extraction_data_dto['symbol'] = element.simbolo;
-                single_element_extraction_data_dto['aqueousConcentrations'] = single_element_aqueous_concentrations;
-                single_element_extraction_data_dto['organicConcentrations'] = single_element_organic_concentrations;
+                single_element_extraction_data_dto['aqueousEquilibriumConcentrations'] = single_element_aqueous_equilibrium_concentrations;
+                single_element_extraction_data_dto['organicEquilibriumConcentrations'] = single_element_organic_equilibrium_concentrations;
+                single_element_extraction_data_dto['aqueousOperatingConcentrations'] = single_element_aqueous_operating_concentrations;
+                single_element_extraction_data_dto['organicOperatingConcentrations'] = single_element_organic_operating_concentrations;
+                single_element_extraction_data_dto['aqueousStageConcentrations'] = single_element_aqueous_stage_concentrations;
+                single_element_extraction_data_dto['organicStageConcentrations'] = single_element_organic_stage_concentrations;
 
                 all_elements_extraction_data_dto[element.simbolo] = single_element_extraction_data_dto;
 
         return all_elements_extraction_data_dto;
 
-    def monta_tabela(isoterma, uso, excel = False):
+    def create_operating_line(isoterma, 
+        element: ETR,
+        aqueous_equilibrium_concentrations: list[float],
+        organic_equilibrium_concentrations: list[float]
+    ) -> list[float]:
 
-        resultados = isoterma.resolve_equacoes_massa_carga()
-        tabela_externa = pd.DataFrame({'Estágio Nº': np.arange(1, isoterma.n_celulas + 1)})
-        tabela_interna = pd.DataFrame({'Estágio Nº': np.arange(1, isoterma.n_celulas + 1)})
+        single_element_aqueous_operating_concentrations = [element.ca0] + aqueous_equilibrium_concentrations;
+        single_element_organic_operating_concentrations = organic_equilibrium_concentrations + [element.con];
 
-        for i in range(len(isoterma.lista_elementos)):
-            elemento = isoterma.lista_elementos[i]
-            simbolo_elementar = elemento.simbolo
-            concentracoes_aq_molar = (resultados[isoterma.n_celulas * i: isoterma.n_celulas * (i + 1)])
+        return single_element_aqueous_operating_concentrations, single_element_organic_operating_concentrations;
 
-            if type(elemento) != Proton:
-                concentracoes_aq_gl = (concentracoes_aq_molar * elemento.massa_molar_oxido
-                                       / elemento.proporcao_estequiometrica)
-                D = elemento.D(tabela_externa['[' + isoterma.lista_elementos[0].simbolo + '](mol/L)'])
-                concentracoes_org_molar = elemento.concentracoes_organico(D, concentracoes_aq_molar)
-                concentracoes_org_gl = elemento.concentracoes_organico(D, concentracoes_aq_gl)
+    def create_stage_concentrations(isoterma,
+        aqueous_operating_concentrations: list[float],
+        organic_operating_concentrations: list[float]
+    ) -> list[float]:
 
-                tabela_interna['[' + simbolo_elementar + ']aq(mol/L)'] = concentracoes_aq_molar
-                tabela_externa['[' + simbolo_elementar + ']aq(g/L)'] = concentracoes_aq_gl
-                tabela_interna['[' + simbolo_elementar + ']org(mol/L)'] = concentracoes_org_molar
-                tabela_externa['[' + simbolo_elementar + ']org(g/L)'] = concentracoes_org_gl
-                tabela_externa['D ' + simbolo_elementar] = D
+        aqueous_stage_concentrations = [aqueous_operating_concentrations[0]];
+        organic_stage_concentrations: list[float] = [];
 
-                if i > 1:
-                    Beta = D / tabela_externa['D ' + isoterma.lista_elementos[i - 1].simbolo]
-                    tabela_externa['Beta ' + simbolo_elementar + '/' + isoterma.lista_elementos[i - 1].simbolo] = Beta
+        for index in range(len(aqueous_operating_concentrations)):
 
-            else:
-                tabela_interna['[' + simbolo_elementar + '](mol/L)'] = concentracoes_aq_molar
-                tabela_externa['[' + simbolo_elementar + '](mol/L)'] = concentracoes_aq_molar
-                tabela_externa['pH'] = elemento.pH(concentracoes_aq_molar)
+            aqueous_stage_concentrations += 2 * [aqueous_operating_concentrations[index]] if index != 0 else [];
+            organic_stage_concentrations += 2 * [organic_operating_concentrations[index]] if index < len(aqueous_operating_concentrations) - 1 else [];
 
-        tabela_externa.set_index('Estágio Nº', inplace = True)
-        tabela_interna.set_index('Estágio Nº', inplace = True)
+        organic_stage_concentrations += [organic_operating_concentrations[-1]];
 
-        if excel:
-            tabela_externa.to_excel('Isoterma.xlsx',
-                                    sheet_name = str((isoterma.rao, isoterma.n_celulas,
-                                                      isoterma.lista_elementos[0].pH_inicial)))
-        if uso == 'interno':
-            return tabela_interna
-        else:
-            return tabela_externa
-
-    def resumo(isoterma):
-
-        tabela = isoterma.monta_tabela(uso = 'interno')
-
-        tabela_resumida = pd.DataFrame(columns = [etr.simbolo for etr in isoterma.lista_elementos[1:]])
-        tabela_resumida.loc['Alimentação aq. (mol/L)'] = [etr.ca0 for etr in isoterma.lista_elementos[1:]]
-        tabela_resumida.loc['Alimentação org. (mol/L)'] = [etr.con for etr in isoterma.lista_elementos[1:]]
-        tabela_resumida.loc['Rafinado (mol/L)'] = np.array(tabela.iloc[-1, 1: :2])
-        tabela_resumida.loc['Carregado Orgânico (mol/L)'] = np.array(tabela.iloc[0, 2: :2])
-        tabela_resumida.loc['Composição Rafinado (%)'] = (tabela_resumida.loc['Rafinado (mol/L)'] * 100
-                                                          / tabela_resumida.loc['Rafinado (mol/L)'].sum())
-        tabela_resumida.loc['Composição org. Carregado (%)'] = (tabela_resumida.loc['Carregado Orgânico (mol/L)']
-                                                                * 100 / (tabela_resumida.loc['Carregado Orgânico (mol/L)']
-                                                                .sum()))
-        if isoterma.isExtracao == True:
-            tabela_resumida.loc['Recuperação Rafinado (%)'] = (tabela_resumida.loc['Rafinado (mol/L)'] * 100
-                                                               / tabela_resumida.loc['Alimentação aq. (mol/L)'])
-        else:
-            tabela_resumida.loc['Recuperação Rafinado (%)'] = ((tabela_resumida.loc['Alimentação org. (mol/L)']
-                                                                - tabela_resumida.loc['Carregado Orgânico (mol/L)'])
-                                                                * 100 / tabela_resumida.loc['Alimentação org. (mol/L)'])
-
-        tabela_resumida.loc['Recuperação Orgânico (%)'] = 100 - tabela_resumida.loc['Recuperação Rafinado (%)']
-
-        return tabela_resumida
+        return aqueous_stage_concentrations, organic_stage_concentrations;
