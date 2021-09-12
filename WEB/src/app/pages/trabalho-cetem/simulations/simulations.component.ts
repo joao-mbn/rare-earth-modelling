@@ -1,3 +1,5 @@
+import { SimulationTableDto } from './../../../classes/SimulationTableDto';
+import { SimulationDto } from './../../../classes/SimulationDto';
 import { SingleElementMcCabeThieleChart } from '../../../classes/SingleElementMcCabeThieleChart';
 import { SingleElementDto } from '../../../classes/SingleElementDto';
 import { SingleElementDataSet } from '../../../classes/SingleElementDataSet';
@@ -38,7 +40,8 @@ export class SimulationsComponent implements OnInit {
   public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
   public mcCabeThieleChartsKeys!: string[];
 
-  private simulationData!: { [elementSymbol: string]: SingleElementDto };
+  private simulationChartData!: { [elementSymbol: string]: SingleElementDto };
+  private simulationTableData!: SimulationTableDto;
 
   constructor(private SimulationsService: SimulationsService) {
 
@@ -59,10 +62,12 @@ export class SimulationsComponent implements OnInit {
   private getMcCabeThieleChartData(): void {
 
     this.SimulationsService.getSimulations().subscribe(
-      (response: { [elementSymbol: string]: SingleElementDto }) => {
+      (response: SimulationDto) => {
 
-        this.simulationData = response;
-        this.mcCabeThieleChartsKeys = Object.keys(this.simulationData);
+        this.simulationChartData = response.simulationChartDto;
+        this.mcCabeThieleChartsKeys = Object.keys(this.simulationChartData);
+
+        this.simulationTableData = response.simulationTableDto;
 
         this.createMcCabeThieleChart();
       }
@@ -72,9 +77,9 @@ export class SimulationsComponent implements OnInit {
 
   private createMcCabeThieleChart(): void {
 
-    Object.keys(this.simulationData).forEach(key => {
+    Object.keys(this.simulationChartData).forEach(key => {
 
-      const singleElementData = this.simulationData[key];
+      const singleElementData = this.simulationChartData[key];
 
       const singleElementEquilibriumPointsDataSet = new SingleElementDataSet();
       singleElementEquilibriumPointsDataSet.x = singleElementData.aqueousEquilibriumConcentrations;
