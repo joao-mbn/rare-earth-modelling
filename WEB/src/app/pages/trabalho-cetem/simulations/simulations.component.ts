@@ -7,6 +7,8 @@ import { SimulationsService } from '../../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
+import { hasKey } from 'src/app/utils/hasKey';
+import { formatNumber } from 'src/app/utils/formatNumber';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -18,30 +20,18 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 export class SimulationsComponent implements OnInit {
 
-  dataSource = [
-    { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-    { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-    { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-    { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-    { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-    { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-    { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-    { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-    { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-    { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  ];
-
-  columnsToDisplay = Object.keys(this.dataSource[0]);
-
   public pHInputValue: number = 0.25;
   public nEstagiosInputValue: number = 40;
   public raoInputValue: number = 0.6;
 
   public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
   public mcCabeThieleChartsKeys!: string[];
-
   private simulationChartData!: { [elementSymbol: string]: SingleElementDto };
+
   private simulationTableData!: SimulationTableDto;
+  public simulationTableColumnsNames: string[] = [];
+  public simulationTableRows!: { [key: string]: number }[];
+  public simulationTableColumns: string[] = [];
 
   constructor(private SimulationsService: SimulationsService) {
 
@@ -49,17 +39,17 @@ export class SimulationsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.updateMcCabeThieleChart();
+    this.updateSimulationData();
 
   }
 
-  public updateMcCabeThieleChart(): void {
+  public updateSimulationData(): void {
 
-    this.getMcCabeThieleChartData();
+    this.getSimulationData();
 
   }
 
-  private getMcCabeThieleChartData(): void {
+  private getSimulationData(): void {
 
     this.SimulationsService.getSimulations().subscribe(
       (response: SimulationDto) => {
@@ -70,6 +60,7 @@ export class SimulationsComponent implements OnInit {
         this.simulationTableData = response.simulationTableDto;
 
         this.createMcCabeThieleChart();
+        this.createSimulationTable();
       }
     );
 
@@ -112,6 +103,35 @@ export class SimulationsComponent implements OnInit {
 
   }
 
+  private createSimulationTable(): void {
+
+    let greatestLengthProperty = 0;
+
+    Object.keys(this.simulationTableData).forEach((element) => {
+      const columnsToTable = this.getColumnsToTable(element);
+      greatestLengthProperty = this.getGreatestLength(greatestLengthProperty, columnsToTable, element);
+    });
+
+    this.simulationTableRows = Array(greatestLengthProperty).fill({});
+
+    Object.keys(this.simulationTableData).forEach((element) => {
+
+      this.getColumnsToTable(element).forEach(elementProperty => {
+
+        if (hasKey(this.simulationTableData[element], elementProperty)) {
+
+          const propertyArray = this.simulationTableData[element][elementProperty] as number[];
+          this.simulationTableRows.map((dataRowObject, index) => dataRowObject[element + elementProperty] = formatNumber(propertyArray[index]));
+
+        }
+      })
+    });
+
+    this.simulationTableColumns = Object.keys(this.simulationTableRows[0]);
+    this.simulationTableColumnsNames = this.parseTableColumnsToColumnNames(this.simulationTableColumns);
+
+  }
+
   public onInputValueUpdate(event: Event): void {
 
     const eventTarget = <HTMLInputElement>event.target;
@@ -134,9 +154,62 @@ export class SimulationsComponent implements OnInit {
       rao: this.raoInputValue,
       nStages: this.nEstagiosInputValue
     }).subscribe(() => {
-      this.updateMcCabeThieleChart();
+      this.updateSimulationData();
     });
 
   }
 
+  private parseTableColumnsToColumnNames(tableColumns: string[]): string[] {
+
+    const allElements = [... new Set(tableColumns.map(column => column.slice(0, 2)))].filter(element => element !== 'H+');
+
+    return tableColumns.map((elementProperty) => {
+
+      const element = elementProperty.slice(0, 2);
+      const previousElement = allElements[allElements.indexOf(element) - 1];
+      elementProperty = elementProperty.slice(2);
+
+      switch (elementProperty) {
+        case 'aqueousEquilibriumConcentrations':
+          elementProperty = `${element} aq.`
+          break
+        case 'organicEquilibriumConcentrations':
+          elementProperty = `${element} org.`
+          break
+        case 'D':
+          elementProperty = `${element} D`
+          break
+        case `Beta${element}${previousElement}`:
+          elementProperty = `Beta ${element}/${previousElement}`
+          break
+      }
+      return elementProperty;
+
+    });
+
+  }
+
+  private getColumnsToTable(element: string): string[] {
+
+    return Object
+      .keys(this.simulationTableData[element])
+      .filter(elementProperty => elementProperty !== 'name' && elementProperty !== 'symbol');
+  }
+
+  getGreatestLength(greatestLengthProperty: number, columnsToTable: string[], element: string): number {
+
+    columnsToTable.forEach(column => {
+
+      if (hasKey(this.simulationTableData[element], column)) {
+
+        const propertyLength = this.simulationTableData[element][column]?.length ?? 0;
+        greatestLengthProperty = propertyLength > greatestLengthProperty ? propertyLength : greatestLengthProperty;
+
+      }
+    });
+    return greatestLengthProperty;
+
+  }
+
 }
+

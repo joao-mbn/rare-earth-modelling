@@ -175,7 +175,7 @@ class Isoterma():
 
                 if index >= 2:
                     table_extraction_data_dto[element.simbolo]['Beta' +
-                                                               previous_element.simbolo + element.simbolo] = list(beta)
+                                                               element.simbolo + previous_element.simbolo] = list(beta)
 
         extraction_data_dto = {
             'simulationTableDto': table_extraction_data_dto,
