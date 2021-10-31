@@ -3,7 +3,7 @@ import { SimulationDto } from './../../classes/SimulationDto';
 import { SingleElementMcCabeThieleChart } from '../../classes/SingleElementMcCabeThieleChart';
 import { SingleElementDto } from '../../classes/SingleElementDto';
 import { SingleElementDataSet } from '../../classes/SingleElementDataSet';
-import { SimulationsService } from '../../services/simulacoes.service';
+import { SimulationsService } from '../../services/simulations.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -21,8 +21,8 @@ PlotlyModule.plotlyjs = PlotlyJS;
 export class SimulationsComponent implements OnInit {
 
   public pHInputValue: number = 0.25;
-  public nEstagiosInputValue: number = 40;
-  public raoInputValue: number = 0.6;
+  public numberCellsInputValue: number = 40;
+  public aorInputValue: number = 0.6;
 
   public mcCabeThieleChartsInfos: { [chartInfo: string]: SingleElementMcCabeThieleChart; } = {};
   public mcCabeThieleChartsKeys!: string[];
@@ -142,17 +142,17 @@ export class SimulationsComponent implements OnInit {
       case 'pH-slider':
         this.pHInputValue = eventTargetValue;
         break;
-      case 'nEstagios-slider':
-        this.nEstagiosInputValue = eventTargetValue;
+      case 'number-cells-slider':
+        this.numberCellsInputValue = eventTargetValue;
         break;
-      case 'rao-slider':
-        this.raoInputValue = eventTargetValue;
+      case 'aor-slider':
+        this.aorInputValue = eventTargetValue;
     }
 
     this.SimulationsService.postSimulations({
       pH: this.pHInputValue,
-      rao: this.raoInputValue,
-      nStages: this.nEstagiosInputValue
+      aor: this.aorInputValue,
+      numberCells: this.numberCellsInputValue
     }).subscribe(() => {
       this.updateSimulationData();
     });

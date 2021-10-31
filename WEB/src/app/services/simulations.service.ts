@@ -1,4 +1,4 @@
-import { SimulationDto } from './../classes/SimulationDto';
+import { SimulationDto } from '../classes/SimulationDto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class SimulationsService {
     return this.httpClient.get<SimulationDto>(this.url + 'get-results/');
   }
 
-  public postSimulations(requestParameters: { pH: number, rao: number, nStages: number }): Observable<ArrayBuffer> {
+  public postSimulations(requestParameters: { pH: number, aor: number, numberCells: number }): Observable<ArrayBuffer> {
     return this.httpClient.post<ArrayBuffer>(this.url + 'post-conditions/', requestParameters);
   }
 

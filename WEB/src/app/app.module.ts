@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { DirectivesModule } from './directives/directives.module';
+
+import { SimulationsService } from './services/simulations.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +29,8 @@ import { DirectivesModule } from './directives/directives.module';
     DirectivesModule,
     AppRoutingModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [SimulationsService]
 })
 
 export class AppModule { }

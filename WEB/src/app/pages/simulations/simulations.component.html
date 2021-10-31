@@ -6,17 +6,17 @@
 </div>
 
 <div>
-  <span>Number of Stages</span>
-  <input type="range" min="2" max="40" step="1" [value]="nEstagiosInputValue" (input)="onInputValueUpdate($event)"
-    id="nEstagios-slider">
-  <label for="nEstagios-slider">{{nEstagiosInputValue}}</label>
+  <span>Number of Cells</span>
+  <input type="range" min="2" max="40" step="1" [value]="numberCellsInputValue" (input)="onInputValueUpdate($event)"
+    id="number-cells-slider">
+  <label for="number-cells-slider">{{numberCellsInputValue}}</label>
 </div>
 
 <div>
   <span>A/O Ratio</span>
-  <input type="range" min="0.5" max="2.5" step="0.1" [value]="raoInputValue" (input)="onInputValueUpdate($event)"
-    id="rao-slider">
-  <label for="rao-slider">{{raoInputValue}}</label>
+  <input type="range" min="0.5" max="2.5" step="0.1" [value]="aorInputValue" (input)="onInputValueUpdate($event)"
+    id="aor-slider">
+  <label for="aor-slider">{{aorInputValue}}</label>
 </div>
 
 <mat-tab-group>

@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'cenario-mundial', component: SimulationsComponent },
+  { path: 'simulation', component: SimulationsComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
