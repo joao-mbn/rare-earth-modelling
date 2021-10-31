@@ -11,6 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { DirectivesModule } from './directives/directives.module';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { PlotlyModule } from 'angular-plotly.js';
 
 import { SimulationsService } from './services/simulations.service';
 @NgModule({
@@ -28,6 +31,9 @@ import { SimulationsService } from './services/simulations.service';
     CommonModule,
     DirectivesModule,
     AppRoutingModule,
+    PlotlyModule,
+    MatTableModule,
+    MatTabsModule
   ],
   bootstrap: [AppComponent],
   providers: [SimulationsService]
