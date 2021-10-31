@@ -1,9 +1,9 @@
-import { SimulationTableDto } from './../../../classes/SimulationTableDto';
-import { SimulationDto } from './../../../classes/SimulationDto';
-import { SingleElementMcCabeThieleChart } from '../../../classes/SingleElementMcCabeThieleChart';
-import { SingleElementDto } from '../../../classes/SingleElementDto';
-import { SingleElementDataSet } from '../../../classes/SingleElementDataSet';
-import { SimulationsService } from '../../../services/simulacoes.service';
+import { SimulationTableDto } from './../../classes/SimulationTableDto';
+import { SimulationDto } from './../../classes/SimulationDto';
+import { SingleElementMcCabeThieleChart } from '../../classes/SingleElementMcCabeThieleChart';
+import { SingleElementDto } from '../../classes/SingleElementDto';
+import { SingleElementDataSet } from '../../classes/SingleElementDataSet';
+import { SimulationsService } from '../../services/simulacoes.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';

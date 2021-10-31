@@ -1,57 +1,8 @@
-
-
-@import "uikit/src/scss/variables-theme.scss";
-@import "uikit/src/scss/mixins-theme.scss";
-
-@import "uikit/src/scss/uikit-theme.scss";
-@mixin hook-card() { color: #000; }
-
 $light-grey: rgb(201, 201, 201);
 $medium-grey: rgb(161, 161, 161);
 $dark-grey: rgb(53, 53, 53);
 $light-green: rgb(135, 214, 135);
 $dark-green: rgb(52, 78, 52);
-
-
-html {
-  background: $light-grey;
-  margin: 0px;
-  padding: 0px;
-  min-height: 100vh;
-  overflow-y: scroll;
-  & * {
-    color: $light-grey;
-  }
-  body {
-    background: $dark-green;
-    height: 100%;
-    min-height: 100vh;
-    min-width: 70%;
-    max-width: 70%;
-    margin: 0px 15%;
-    box-sizing: border-box;
-    box-shadow: 10px 10px 50px $dark-grey;
-    align-self: center;
-    justify-self: center;
-    app-root {
-      height: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      header {
-        justify-self: flex-start;
-        h1 {
-          text-align: center;
-          margin: 20px 0px 15px 0px;
-        }
-      }
-      app-footer {
-        place-self: flex-end flex-end;
-      }
-    }
-  }
-}
 
 
 
