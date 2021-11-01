@@ -3,6 +3,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
+import { ButtonSaveComponent } from './components/button-save/button-save.component';
+import { ButtonRunComponent } from './components/button-run/button-run.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,15 +16,18 @@ import { DirectivesModule } from './directives/directives.module';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { PlotlyModule } from 'angular-plotly.js';
-
-import { SimulationsService } from './services/simulations.service';
+import { ServicesModule } from './services/services.module';
+import { PopUpProjectConfigurationComponent } from './components/pop-up-project-configuration/pop-up-project-configuration.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    SimulationsComponent
+    SimulationsComponent,
+    ButtonSaveComponent,
+    ButtonRunComponent,
+    PopUpProjectConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +38,10 @@ import { SimulationsService } from './services/simulations.service';
     AppRoutingModule,
     PlotlyModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    ServicesModule
   ],
   bootstrap: [AppComponent],
-  providers: [SimulationsService]
 })
 
 export class AppModule { }

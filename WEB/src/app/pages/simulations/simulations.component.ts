@@ -1,7 +1,7 @@
-import { SimulationTableDto } from './../../classes/SimulationTableDto';
-import { SimulationDto } from './../../classes/SimulationDto';
+import { SimulationTableDto } from './../../classes/DTOs/SimulationTableDto';
+import { SimulationDto } from './../../classes/DTOs/SimulationDto';
 import { SingleElementMcCabeThieleChart } from '../../classes/SingleElementMcCabeThieleChart';
-import { SingleElementDto } from '../../classes/SingleElementDto';
+import { SingleElementDto } from '../../classes/DTOs/SingleElementDto';
 import { SingleElementDataSet } from '../../classes/SingleElementDataSet';
 import { SimulationsService } from '../../services/simulations.service';
 import { Component, OnInit } from '@angular/core';
