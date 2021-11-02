@@ -1,8 +1,9 @@
+import { ProjectConfigurationsDto } from './../classes/DTOs/ProjectConfigurationsDto';
 import { API_URL } from './apiUrl';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProjectConfigurationsDto } from '../classes/DTOs/ProjectConfigurationsDto';
 import { Injectable } from '@angular/core';
+import { ProjectSimulationResultsDto } from '../classes/DTOs/ProjectSimulationResultsDto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,16 @@ export class ProjectService {
   public getProjectConfigurations(): Observable<ProjectConfigurationsDto> {
     const endPoint = 'get-configurations/';
     return this.httpClient.get<ProjectConfigurationsDto>(this.PROJECT_URL + endPoint);
+  }
+
+  public getProjects(): Observable<ProjectConfigurationsDto[]> {
+    const endPoint = 'get-projects/';
+    return this.httpClient.get<ProjectConfigurationsDto[]>(this.PROJECT_URL + endPoint);
+  }
+
+  public runProjectsSimulation(projectsConfigurationsDto: ProjectConfigurationsDto[]): Observable<ProjectSimulationResultsDto[]> {
+    const endPoint = 'simulate-project/';
+    return this.httpClient.post<ProjectSimulationResultsDto[]>(this.PROJECT_URL + endPoint, projectsConfigurationsDto);
   }
 
 }

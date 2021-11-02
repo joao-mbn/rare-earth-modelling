@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-button-run',
@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ButtonRunComponent implements OnInit {
 
+  @Output() runSimulationEvent = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public onClickRun(): void {
+
+    this.runSimulationEvent.emit();
+
   }
 
 }

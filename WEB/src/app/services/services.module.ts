@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProjectService } from './project.service';
-import { SimulationsService } from './simulations.service';
+import { IsothermService } from './isotherm.service';
 
 
 
@@ -12,7 +12,7 @@ import { SimulationsService } from './simulations.service';
     CommonModule
   ],
   providers: [
-    SimulationsService,
+    IsothermService,
     ProjectService
   ]
 })

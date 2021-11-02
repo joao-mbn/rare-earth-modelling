@@ -15,7 +15,7 @@ export class ButtonSaveComponent implements OnInit {
 
   }
 
-  public onClickSave() {
+  public onClickSave(): void {
 
     this.saveConfigurationsEvent.emit();
 

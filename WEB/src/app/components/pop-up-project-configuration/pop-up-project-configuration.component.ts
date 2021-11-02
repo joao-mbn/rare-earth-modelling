@@ -10,34 +10,25 @@ import { PROJECT_CONFIGURATIONS_DTO_MOCK } from 'src/mocks/ProjectConfigurations
 })
 export class PopUpProjectConfigurationComponent implements OnInit {
 
-  configurationsToSave: ProjectConfigurationsDto = PROJECT_CONFIGURATIONS_DTO_MOCK;
-
-  constructor(private projectService: ProjectService) { }
+  constructor(private ProjectService: ProjectService) { }
 
   ngOnInit(): void {
 
   }
 
-  public onSave() {
-
-    this.projectService.postProjectConfigurations(this.configurationsToSave).subscribe(
-      (response: boolean) => {
-        console.log(response)
-      }, (error: any) => {
-        console.log(error);
-      }, () => {
-        console.log('completed')
-      }
+  public onSave(): void {
+    //TODO implement
+    const configurationsToSave: ProjectConfigurationsDto = PROJECT_CONFIGURATIONS_DTO_MOCK;
+    this.ProjectService.postProjectConfigurations(configurationsToSave).subscribe(
+      (response: boolean) => { console.log('to implement') }
     );
 
-    this.projectService.getProjectConfigurations().subscribe(
-      (response: ProjectConfigurationsDto) => {
-        console.log(response)
-      }, (error: any) => {
-        console.log(error);
-      }, () => {
-        console.log('completed too')
-      }
+  }
+
+  public onOpenProjectSummary(): void {
+    //TODO implement
+    this.ProjectService.getProjectConfigurations().subscribe(
+      (response: ProjectConfigurationsDto) => { console.log('to implement') }
     );
 
   }

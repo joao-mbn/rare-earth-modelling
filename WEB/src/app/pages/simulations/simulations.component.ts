@@ -1,9 +1,9 @@
 import { SimulationTableDto } from './../../classes/DTOs/SimulationTableDto';
-import { SimulationDto } from './../../classes/DTOs/SimulationDto';
+import { IsothermSimulationDto } from '../../classes/DTOs/IsothermSimulationDto';
 import { SingleElementMcCabeThieleChart } from '../../classes/SingleElementMcCabeThieleChart';
 import { SingleElementDto } from '../../classes/DTOs/SingleElementDto';
 import { SingleElementDataSet } from '../../classes/SingleElementDataSet';
-import { SimulationsService } from '../../services/simulations.service';
+import { IsothermService } from '../../services/isotherm.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
@@ -33,7 +33,7 @@ export class SimulationsComponent implements OnInit {
   public simulationTableRows!: { [key: string]: number }[];
   public simulationTableColumns: string[] = [];
 
-  constructor(private SimulationsService: SimulationsService) {
+  constructor(private IsothermService: IsothermService) {
 
   }
 
@@ -51,8 +51,8 @@ export class SimulationsComponent implements OnInit {
 
   private getSimulationData(): void {
 
-    this.SimulationsService.getSimulations().subscribe(
-      (response: SimulationDto) => {
+    this.IsothermService.getSimulations().subscribe(
+      (response: IsothermSimulationDto) => {
 
         this.simulationChartData = response.simulationChartDto;
         this.mcCabeThieleChartsKeys = Object.keys(this.simulationChartData);
@@ -149,7 +149,7 @@ export class SimulationsComponent implements OnInit {
         this.aorInputValue = eventTargetValue;
     }
 
-    this.SimulationsService.postSimulations({
+    this.IsothermService.postSimulations({
       pH: this.pHInputValue,
       aor: this.aorInputValue,
       numberCells: this.numberCellsInputValue
