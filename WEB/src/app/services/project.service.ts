@@ -3,7 +3,7 @@ import { API_URL } from './apiUrl';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ProjectSimulationResultsDto } from '../classes/DTOs/ProjectSimulationResultsDto';
+import { ProjectSimulationDto } from '../classes/DTOs/ProjectSimulationDto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +29,9 @@ export class ProjectService {
     return this.httpClient.get<ProjectConfigurationsDto[]>(this.PROJECT_URL + endPoint);
   }
 
-  public runProjectsSimulation(projectsConfigurationsDto: ProjectConfigurationsDto[]): Observable<ProjectSimulationResultsDto[]> {
+  public runProjectsSimulation(projectsConfigurationsDto: ProjectConfigurationsDto[]): Observable<ProjectSimulationDto[]> {
     const endPoint = 'simulate-project/';
-    return this.httpClient.post<ProjectSimulationResultsDto[]>(this.PROJECT_URL + endPoint, projectsConfigurationsDto);
+    return this.httpClient.post<ProjectSimulationDto[]>(this.PROJECT_URL + endPoint, projectsConfigurationsDto);
   }
 
 }

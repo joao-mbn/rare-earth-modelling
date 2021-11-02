@@ -1,3 +1,5 @@
+import { ProjectSimulationDto } from '../../classes/DTOs/ProjectSimulationDto';
+import { IsothermSimulationDto } from './../../classes/DTOs/IsothermSimulationDto';
 import { IsothermService } from './../../services/isotherm.service';
 import { ProjectConfigurationsDto } from './../../classes/DTOs/ProjectConfigurationsDto';
 import { ProjectService } from './../../services/project.service';
@@ -11,9 +13,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PannelOperationComponent implements OnInit {
 
   // insert from parent page project or isotherm @Input() isIsotherm!: boolean;
+  // insert from parent page isotherm @Input() operation variables: boolean;
   // TODO get proper @Input
   isIsotherm = true;
   loadedProjects!: ProjectConfigurationsDto[];
+  operationVariables!: number[];
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
@@ -24,9 +28,13 @@ export class PannelOperationComponent implements OnInit {
   public onRunSimulation(): void {
     //TODO implement
     if (this.isIsotherm) {
-      // run simulation from isotherm service
+      this.IsothermService.runIsothermSimulation(this.loadedProjects[0], this.operationVariables).subscribe(
+        (response: IsothermSimulationDto) => { } // TODO implement
+      )
     } else {
-      // run simulation from project service
+      this.ProjectService.runProjectsSimulation(this.loadedProjects).subscribe(
+        (response: ProjectSimulationDto) => { } // TODO implement
+      )
     }
   }
 
