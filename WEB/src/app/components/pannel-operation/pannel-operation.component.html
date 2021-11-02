@@ -1,4 +1,8 @@
 <div>
-  <app-button-run (runSimulationEvent)="onRunSimulation()"></app-button-run>
-  <app-button-create-new-project (createNewProjectEvent)="onCreateNewProject()"></app-button-create-new-project>
+  <app-button (clickEvent)="onRunSimulation()" [buttonName]="'Run'"></app-button>
+  <app-button (clickEvent)="onCreateNewProject()" [buttonName]="'Create New Project'"></app-button>
+
+  <div class="operation-variables-switchers-container">
+
+  </div>
 </div>

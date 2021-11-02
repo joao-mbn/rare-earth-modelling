@@ -1,3 +1,4 @@
+import { ComponentsModule } from './../components/components.module';
 import { SimulationsComponent } from './simulations/simulations.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
@@ -16,7 +17,8 @@ import { ExternalModule } from '../external.module';
   ],
   imports: [
     CommonModule,
-    ExternalModule
+    ExternalModule,
+    ComponentsModule
   ],
   exports: [
     FooterComponent,
