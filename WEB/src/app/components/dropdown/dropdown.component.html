@@ -1,1 +1,8 @@
-<p>dropdown works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>{{label}}</mat-label>
+  <mat-select>
+    <mat-option (onSelectionChange)="onSelect(option)" *ngFor="let option of options" [value]="option">
+      {{option}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

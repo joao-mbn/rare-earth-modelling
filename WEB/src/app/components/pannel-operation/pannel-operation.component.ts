@@ -4,6 +4,7 @@ import { IsothermService } from './../../services/isotherm.service';
 import { ProjectConfigurationsDto } from './../../classes/DTOs/ProjectConfigurationsDto';
 import { ProjectService } from './../../services/project.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { CONCENTRATION_UOM_LIST_MOCK } from 'src/mocks/concentrationUomListMock';
 
 @Component({
   selector: 'app-pannel-operation',
@@ -18,6 +19,9 @@ export class PannelOperationComponent implements OnInit {
   isIsotherm = true;
   loadedProjects!: ProjectConfigurationsDto[];
   operationVariables!: number[];
+
+  concentrationUomOptions = CONCENTRATION_UOM_LIST_MOCK;
+  chosenConcentrationUom?: string;
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
@@ -49,6 +53,11 @@ export class PannelOperationComponent implements OnInit {
       (response: ProjectConfigurationsDto[]) => { } //TODO implement)
     );
 
+  }
+
+  public onSelectConcentrationUom(event: string | number): void {
+
+    this.chosenConcentrationUom = event as string;
   }
 
 }

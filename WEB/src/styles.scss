@@ -5,4 +5,7 @@ $light-green: rgb(135, 214, 135);
 $dark-green: rgb(52, 78, 52);
 
 
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

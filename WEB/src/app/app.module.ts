@@ -6,7 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { ExternalModule } from './external.module';
 import { ServicesModule } from './services/services.module';
 import { DirectivesModule } from './directives/directives.module';
 import { PagesModule } from './pages/pages.module';

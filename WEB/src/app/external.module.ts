@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
+import { PlotlyModule } from 'angular-plotly.js';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
-import { PlotlyModule } from 'angular-plotly.js';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -10,12 +11,14 @@ import { PlotlyModule } from 'angular-plotly.js';
     CommonModule,
     MatTabsModule,
     MatTableModule,
+    MatSelectModule,
     PlotlyModule
   ],
   exports: [
     CommonModule,
     MatTabsModule,
     MatTableModule,
+    MatSelectModule,
     PlotlyModule
   ]
 })

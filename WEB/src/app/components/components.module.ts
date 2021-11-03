@@ -1,3 +1,4 @@
+import { ExternalModule } from './../external.module';
 import { PopUpProjectConfigurationComponent } from './pop-up-project-configuration/pop-up-project-configuration.component';
 import { PannelOperationComponent } from './pannel-operation/pannel-operation.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     CommonModule,
+    ExternalModule
   ],
   exports: [
     ButtonComponent,

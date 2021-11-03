@@ -1,4 +1,7 @@
 <div>
+  <app-dropdown [label]="'choose your uom...'" [options]="concentrationUomOptions"
+    (onSelectEvent)="onSelectConcentrationUom($event)"></app-dropdown>
+
   <app-button (clickEvent)="onRunSimulation()" [buttonName]="'Run'"></app-button>
   <app-button (clickEvent)="onCreateNewProject()" [buttonName]="'Create New Project'"></app-button>
 
