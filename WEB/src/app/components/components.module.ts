@@ -3,6 +3,7 @@ import { PopUpProjectConfigurationComponent } from './pop-up-project-configurati
 import { PannelOperationComponent } from './pannel-operation/pannel-operation.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { ButtonComponent } from './button/button.component';
+import { SliderComponent } from './slider/slider.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +13,8 @@ import { CommonModule } from '@angular/common';
     ButtonComponent,
     DropdownComponent,
     PannelOperationComponent,
-    PopUpProjectConfigurationComponent
+    PopUpProjectConfigurationComponent,
+    SliderComponent
   ],
   imports: [
     CommonModule,

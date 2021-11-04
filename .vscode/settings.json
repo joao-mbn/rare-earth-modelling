@@ -1,5 +1,5 @@
 {
-    "editor.fontFamily": "Victor Mono Regular, 'Courier New', monospace",
+    "editor.fontFamily": "Victor Mono , 'Courier New', monospace",
     "editor.fontLigatures": true,
     "git.ignoreLimitWarning": true,
     "editor.formatOnSave": true,

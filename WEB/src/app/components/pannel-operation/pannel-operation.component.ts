@@ -1,9 +1,11 @@
+import { ParamsToSlider } from '../../classes/ParamsToSlider';
 import { ProjectSimulationDto } from '../../classes/DTOs/ProjectSimulationDto';
 import { IsothermSimulationDto } from './../../classes/DTOs/IsothermSimulationDto';
 import { IsothermService } from './../../services/isotherm.service';
 import { ProjectConfigurationsDto } from './../../classes/DTOs/ProjectConfigurationsDto';
 import { ProjectService } from './../../services/project.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { PARAMS_TO_SLIDER_MOCK } from '../../../mocks/paramsToSliderMock';
 import { CONCENTRATION_UOM_LIST_MOCK } from 'src/mocks/concentrationUomListMock';
 
 @Component({
@@ -22,6 +24,10 @@ export class PannelOperationComponent implements OnInit {
 
   concentrationUomOptions = CONCENTRATION_UOM_LIST_MOCK;
   chosenConcentrationUom?: string;
+
+  //@Input()
+  operationVariablesToSlider: ParamsToSlider[] = [PARAMS_TO_SLIDER_MOCK];
+  paramsToSlider: ParamsToSlider = PARAMS_TO_SLIDER_MOCK;
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
@@ -58,6 +64,14 @@ export class PannelOperationComponent implements OnInit {
   public onSelectConcentrationUom(event: string | number): void {
 
     this.chosenConcentrationUom = event as string;
+
+  }
+
+  public onChangeSliderValue(params: ParamsToSlider): void {
+
+    const valueToUpdateIndex = this.operationVariablesToSlider.findIndex(operationVariable => operationVariable.propertyName === params.propertyName);
+    this.operationVariablesToSlider[valueToUpdateIndex].value = params.value;
+
   }
 
 }

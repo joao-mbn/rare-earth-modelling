@@ -6,6 +6,6 @@
   <app-button (clickEvent)="onCreateNewProject()" [buttonName]="'Create New Project'"></app-button>
 
   <div class="operation-variables-switchers-container">
-
+    <app-slider [params]="paramsToSlider" (changeValueEvent)="onChangeSliderValue($event)"></app-slider>
   </div>
 </div>

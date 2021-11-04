@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [],
@@ -12,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
+    MatSliderModule,
     PlotlyModule
   ],
   exports: [
@@ -19,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
+    MatSliderModule,
     PlotlyModule
   ]
 })
