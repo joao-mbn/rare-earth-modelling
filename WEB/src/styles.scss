@@ -1,11 +1,11 @@
-$light-grey: rgb(201, 201, 201);
-$medium-grey: rgb(161, 161, 161);
-$dark-grey: rgb(53, 53, 53);
-$light-green: rgb(135, 214, 135);
-$dark-green: rgb(52, 78, 52);
+/* @use "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+/* @use '~@ng-matero/extensions' as mtx; */
+
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* @include mtx.all-component-themes($theme);
+@include mtx.all-experimental-component-themes($theme); */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

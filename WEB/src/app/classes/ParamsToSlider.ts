@@ -4,6 +4,6 @@ export class ParamsToSlider {
   min!: number;
   max!: number;
   step!: number;
-  value!: number | null
+  value!: number | number[] | null;
 
 }

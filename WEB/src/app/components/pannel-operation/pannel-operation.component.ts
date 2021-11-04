@@ -1,3 +1,4 @@
+import { PARAMS_TO_RANGE_SLIDER_MOCK } from './../../../mocks/paramsToSliderMock';
 import { ParamsToSlider } from '../../classes/ParamsToSlider';
 import { ProjectSimulationDto } from '../../classes/DTOs/ProjectSimulationDto';
 import { IsothermSimulationDto } from './../../classes/DTOs/IsothermSimulationDto';
@@ -28,6 +29,7 @@ export class PannelOperationComponent implements OnInit {
   //@Input()
   operationVariablesToSlider: ParamsToSlider[] = [PARAMS_TO_SLIDER_MOCK];
   paramsToSlider: ParamsToSlider = PARAMS_TO_SLIDER_MOCK;
+  paramsToRangeSlider: ParamsToSlider = PARAMS_TO_RANGE_SLIDER_MOCK;
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
