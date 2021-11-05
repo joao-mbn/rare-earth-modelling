@@ -6,6 +6,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MtxSliderModule } from '@ng-matero/extensions/slider';
+import { } from '@angular/material/core';
 
 
 @NgModule({
