@@ -1,8 +1,19 @@
-<mat-slider *ngIf="!isRangeSlider(); else isRanged" [min]="params.min" [max]="params.max" [step]="params.step"
-  [(value)]="value" (change)="onChangeValue()" thumbLabel="true">
+<mat-slider *ngIf="!isRangeSlider(); else isRanged"
+            [min]="params.min"
+            [max]="params.max"
+            [step]="params.step"
+            [(value)]="value"
+            (change)="onChangeValue()"
+            thumbLabel="true">
 </mat-slider>
 
 <ng-template #isRanged>
-  <mtx-slider min="0" max="2" step="0.1" [(value)]="rangedValue" thumbLabel="true" mat-slider>
-  </mtx-slider>
+  <div style="display: flex; width: 100%">
+    <mat-range-slider [min]="params.min"
+                      [max]="params.max"
+                      [step]="params.step"
+                      thumbLabel="true"
+                      [(ngModel)]="rangeValue">
+    </mat-range-slider>
+  </div>
 </ng-template>

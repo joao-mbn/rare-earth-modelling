@@ -1,22 +1,23 @@
 @use '@angular/material' as mat;
-/* @use '~@ng-matero/extensions' as mtx; */
 
 @include mat.core();
 
-$my-primary: mat.define-palette(mat.$indigo-palette, 500);
-$my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$primary: mat.define-palette(mat.$indigo-palette, 500);
+$accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
-$my-theme: mat.define-light-theme((
+$theme: mat.define-light-theme((
  color: (
-   primary: $my-primary,
-   accent: $my-accent,
+   primary: $primary,
+   accent: $accent,
  )
 ));
 
-@include mat.all-component-themes($my-theme);
-
-/* @include mtx.all-component-themes($theme);
-@include mtx.all-experimental-component-themes($theme); */
+@include mat.all-component-themes($theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.slider {
+  position: relative;
+}

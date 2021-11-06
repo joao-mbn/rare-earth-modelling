@@ -4,9 +4,11 @@ import { PannelOperationComponent } from './pannel-operation/pannel-operation.co
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { ButtonComponent } from './button/button.component';
 import { SliderComponent } from './slider/slider.component';
+import { MatRangeSliderComponent } from './range-slider/mat-range-slider.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,14 @@ import { CommonModule } from '@angular/common';
     DropdownComponent,
     PannelOperationComponent,
     PopUpProjectConfigurationComponent,
-    SliderComponent
+    SliderComponent,
+    MatRangeSliderComponent
   ],
   imports: [
     CommonModule,
-    ExternalModule
+    ExternalModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ButtonComponent,

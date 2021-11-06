@@ -2,6 +2,8 @@ import { ProjectService } from './../../services/project.service';
 import { Component, OnInit } from '@angular/core';
 import { ProjectConfigurationsDto } from 'src/app/classes/DTOs/ProjectConfigurationsDto';
 import { PROJECT_CONFIGURATIONS_DTO_MOCK } from 'src/mocks/ProjectConfigurationsDtoMock';
+import { PARAMS_TO_RANGE_SLIDER_MOCK } from 'src/mocks/paramsToSliderMock';
+import { ParamsToSlider } from 'src/app/classes/ParamsToSlider';
 
 @Component({
   selector: 'app-pop-up-project-configuration',
@@ -11,6 +13,8 @@ import { PROJECT_CONFIGURATIONS_DTO_MOCK } from 'src/mocks/ProjectConfigurations
 export class PopUpProjectConfigurationComponent implements OnInit {
 
   constructor(private ProjectService: ProjectService) { }
+
+  paramsToRangeSlider: ParamsToSlider = PARAMS_TO_RANGE_SLIDER_MOCK;
 
   ngOnInit(): void {
 

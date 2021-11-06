@@ -5,8 +5,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { MtxSliderModule } from '@ng-matero/extensions/slider';
-import { } from '@angular/material/core';
 
 
 @NgModule({
@@ -17,7 +15,6 @@ import { } from '@angular/material/core';
     MatTableModule,
     MatSelectModule,
     MatSliderModule,
-    MtxSliderModule,
     PlotlyModule
   ],
   exports: [
@@ -26,7 +23,6 @@ import { } from '@angular/material/core';
     MatTableModule,
     MatSelectModule,
     MatSliderModule,
-    MtxSliderModule,
     PlotlyModule
   ]
 })

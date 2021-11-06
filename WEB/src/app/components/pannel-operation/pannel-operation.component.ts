@@ -29,7 +29,6 @@ export class PannelOperationComponent implements OnInit {
   //@Input()
   operationVariablesToSlider: ParamsToSlider[] = [PARAMS_TO_SLIDER_MOCK];
   paramsToSlider: ParamsToSlider = PARAMS_TO_SLIDER_MOCK;
-  paramsToRangeSlider: ParamsToSlider = PARAMS_TO_RANGE_SLIDER_MOCK;
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 

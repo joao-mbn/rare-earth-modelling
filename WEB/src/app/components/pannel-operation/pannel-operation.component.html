@@ -1,12 +1,12 @@
 <div>
   <app-dropdown [label]="'choose your uom...'" [options]="concentrationUomOptions"
-    (onSelectEvent)="onSelectConcentrationUom($event)"></app-dropdown>
+                (onSelectEvent)="onSelectConcentrationUom($event)">
+  </app-dropdown>
 
   <app-button (clickEvent)="onRunSimulation()" [buttonName]="'Run'"></app-button>
   <app-button (clickEvent)="onCreateNewProject()" [buttonName]="'Create New Project'"></app-button>
 
   <div class="operation-variables-switchers-container">
-    <app-slider [params]="paramsToSlider" (changeValueEvent)="onChangeSliderValue($event)"></app-slider>
-    <app-slider [params]="paramsToRangeSlider" (changeValueEvent)="onChangeSliderValue($event)"></app-slider>
+    <app-slider class="slider" [params]="paramsToSlider" (changeValueEvent)="onChangeSliderValue($event)"></app-slider>
   </div>
 </div>
