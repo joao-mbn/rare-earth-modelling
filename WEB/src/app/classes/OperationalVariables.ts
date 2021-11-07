@@ -1,6 +1,7 @@
-export class ParamsToSlider {
+export class OperationalVariables {
 
-  propertyName!: string;
+  name!: string;
+  shortString!: string
   min!: number;
   max!: number;
   step!: number;

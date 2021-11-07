@@ -1,9 +1,9 @@
-import { ProjectConfigurationsDto } from './../classes/DTOs/ProjectConfigurationsDto';
+import { ProjectConfigurations } from './../classes/ProjectConfigurations';
+import { ProjectSimulationResults } from '../classes/ProjectSimulationResults';
 import { API_URL } from './apiUrl';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { ProjectSimulationDto } from '../classes/DTOs/ProjectSimulationDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +14,19 @@ export class ProjectService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public postProjectConfigurations(projectConfigurationsDto: ProjectConfigurationsDto): Observable<boolean> {
-    const endPoint = 'post-configurations/';
-    return this.httpClient.post<boolean>(this.PROJECT_URL + endPoint, projectConfigurationsDto);
+  public postProjectConfigurations(projectConfigurations: ProjectConfigurations): Observable<boolean> {
+    const endPoint = 'post-project-configurations/';
+    return this.httpClient.post<boolean>(this.PROJECT_URL + endPoint, projectConfigurations);
   }
 
-  public getProjectConfigurations(): Observable<ProjectConfigurationsDto> {
-    const endPoint = 'get-configurations/';
-    return this.httpClient.get<ProjectConfigurationsDto>(this.PROJECT_URL + endPoint);
-  }
-
-  public getProjects(): Observable<ProjectConfigurationsDto[]> {
+  public getProjects(): Observable<ProjectConfigurations[]> {
     const endPoint = 'get-projects/';
-    return this.httpClient.get<ProjectConfigurationsDto[]>(this.PROJECT_URL + endPoint);
+    return this.httpClient.get<ProjectConfigurations[]>(this.PROJECT_URL + endPoint);
   }
 
-  public runProjectsSimulation(projectsConfigurationsDto: ProjectConfigurationsDto[]): Observable<ProjectSimulationDto[]> {
+  public runProjectsSimulation(projectsConfigurations: ProjectConfigurations[]): Observable<ProjectSimulationResults[]> {
     const endPoint = 'simulate-project/';
-    return this.httpClient.post<ProjectSimulationDto[]>(this.PROJECT_URL + endPoint, projectsConfigurationsDto);
+    return this.httpClient.post<ProjectSimulationResults[]>(this.PROJECT_URL + endPoint, projectsConfigurations);
   }
 
 }

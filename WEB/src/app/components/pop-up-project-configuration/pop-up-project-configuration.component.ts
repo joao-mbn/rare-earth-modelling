@@ -1,9 +1,8 @@
-import { ProjectService } from './../../services/project.service';
 import { Component, OnInit } from '@angular/core';
-import { ProjectConfigurationsDto } from 'src/app/classes/DTOs/ProjectConfigurationsDto';
-import { PROJECT_CONFIGURATIONS_DTO_MOCK } from 'src/mocks/ProjectConfigurationsDtoMock';
-import { PARAMS_TO_RANGE_SLIDER_MOCK } from 'src/mocks/paramsToSliderMock';
-import { ParamsToSlider } from 'src/app/classes/ParamsToSlider';
+import { ProjectService } from './../../services/project.service';
+import { OPERATIONAL_VARIABLES_RANGE, PROJECT_CONFIGURATIONS } from './../../../mocks/mocks';
+import { ProjectConfigurations } from './../../classes/ProjectConfigurations';
+import { OperationalVariables } from './../../classes/OperationalVariables';
 
 @Component({
   selector: 'app-pop-up-project-configuration',
@@ -12,9 +11,9 @@ import { ParamsToSlider } from 'src/app/classes/ParamsToSlider';
 })
 export class PopUpProjectConfigurationComponent implements OnInit {
 
-  constructor(private ProjectService: ProjectService) { }
+  constructor(private projectService: ProjectService) { }
 
-  paramsToRangeSlider: ParamsToSlider = PARAMS_TO_RANGE_SLIDER_MOCK;
+  paramsToRangeSlider: OperationalVariables = OPERATIONAL_VARIABLES_RANGE;
 
   ngOnInit(): void {
 
@@ -22,8 +21,10 @@ export class PopUpProjectConfigurationComponent implements OnInit {
 
   public onSave(): void {
     //TODO implement
-    const configurationsToSave: ProjectConfigurationsDto = PROJECT_CONFIGURATIONS_DTO_MOCK;
-    this.ProjectService.postProjectConfigurations(configurationsToSave).subscribe(
+
+    const configurationsToSave: ProjectConfigurations = PROJECT_CONFIGURATIONS;
+
+    this.projectService.postProjectConfigurations(configurationsToSave).subscribe(
       (response: boolean) => { console.log('to implement') }
     );
 
@@ -31,8 +32,8 @@ export class PopUpProjectConfigurationComponent implements OnInit {
 
   public onOpenProjectSummary(): void {
     //TODO implement
-    this.ProjectService.getProjectConfigurations().subscribe(
-      (response: ProjectConfigurationsDto) => { console.log('to implement') }
+    this.projectService.getProjects().subscribe(
+      (response: ProjectConfigurations[]) => { console.log('to implement') }
     );
 
   }

@@ -1,4 +1,4 @@
-import { ParamsToSlider } from '../../classes/ParamsToSlider';
+import { OperationalVariables } from '../../classes/OperationalVariables';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -8,8 +8,8 @@ import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class SliderComponent implements OnInit {
 
-  @Input() params!: ParamsToSlider;
-  @Output() changeValueEvent = new EventEmitter<ParamsToSlider>();
+  @Input() params!: OperationalVariables;
+  @Output() changeValueEvent = new EventEmitter<OperationalVariables>();
   value: number | null = 1;
   rangeValue: number[] | null = [0.5, 1.5];
 
@@ -37,8 +37,6 @@ export class SliderComponent implements OnInit {
   }
 
   public isRangeSlider(): boolean {
-
-    debugger
 
     return typeof (this.params.value) === 'object';
 

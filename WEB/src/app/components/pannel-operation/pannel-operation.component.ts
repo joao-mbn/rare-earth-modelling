@@ -1,13 +1,12 @@
-import { PARAMS_TO_RANGE_SLIDER_MOCK } from './../../../mocks/paramsToSliderMock';
-import { ParamsToSlider } from '../../classes/ParamsToSlider';
-import { ProjectSimulationDto } from '../../classes/DTOs/ProjectSimulationDto';
+import { OPERATIONAL_VARIABLES_RANGE_ARRAY } from './../../../mocks/mocks';
+import { OperationalVariables } from '../../classes/OperationalVariables';
+import { ProjectSimulationResults } from '../../classes/ProjectSimulationResults';
 import { IsothermSimulationDto } from './../../classes/DTOs/IsothermSimulationDto';
 import { IsothermService } from './../../services/isotherm.service';
-import { ProjectConfigurationsDto } from './../../classes/DTOs/ProjectConfigurationsDto';
+import { ProjectConfigurations } from './../../classes/ProjectConfigurations';
 import { ProjectService } from './../../services/project.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { PARAMS_TO_SLIDER_MOCK } from '../../../mocks/paramsToSliderMock';
-import { CONCENTRATION_UOM_LIST_MOCK } from 'src/mocks/concentrationUomListMock';
+import { OPERATIONAL_VARIABLES, CONCENTRATION_UOM_LIST } from '../../../mocks/mocks';
 
 @Component({
   selector: 'app-pannel-operation',
@@ -20,15 +19,15 @@ export class PannelOperationComponent implements OnInit {
   // insert from parent page isotherm @Input() operation variables: boolean;
   // TODO get proper @Input
   isIsotherm = true;
-  loadedProjects!: ProjectConfigurationsDto[];
-  operationVariables!: number[];
+  loadedProjects!: ProjectConfigurations[];
 
-  concentrationUomOptions = CONCENTRATION_UOM_LIST_MOCK;
+  concentrationUomOptions = CONCENTRATION_UOM_LIST;
   chosenConcentrationUom?: string;
 
   //@Input()
-  operationVariablesToSlider: ParamsToSlider[] = [PARAMS_TO_SLIDER_MOCK];
-  paramsToSlider: ParamsToSlider = PARAMS_TO_SLIDER_MOCK;
+  operationalVariables: OperationalVariables = OPERATIONAL_VARIABLES
+  paramsToSlider: OperationalVariables = OPERATIONAL_VARIABLES;
+  operationalVariablesToSlider: OperationalVariables[] = OPERATIONAL_VARIABLES_RANGE_ARRAY;
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
@@ -39,12 +38,12 @@ export class PannelOperationComponent implements OnInit {
   public onRunSimulation(): void {
     //TODO implement
     if (this.isIsotherm) {
-      this.IsothermService.runIsothermSimulation(this.loadedProjects[0], this.operationVariables).subscribe(
+      this.IsothermService.runIsothermSimulation(this.loadedProjects[0], this.operationalVariables).subscribe(
         (response: IsothermSimulationDto) => { } // TODO implement
       )
     } else {
       this.ProjectService.runProjectsSimulation(this.loadedProjects).subscribe(
-        (response: ProjectSimulationDto) => { } // TODO implement
+        (response: ProjectSimulationResults) => { } // TODO implement
       )
     }
   }
@@ -57,7 +56,7 @@ export class PannelOperationComponent implements OnInit {
   private loadProjects(): void {
 
     this.ProjectService.getProjects().subscribe(
-      (response: ProjectConfigurationsDto[]) => { } //TODO implement)
+      (response: ProjectConfigurations[]) => { } //TODO implement)
     );
 
   }
@@ -68,10 +67,10 @@ export class PannelOperationComponent implements OnInit {
 
   }
 
-  public onChangeSliderValue(params: ParamsToSlider): void {
+  public onChangeSliderValue(params: OperationalVariables): void {
 
-    const valueToUpdateIndex = this.operationVariablesToSlider.findIndex(operationVariable => operationVariable.propertyName === params.propertyName);
-    this.operationVariablesToSlider[valueToUpdateIndex].value = params.value;
+    const valueToUpdateIndex = this.operationalVariablesToSlider.findIndex(operationVariable => operationVariable.shortString === params.shortString);
+    this.operationalVariablesToSlider[valueToUpdateIndex].value = params.value;
 
   }
 

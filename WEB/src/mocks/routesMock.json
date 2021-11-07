@@ -1,4 +1,5 @@
 {
-  "/project/get-configurations/": "/get-configurations/",
-  "/project/post-configurations/": "/post-configurations/"
+  "/project/get-projects/": "/get-projects/",
+  "/project/simulate-project/": "/simulate-project/",
+  "/isotherm/simulate-isotherm/": "/simulate-isotherm/"
 }
