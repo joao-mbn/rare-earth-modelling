@@ -1,4 +1,4 @@
-import { OperationalVariables } from '../../classes/OperationalVariables';
+import { OperationalVariable } from '../../classes/OperationalVariable';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
@@ -8,10 +8,10 @@ import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class SliderComponent implements OnInit {
 
-  @Input() params!: OperationalVariables;
-  @Output() changeValueEvent = new EventEmitter<OperationalVariables>();
-  value: number | null = 1;
-  rangeValue: number[] | null = [0.5, 1.5];
+  @Input() params!: OperationalVariable;
+  @Output() changeValueEvent = new EventEmitter<OperationalVariable>();
+  value!: number | null;
+  rangeValue!: number[] | null;
 
   constructor() { }
 
@@ -28,9 +28,9 @@ export class SliderComponent implements OnInit {
   public onChangeValue(): void {
 
     if (this.isRangeSlider()) {
-      this.params.value = this.value;
-    } else {
       this.params.value = this.rangeValue;
+    } else {
+      this.params.value = this.value;
     }
     this.changeValueEvent.emit(this.params);
 

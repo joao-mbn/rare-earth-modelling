@@ -1,6 +1,6 @@
 import { ExternalModule } from './../external.module';
 import { PopUpProjectConfigurationComponent } from './pop-up-project-configuration/pop-up-project-configuration.component';
-import { PannelOperationComponent } from './pannel-operation/pannel-operation.component';
+import { PanelOperationComponent } from './panel-operation/panel-operation.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { ButtonComponent } from './button/button.component';
 import { SliderComponent } from './slider/slider.component';
@@ -14,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     ButtonComponent,
     DropdownComponent,
-    PannelOperationComponent,
+    PanelOperationComponent,
     PopUpProjectConfigurationComponent,
     SliderComponent,
     MatRangeSliderComponent
@@ -28,7 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   exports: [
     ButtonComponent,
     DropdownComponent,
-    PannelOperationComponent,
+    PanelOperationComponent,
     PopUpProjectConfigurationComponent
   ]
 })

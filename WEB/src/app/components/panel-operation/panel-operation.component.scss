@@ -1,0 +1,53 @@
+.panel {
+  width: 80%;
+  .panel-header {
+    .panel-title {
+      font-weight: 500;
+    }
+  }
+  .grid {
+    width: 100%;
+    .operation-variables-tile {
+      width: 50%;
+      .sliders-wrapper {
+        flex-direction: column;
+        min-width: 80%;
+        max-height: 70%;
+        justify-self: center;
+        .slider-wrapper {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          .slider {
+            width: 60%;
+          }
+        };
+      }
+    };
+    .upper-button-tile {
+      width: 50%;
+      .wrapper {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+      }
+    };
+    .lower-button-tile {
+      width: 50%;
+      .wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        .load-projects-dropdown {
+          padding: 0px 20px;
+        }
+      }
+    };
+  }
+}
+
+
+
+

@@ -3,7 +3,7 @@
     "name": "Dy/Ho P507 26%",
     "shortString": "dyho-p507-26",
     "summary": {
-      "operationalVariablesArray": [
+      "operationalVariables": [
         {
           "name": "pH",
           "shortString": "ph",

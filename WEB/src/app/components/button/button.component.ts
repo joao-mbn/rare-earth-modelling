@@ -9,6 +9,7 @@ export class ButtonComponent implements OnInit {
 
   @Output() clickEvent = new EventEmitter();
   @Input() buttonName?: string;
+  @Input() color?: string;
 
   constructor() { }
 

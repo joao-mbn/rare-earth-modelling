@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import * as mocks from '../mocks/mocks';
-
 import { ElementProperties } from './classes/ElementProperties';
 import { Material } from './classes/Material';
 import { MaterialType } from './classes/MaterialType';
-import { OperationalVariables } from './classes/OperationalVariables';
+import { OperationalVariable } from './classes/OperationalVariable';
 import { PhysChemProperty } from './classes/PhysChemProperty';
 import { Summary } from './classes/Summary';
 
@@ -24,7 +22,7 @@ export class AppComponent implements OnInit {
     const materialTypes: MaterialType[] = mocks.MATERIAL_TYPES;
     const economicVariables: Material[] = mocks.MATERIALS;
     const modelConstants: ElementProperties[] = mocks.MODEL_CONSTANTS;
-    const OperationalVariablesArray: OperationalVariables[] = mocks.OPERATIONAL_VARIABLES_RANGE_ARRAY;
+    const OperationalVariableArray: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES_RANGES;
     const summary: Summary = mocks.SUMMARY;
 
     console.log(JSON.stringify(mocks.PROJECT_CONFIGURATIONS));
@@ -32,7 +30,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.doConsoleLog();
+    /* this.doConsoleLog(); */
 
   }
 

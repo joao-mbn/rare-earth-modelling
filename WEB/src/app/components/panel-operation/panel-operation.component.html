@@ -1,0 +1,45 @@
+<mat-expansion-panel class="panel">
+
+  <mat-expansion-panel-header class="panel-header">
+    <mat-panel-title class="panel-title">
+      {{isIsotherm ? 'Isotherm' : 'Projects'}} Simulation Panel
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <mat-grid-list cols=7 rowHeight="8:1" class="grid">
+
+    <mat-grid-tile colspan="3" rowspan="4" class="upper-button-tile">
+      <div class="wrapper">
+        <app-button (clickEvent)="onRunSimulation()" [buttonName]="'Run'" color="accent" class="run-button">
+        </app-button>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile class="operation-variables-tile" colspan="4" rowspan="8">
+      <div class="sliders-wrapper">
+        <div class="slider-wrapper" *ngFor="let variable of operationalVariables">
+          <label for="slider" class="slider-label">{{variable.name}}</label>
+          <app-slider class="slider" [params]="variable" (changeValueEvent)="onChangeSliderValue($event)">
+          </app-slider>
+          <label for="slider" class="slider-label">{{variable.value}}</label>
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="3" rowspan="4" class="lower-button-tile">
+      <div class="wrapper">
+        <app-button (clickEvent)="onCreateNewProject()"
+                    [buttonName]="'Create New Project'"
+                    class="create-new-project-button">
+        </app-button>
+        <app-dropdown [label]="'Load Existing Project...'"
+                      [options]="projectsNames"
+                      (onSelectEvent)="onSelectProject($event)"
+                      class="load-projects-dropdown">
+        </app-dropdown>
+      </div>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+
+</mat-expansion-panel>

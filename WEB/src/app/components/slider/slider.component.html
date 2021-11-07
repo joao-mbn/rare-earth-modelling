@@ -1,4 +1,5 @@
-<mat-slider *ngIf="!isRangeSlider(); else isRanged"
+<mat-slider class="slider"
+            *ngIf="!isRangeSlider(); else isRanged"
             [min]="params.min"
             [max]="params.max"
             [step]="params.step"

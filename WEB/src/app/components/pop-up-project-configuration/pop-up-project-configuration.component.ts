@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from './../../services/project.service';
-import { OPERATIONAL_VARIABLES_RANGE, PROJECT_CONFIGURATIONS } from './../../../mocks/mocks';
+import { OPERATIONAL_VARIABLE_RANGE, PROJECT_CONFIGURATIONS } from './../../../mocks/mocks';
 import { ProjectConfigurations } from './../../classes/ProjectConfigurations';
-import { OperationalVariables } from './../../classes/OperationalVariables';
+import { OperationalVariable } from './../../classes/OperationalVariable';
 
 @Component({
   selector: 'app-pop-up-project-configuration',
@@ -13,7 +13,7 @@ export class PopUpProjectConfigurationComponent implements OnInit {
 
   constructor(private projectService: ProjectService) { }
 
-  paramsToRangeSlider: OperationalVariables = OPERATIONAL_VARIABLES_RANGE;
+  paramsToRangeSlider: OperationalVariable = OPERATIONAL_VARIABLE_RANGE;
 
   ngOnInit(): void {
 

@@ -1,4 +1,4 @@
-export class OperationalVariables {
+export class OperationalVariable {
 
   name!: string;
   shortString!: string

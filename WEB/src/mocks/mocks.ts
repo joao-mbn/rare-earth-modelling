@@ -1,21 +1,21 @@
 export const CONCENTRATION_UOM_LIST = ['mol/L Oxide', 'g/L Oxide', 'mol/L Element', 'g/L Element'];
 
-export const OPERATIONAL_VARIABLES = {
+export const OPERATIONAL_VARIABLE = {
   name: 'pH', shortString: 'ph', min: 0, max: 2, step: 0.1, value: 0.5
 };
 
-export const OPERATIONAL_VARIABLES_RANGE = {
+export const OPERATIONAL_VARIABLE_RANGE = {
   name: 'pH', shortString: 'ph', min: 0, max: 2, step: 0.1, value: [0.5, 1.5]
 };
 
-export const OPERATIONAL_VARIABLES_ARRAY = [
-  OPERATIONAL_VARIABLES,
+export const OPERATIONAL_VARIABLES = [
+  OPERATIONAL_VARIABLE,
   { name: 'A/O Ratio', shortString: 'aor', min: 0.5, max: 2.5, step: 0.1, value: 1.5 },
   { name: 'Number of Cells', shortString: 'cellsNumber', min: 2, max: 40, step: 1, value: 20 },
 ];
 
-export const OPERATIONAL_VARIABLES_RANGE_ARRAY = [
-  OPERATIONAL_VARIABLES_RANGE,
+export const OPERATIONAL_VARIABLES_RANGES = [
+  OPERATIONAL_VARIABLE_RANGE,
   { name: 'A/O Ratio', shortString: 'aor', min: 0.5, max: 2.5, step: 0.1, value: [1.0, 2.0] },
   { name: 'Number of Cells', shortString: 'cellsNumber', min: 2, max: 40, step: 1, value: [10, 35] },
 ];
@@ -70,7 +70,7 @@ export const MATERIAL_TYPES = [
 ];
 
 export const SUMMARY = {
-  operationalVariablesArray: OPERATIONAL_VARIABLES_RANGE_ARRAY,
+  operationalVariables: OPERATIONAL_VARIABLES_RANGES,
   modelConstants: MODEL_CONSTANTS,
   economicVariables: MATERIALS,
   materialTypes: MATERIAL_TYPES,
@@ -91,5 +91,5 @@ export const PROJECTS_CONFIGURATIONS = [
 
 export const ISOTHERM_CONFIGURATION = {
   project: PROJECT_CONFIGURATIONS,
-  operationalVariables: OPERATIONAL_VARIABLES_ARRAY
+  operationalVariable: OPERATIONAL_VARIABLES
 };
