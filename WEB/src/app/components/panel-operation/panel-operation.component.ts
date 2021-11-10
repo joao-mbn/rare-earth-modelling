@@ -61,12 +61,6 @@ export class PanelOperationComponent implements OnInit {
     this.projectsNames = this.projectConfigurations.map(project => project.name);
   }
 
-  public onSelectConcentrationUom(uom: string | number): void {
-
-    this.chosenConcentrationUom = uom as string;
-
-  }
-
   public onSelectProject(selectedProject: string | number): void {
     //TODO implement
   }
@@ -76,6 +70,19 @@ export class PanelOperationComponent implements OnInit {
     const valueToUpdateIndex = this.operationalVariables.findIndex(operationVariable => operationVariable.shortString === params.shortString);
     this.operationalVariables[valueToUpdateIndex].value = params.value;
 
+  }
+
+  public onConfigureProject(projectName: string): void {
+    //TODO Implement
+  }
+
+  public onDismissProject(projectName: string): void {
+    //TODO Implement
+  }
+
+  public onDeleteProject(projectName: string): void {
+    //TODO Implement
+    //projectName: stringmissing delete service
   }
 
 }

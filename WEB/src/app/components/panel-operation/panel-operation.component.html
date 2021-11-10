@@ -10,13 +10,13 @@
 
     <mat-grid-tile colspan="3" rowspan="4" class="upper-button-tile">
       <div class="wrapper">
-        <app-button (clickEvent)="onRunSimulation()" [buttonName]="'Run'" color="accent" class="run-button">
+        <app-button (clickEvent)="onRunSimulation()" buttonName="Run" color="accent" class="run-button">
         </app-button>
       </div>
     </mat-grid-tile>
 
     <mat-grid-tile class="operation-variables-tile" colspan="4" rowspan="8">
-      <div class="sliders-wrapper">
+      <div *ngIf="isIsotherm" class="sliders-wrapper">
         <div class="slider-wrapper" *ngFor="let variable of operationalVariables">
           <label for="slider" class="slider-label">{{variable.name}}</label>
           <app-slider class="slider" [params]="variable" (changeValueEvent)="onChangeSliderValue($event)">
@@ -29,7 +29,7 @@
     <mat-grid-tile colspan="3" rowspan="4" class="lower-button-tile">
       <div class="wrapper">
         <app-button (clickEvent)="onCreateNewProject()"
-                    [buttonName]="'Create New Project'"
+                    buttonName="Create New Project"
                     class="create-new-project-button">
         </app-button>
         <app-dropdown [label]="'Load Existing Project...'"
@@ -41,5 +41,16 @@
     </mat-grid-tile>
 
   </mat-grid-list>
+
+  <mat-expansion-panel class="panel" *ngFor="let projectName of projectsNames">
+    <mat-expansion-panel-header class="panel-header">
+      <mat-panel-title class="panel-title">{{projectName}}</mat-panel-title>
+      <mat-panel-description>
+        <app-button (clickEvent)="onConfigureProject(projectName)" buttonName="Config" class="button configure-button"></app-button>
+        <app-button (clickEvent)="onDismissProject(projectName)" buttonName="Dismiss" class="button dismiss-button"></app-button>
+        <app-button (clickEvent)="onDeleteProject(projectName)" buttonName="Delete" class="button delete-button" color="accent"></app-button>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
 
 </mat-expansion-panel>
