@@ -4,7 +4,7 @@ import { IsothermSimulationDto } from '../../classes/DTOs/IsothermSimulationDto'
 import { IsothermService } from '../../services/isotherm.service';
 import { ProjectConfigurations } from '../../classes/ProjectConfigurations';
 import { ProjectService } from '../../services/project.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, TrackByFunction } from '@angular/core';
 import * as mocks from '../../../mocks/mocks';
 
 @Component({
@@ -26,7 +26,7 @@ export class PanelOperationComponent implements OnInit {
   operationalVariable: OperationalVariable = mocks.OPERATIONAL_VARIABLE
   operationalVariables: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES;
   projectConfigurations: ProjectConfigurations[] = mocks.PROJECTS_CONFIGURATIONS;
-  projectsNames!: string[];
+  projectsNamesOnDropdown!: string[];
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
@@ -58,31 +58,38 @@ export class PanelOperationComponent implements OnInit {
       (response: ProjectConfigurations[]) => {
       } //TODO implement)
     );
-    this.projectsNames = this.projectConfigurations.map(project => project.name);
-  }
-
-  public onSelectProject(selectedProject: string | number): void {
-    //TODO implement
+    this.projectsNamesOnDropdown = this.projectConfigurations.map((project) => project.name);
   }
 
   public onChangeSliderValue(params: OperationalVariable): void {
-
     const valueToUpdateIndex = this.operationalVariables.findIndex(operationVariable => operationVariable.shortString === params.shortString);
     this.operationalVariables[valueToUpdateIndex].value = params.value;
-
   }
 
-  public onConfigureProject(projectName: string): void {
+  public onSelectProject(selectedProject: string | number): void {
+    //usar a propriedade projectConfigurations e o atributo selected
+    const selectProjectIndex = this.projectsNamesOnDropdown.indexOf(selectedProject as string);
+    this.projectsNamesOnDropdown.splice(selectProjectIndex, 1);
+  }
+
+  public onDismissProject(projectConfigurations: ProjectConfigurations): void {
+    //usar a propriedade projectConfigurations e o atributo selected
+    /* const unselectProjectIndex = this.selectedProjects.indexOf(unSelectedProject);
+    this.selectedProjects.splice(unselectProjectIndex, 1);
+    this.projectsNamesOnDropdown.push(unSelectedProject); */
+  }
+
+  public onConfigureProject(projectConfigurations: ProjectConfigurations): void {
     //TODO Implement
   }
 
-  public onDismissProject(projectName: string): void {
+  public onDeleteProject(projectConfigurations: ProjectConfigurations): void {
     //TODO Implement
+    //projectName: missing delete service
   }
 
-  public onDeleteProject(projectName: string): void {
-    //TODO Implement
-    //projectName: stringmissing delete service
+  public trackSelectedProject(index: number, project: { id: number, name: string }): number {
+    return project.id;
   }
 
 }

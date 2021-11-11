@@ -80,13 +80,14 @@ export const SUMMARY = {
 
 export const PROJECT_CONFIGURATIONS = {
   name: 'Dy/Ho P507 26%',
+  id: 1,
   shortString: 'dyho-p507-26',
   summary: SUMMARY
 };
 
 export const PROJECTS_CONFIGURATIONS = [
   PROJECT_CONFIGURATIONS,
-  { name: 'Pr/Nd/Sm P507 16%', shortString: 'prndsm-p507-16', summary: SUMMARY }
+  { name: 'Pr/Nd/Sm P507 16%', id: 2, shortString: 'prndsm-p507-16', summary: SUMMARY }
 ];
 
 export const ISOTHERM_CONFIGURATION = {
