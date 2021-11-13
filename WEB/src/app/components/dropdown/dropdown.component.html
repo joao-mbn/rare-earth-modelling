@@ -1,8 +1,11 @@
 <mat-form-field appearance="fill">
   <mat-label>{{label}}</mat-label>
-  <mat-select>
-    <mat-option (onSelectionChange)="onSelect(option)" *ngFor="let option of options" [value]="option">
-      {{option}}
+  <mat-select (selectionChange)="onSelect()" [multiple]="multiple">
+    <mat-option *ngFor="let option of options"
+                (onSelectionChange)="onChanges(option.value)"
+                [value]="option.value"
+                [disabled]="option.disabled">
+      {{option.value}}
     </mat-option>
   </mat-select>
 </mat-form-field>

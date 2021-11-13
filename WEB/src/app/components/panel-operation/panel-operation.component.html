@@ -33,8 +33,9 @@
                     class="create-new-project-button">
         </app-button>
         <app-dropdown label="Load Existing Project..."
-                      [options]="projectsNamesOnDropdown"
-                      (onSelectEvent)="onSelectProject($event)"
+                      [options]="projectOptionsToDropdown"
+                      (onSelectEvent)="onClickCheckbox($event)"
+                      [multiple]="true"
                       class="load-projects-dropdown">
         </app-dropdown>
       </div>
@@ -42,12 +43,11 @@
 
   </mat-grid-list>
 
-  <mat-expansion-panel class="panel" *ngFor="let project of projectConfigurations; trackBy: trackSelectedProject">
+  <mat-expansion-panel class="panel" *ngFor="let project of projectConfigurations; trackBy:trackSelectedProject">
     <mat-expansion-panel-header class="panel-header" *ngIf="project.isSelected">
       <mat-panel-title class="panel-title">{{project.name}}</mat-panel-title>
       <mat-panel-description>
         <app-button (clickEvent)="onConfigureProject(project)" buttonName="Config" class="button configure-button"></app-button>
-        <app-button (clickEvent)="onDismissProject(project)" buttonName="Dismiss" class="button dismiss-button"></app-button>
         <app-button (clickEvent)="onDeleteProject(project)" buttonName="Delete" class="button delete-button" color="accent"></app-button>
       </mat-panel-description>
     </mat-expansion-panel-header>

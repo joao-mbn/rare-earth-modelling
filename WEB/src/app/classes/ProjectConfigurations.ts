@@ -7,5 +7,6 @@ export class ProjectConfigurations {
   shortString!: string;
   summary!: Summary;
   isSelected?: boolean;
+  isDeleted?: boolean;
 
 }

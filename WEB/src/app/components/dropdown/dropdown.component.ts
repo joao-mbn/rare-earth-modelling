@@ -8,19 +8,24 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class DropdownComponent implements OnInit {
 
   @Input() label!: string;
-  @Input() options!: (number | string)[];
-
+  @Input() options!: { value: (number | string), id: number | string, disabled: boolean }[];
+  @Input() multiple?: boolean;
   @Output() onSelectEvent = new EventEmitter<number | string>();
+  value!: number | string;
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
-  onSelect(option: number | string): void {
+  /* workaround to prevent double emissions from onSelectionChange that may happen */
+  onChanges(value: number | string): void {
+    this.value = value;
+  }
 
-    this.onSelectEvent.emit(option);
-
+  onSelect(): void {
+    this.onSelectEvent.emit(this.value);
   }
 
 }

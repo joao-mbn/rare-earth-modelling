@@ -26,12 +26,23 @@ export class PanelOperationComponent implements OnInit {
   operationalVariable: OperationalVariable = mocks.OPERATIONAL_VARIABLE
   operationalVariables: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES;
   projectConfigurations: ProjectConfigurations[] = mocks.PROJECTS_CONFIGURATIONS;
-  projectsNamesOnDropdown!: string[];
+  projectOptionsToDropdown!: { value: (number | string), id: number | string, disabled: boolean }[];
+
 
   constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
 
   ngOnInit(): void {
     this.loadProjects();
+  }
+
+  private loadProjects(): void {
+
+    this.ProjectService.getProjects().subscribe(
+      (response: ProjectConfigurations[]) => {
+      } //TODO implement)
+    );
+    this.projectConfigurations.forEach(project => project.isSelected = project.isSelected ?? false);
+    this.updateProjectOptionsToDropdown();
   }
 
   public onRunSimulation(): void {
@@ -52,31 +63,14 @@ export class PanelOperationComponent implements OnInit {
     // go to configuration panel
   }
 
-  private loadProjects(): void {
-
-    this.ProjectService.getProjects().subscribe(
-      (response: ProjectConfigurations[]) => {
-      } //TODO implement)
-    );
-    this.projectsNamesOnDropdown = this.projectConfigurations.map((project) => project.name);
-  }
-
   public onChangeSliderValue(params: OperationalVariable): void {
     const valueToUpdateIndex = this.operationalVariables.findIndex(operationVariable => operationVariable.shortString === params.shortString);
     this.operationalVariables[valueToUpdateIndex].value = params.value;
   }
 
-  public onSelectProject(selectedProject: string | number): void {
-    //usar a propriedade projectConfigurations e o atributo selected
-    const selectProjectIndex = this.projectsNamesOnDropdown.indexOf(selectedProject as string);
-    this.projectsNamesOnDropdown.splice(selectProjectIndex, 1);
-  }
-
-  public onDismissProject(projectConfigurations: ProjectConfigurations): void {
-    //usar a propriedade projectConfigurations e o atributo selected
-    /* const unselectProjectIndex = this.selectedProjects.indexOf(unSelectedProject);
-    this.selectedProjects.splice(unselectProjectIndex, 1);
-    this.projectsNamesOnDropdown.push(unSelectedProject); */
+  public onClickCheckbox(selectedProject: string | number): void {
+    const projectConfigurations = this.projectConfigurations.find(project => project.name === selectedProject as string);
+    if (projectConfigurations) { projectConfigurations.isSelected = projectConfigurations.isSelected ? false : true };
   }
 
   public onConfigureProject(projectConfigurations: ProjectConfigurations): void {
@@ -86,10 +80,30 @@ export class PanelOperationComponent implements OnInit {
   public onDeleteProject(projectConfigurations: ProjectConfigurations): void {
     //TODO Implement
     //projectName: missing delete service
+    const projectToDelete = this.projectConfigurations.find(project => project.id === projectConfigurations.id);
+    if (projectToDelete) { projectToDelete.isDeleted = true };
+    Object.freeze(projectToDelete);
+
+    this.updateProjectOptionsToDropdown();
   }
 
-  public trackSelectedProject(index: number, project: { id: number, name: string }): number {
+  public trackSelectedProject(index: number, project: ProjectConfigurations): number {
     return project.id;
+  }
+
+  private updateProjectOptionsToDropdown(): void {
+
+    if (!this.projectOptionsToDropdown) {
+      this.projectOptionsToDropdown = this.projectConfigurations.map(project => {
+        return { value: project.name, id: project.id, disabled: project.isDeleted as boolean };
+      })
+    } else {
+      this.projectOptionsToDropdown.forEach(project => {
+        const projectToUpdate = this.projectConfigurations.find(projectConfiguration => projectConfiguration.id === project.id);
+        project.disabled = projectToUpdate?.isDeleted ?? true;
+      })
+    }
+
   }
 
 }
