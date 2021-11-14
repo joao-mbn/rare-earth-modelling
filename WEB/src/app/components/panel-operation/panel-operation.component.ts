@@ -77,32 +77,15 @@ export class PanelOperationComponent implements OnInit {
     //TODO Implement
   }
 
-  public onDeleteProject(projectConfigurations: ProjectConfigurations): void {
-    //TODO Implement
-    //projectName: missing delete service
-    const projectToDelete = this.projectConfigurations.find(project => project.id === projectConfigurations.id);
-    if (projectToDelete) { projectToDelete.isDeleted = true };
-    Object.freeze(projectToDelete);
-
-    this.updateProjectOptionsToDropdown();
-  }
-
   public trackSelectedProject(index: number, project: ProjectConfigurations): number {
     return project.id;
   }
 
   private updateProjectOptionsToDropdown(): void {
 
-    if (!this.projectOptionsToDropdown) {
-      this.projectOptionsToDropdown = this.projectConfigurations.map(project => {
-        return { value: project.name, id: project.id, disabled: project.isDeleted as boolean };
-      })
-    } else {
-      this.projectOptionsToDropdown.forEach(project => {
-        const projectToUpdate = this.projectConfigurations.find(projectConfiguration => projectConfiguration.id === project.id);
-        project.disabled = projectToUpdate?.isDeleted ?? true;
-      })
-    }
+    this.projectOptionsToDropdown = this.projectConfigurations.map(project => {
+      return { value: project.name, id: project.id, disabled: project.isDeleted ?? false as boolean };
+    })
 
   }
 

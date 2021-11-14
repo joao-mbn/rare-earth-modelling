@@ -5,6 +5,7 @@ import { DropdownComponent } from './dropdown/dropdown.component';
 import { ButtonComponent } from './button/button.component';
 import { SliderComponent } from './slider/slider.component';
 import { MatRangeSliderComponent } from './range-slider/mat-range-slider.component';
+import { SummaryComponent } from './summary/summary.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     PanelOperationComponent,
     PopUpProjectConfigurationComponent,
     SliderComponent,
-    MatRangeSliderComponent
+    MatRangeSliderComponent,
+    SummaryComponent
   ],
   imports: [
     CommonModule,

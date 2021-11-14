@@ -43,14 +43,18 @@
 
   </mat-grid-list>
 
-  <mat-expansion-panel class="panel" *ngFor="let project of projectConfigurations; trackBy:trackSelectedProject">
-    <mat-expansion-panel-header class="panel-header" *ngIf="project.isSelected">
-      <mat-panel-title class="panel-title">{{project.name}}</mat-panel-title>
-      <mat-panel-description>
-        <app-button (clickEvent)="onConfigureProject(project)" buttonName="Config" class="button configure-button"></app-button>
-        <app-button (clickEvent)="onDeleteProject(project)" buttonName="Delete" class="button delete-button" color="accent"></app-button>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
+  <mat-accordion multi="true">
+    <ng-container *ngFor="let project of projectConfigurations; trackBy:trackSelectedProject">
+      <mat-expansion-panel class="panel" *ngIf="project.isSelected">
+        <mat-expansion-panel-header class="panel-header">
+          <mat-panel-title class="panel-title">{{project.name}}</mat-panel-title>
+          <mat-panel-description>
+            <app-button (clickEvent)="onConfigureProject(project)" buttonName="Config" class="button configure-button"></app-button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <app-summary [summary]="project.summary"></app-summary>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
 
 </mat-expansion-panel>

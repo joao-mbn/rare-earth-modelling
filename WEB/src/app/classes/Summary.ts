@@ -1,11 +1,11 @@
 import { MaterialType } from './MaterialType';
 import { ElementProperties } from './ElementProperties';
 import { Material } from './Material';
-import { OperationalVariable } from './OperationalVariable';
+import { SummaryOperationalVariable } from './OperationalVariable';
 
 export class Summary {
 
-  operationalVariables!: OperationalVariable[];
+  operationalVariables!: SummaryOperationalVariable[];
   modelConstants!: ElementProperties[];
   economicVariables!: Material[];
   materialTypes!: MaterialType[];

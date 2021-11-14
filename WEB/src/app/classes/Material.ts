@@ -1,5 +1,3 @@
-import { PhysChemProperty } from "./PhysChemProperty";
-
 export class Material {
 
   name!: string;
@@ -7,7 +5,6 @@ export class Material {
   shortString!: string;
   isDefault?: boolean;
   price!: number;
-  type?: string;
-  physChemProperties?: PhysChemProperty[]
+  type!: string;
 
 }
