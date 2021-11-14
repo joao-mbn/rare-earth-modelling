@@ -1,1 +1,9 @@
-<app-button (clickEvent)="onSave()" [buttonName]="'Save'"></app-button>
+<h2 mat-dialog-title>Project name: {{projectConfigurations.name}}</h2>
+<h2 mat-dialog-title>
+  <app-button (clickEvent)="onCancel()" buttonName="X"></app-button>
+</h2>
+<app-summary [summary]="projectConfigurations.summary"></app-summary>
+<mat-dialog-actions align="end">
+  <app-button (clickEvent)="onSave()" buttonName="Save"></app-button>
+  <app-button (clickEvent)="onCancel()" buttonName="Cancel"></app-button>
+</mat-dialog-actions>

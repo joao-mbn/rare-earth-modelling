@@ -92,9 +92,9 @@ export class PanelOperationComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalConfigurationComponent, {
       width: '800px',
       height: '600px',
-      data: { projectConfigurations: projectConfigurations ?? null }
+      data: projectConfigurations ? { projectConfigurations: projectConfigurations } : undefined
     })
-    dialogRef.afterClosed().subscribe(result => { })//TODO
+    dialogRef.afterClosed().subscribe(result => { console.table(result) });//TODO
   }
 
 }

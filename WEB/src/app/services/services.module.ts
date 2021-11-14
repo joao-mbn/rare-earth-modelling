@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { ProjectService } from './project.service';
 import { IsothermService } from './isotherm.service';
 
-
-
 @NgModule({
   declarations: [],
   imports: [
@@ -13,7 +11,7 @@ import { IsothermService } from './isotherm.service';
   ],
   providers: [
     IsothermService,
-    ProjectService
+    ProjectService,
   ]
 })
 export class ServicesModule { }
