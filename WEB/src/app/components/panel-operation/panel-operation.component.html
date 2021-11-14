@@ -44,7 +44,7 @@
   </mat-grid-list>
 
   <mat-accordion multi="true">
-    <ng-container *ngFor="let project of projectConfigurations; trackBy:trackSelectedProject">
+    <ng-container *ngFor="let project of projectConfigurations">
       <mat-expansion-panel class="panel" *ngIf="project.isSelected">
         <mat-expansion-panel-header class="panel-header">
           <mat-panel-title class="panel-title">{{project.name}}</mat-panel-title>

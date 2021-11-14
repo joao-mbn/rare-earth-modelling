@@ -5,13 +5,14 @@
         <mat-panel-title>Model Parameters</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-container *ngFor="let constant of summary.modelConstants">
-        <div>
-          <h3>{{ constant.symbol }}</h3>
-          <span>a: {{ constant.a }}</span>
-          <span>b: {{ constant.b }}</span>
-          <span>[aq.]: {{ constant.initialAqueousConcentration }} {{ uomByMaterialTypesAsObject['rare-earth']['concentration']}}</span>
-          <span>[org.]: {{ constant.initialOrganicConcentration }} {{ uomByMaterialTypesAsObject['rare-earth']['concentration']}}</span>
-        </div>
+        <h3>{{ constant.symbol }}</h3>
+        <mat-list>
+          <mat-list-item>a: {{ constant.a }}</mat-list-item>
+          <mat-list-item>b: {{ constant.b }}</mat-list-item>
+          <mat-list-item>[aq.]: {{ constant.initialAqueousConcentration }} {{ uomByMaterialTypesAsObject['rare-earth']['concentration']}}</mat-list-item>
+          <mat-list-item>[org.]: {{ constant.initialOrganicConcentration }} {{ uomByMaterialTypesAsObject['rare-earth']['concentration']}}</mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
       </ng-container>
     </mat-expansion-panel>
 
@@ -20,11 +21,12 @@
         <mat-panel-title>Operational Variables</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-container *ngFor="let variable of operationalVariables">
-        <div>
-          <h3>{{ variable.name }}</h3>
-          <span>min: {{ variable.value[0] }}</span>
-          <span>max: {{ variable.value[1] }}</span>
-        </div>
+        <h3>{{ variable.name }}</h3>
+        <mat-list>
+          <mat-list-item>min: {{ variable.value[0] }}</mat-list-item>
+          <mat-list-item>max: {{ variable.value[1] }}</mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
       </ng-container>
     </mat-expansion-panel>
 
@@ -33,14 +35,16 @@
         <mat-panel-title>Economic Variables</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-container *ngFor="let variable of summary.economicVariables">
-        <div>
-          <h3>{{ variable.symbol ?? variable.name }}</h3>
-          <ng-container *ngFor="let property of uomByMaterialTypesAsArray[variable.type]">
-            <h4>{{ property.name }}</h4>
-            <span>{{ property.physChemProperty === 'price' && variable.price ? variable.price : property.value }}</span>
-            <span>{{ property.uom }}</span>
-          </ng-container>
-        </div>
+        <h3>{{ variable.symbol ?? variable.name }}</h3>
+        <ng-container *ngFor="let property of uomByMaterialTypesAsArray[variable.type]">
+          <h4>{{ property.name }}</h4>
+          <mat-list>
+            <mat-list-item>{{ property.physChemProperty === 'price' && variable.price ? variable.price : property.value }}</mat-list-item>
+            <mat-list-item>{{ property.uom }}</mat-list-item>
+          </mat-list>
+          <mat-divider></mat-divider>
+        </ng-container>
+        <mat-divider></mat-divider>
       </ng-container>
     </mat-expansion-panel>
 

@@ -21,7 +21,6 @@ import { ComponentsModule } from './components/components.module';
     CommonModule,
     AppRoutingModule,
     DirectivesModule,
-    ServicesModule,
     ComponentsModule,
     PagesModule
   ],

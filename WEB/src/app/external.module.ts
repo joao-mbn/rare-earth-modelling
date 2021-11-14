@@ -8,12 +8,16 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    PlotlyModule,
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
@@ -21,10 +25,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatButtonModule,
     MatExpansionModule,
     MatGridListModule,
-    PlotlyModule
+    MatDividerModule,
+    MatListModule,
+    MatDialogModule,
   ],
   exports: [
     CommonModule,
+    PlotlyModule,
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
@@ -32,7 +39,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatButtonModule,
     MatExpansionModule,
     MatGridListModule,
-    PlotlyModule
+    MatDividerModule,
+    MatListModule,
+    MatDialogModule,
   ]
 })
 export class ExternalModule { }

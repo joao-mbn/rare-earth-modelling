@@ -1,5 +1,5 @@
 import { ExternalModule } from './../external.module';
-import { PopUpProjectConfigurationComponent } from './pop-up-project-configuration/pop-up-project-configuration.component';
+import { ModalConfigurationComponent } from './modal-configuration/modal-configuration.component';
 import { PanelOperationComponent } from './panel-operation/panel-operation.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { ButtonComponent } from './button/button.component';
@@ -10,13 +10,14 @@ import { SummaryComponent } from './summary/summary.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ServicesModule } from '../services/services.module';
 
 @NgModule({
   declarations: [
     ButtonComponent,
     DropdownComponent,
     PanelOperationComponent,
-    PopUpProjectConfigurationComponent,
+    ModalConfigurationComponent,
     SliderComponent,
     MatRangeSliderComponent,
     SummaryComponent
@@ -25,13 +26,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     ExternalModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServicesModule
   ],
   exports: [
     ButtonComponent,
     DropdownComponent,
     PanelOperationComponent,
-    PopUpProjectConfigurationComponent
+    ModalConfigurationComponent
   ]
 })
 export class ComponentsModule { }

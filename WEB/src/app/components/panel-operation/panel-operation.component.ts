@@ -1,3 +1,4 @@
+import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
 import { OperationalVariable } from '../../classes/OperationalVariable';
 import { ProjectSimulationResults } from '../../classes/ProjectSimulationResults';
 import { IsothermSimulationDto } from '../../classes/DTOs/IsothermSimulationDto';
@@ -5,6 +6,7 @@ import { IsothermService } from '../../services/isotherm.service';
 import { ProjectConfigurations } from '../../classes/ProjectConfigurations';
 import { ProjectService } from '../../services/project.service';
 import { Component, Input, OnInit, TrackByFunction } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as mocks from '../../../mocks/mocks';
 
 @Component({
@@ -29,7 +31,11 @@ export class PanelOperationComponent implements OnInit {
   projectOptionsToDropdown!: { value: (number | string), id: number | string, disabled: boolean }[];
 
 
-  constructor(private ProjectService: ProjectService, private IsothermService: IsothermService) { }
+  constructor(
+    private ProjectService: ProjectService,
+    private IsothermService: IsothermService,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.loadProjects();
@@ -59,8 +65,7 @@ export class PanelOperationComponent implements OnInit {
   }
 
   public onCreateNewProject(): void {
-    //TODO implement
-    // go to configuration panel
+    this.openConfigurationModal();
   }
 
   public onChangeSliderValue(params: OperationalVariable): void {
@@ -74,19 +79,22 @@ export class PanelOperationComponent implements OnInit {
   }
 
   public onConfigureProject(projectConfigurations: ProjectConfigurations): void {
-    //TODO Implement
-  }
-
-  public trackSelectedProject(index: number, project: ProjectConfigurations): number {
-    return project.id;
+    this.openConfigurationModal(projectConfigurations);
   }
 
   private updateProjectOptionsToDropdown(): void {
-
     this.projectOptionsToDropdown = this.projectConfigurations.map(project => {
       return { value: project.name, id: project.id, disabled: project.isDeleted ?? false as boolean };
     })
+  }
 
+  private openConfigurationModal(projectConfigurations?: ProjectConfigurations): void {
+    const dialogRef = this.dialog.open(ModalConfigurationComponent, {
+      width: '800px',
+      height: '600px',
+      data: { projectConfigurations: projectConfigurations ?? null }
+    })
+    dialogRef.afterClosed().subscribe(result => { })//TODO
   }
 
 }
