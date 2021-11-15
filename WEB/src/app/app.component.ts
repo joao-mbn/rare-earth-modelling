@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import * as mocks from '../mocks/mocks';
-import { ElementProperties } from './classes/ElementProperties';
-import { Material } from './classes/Material';
-import { MaterialType } from './classes/MaterialType';
-import { OperationalVariable } from './classes/OperationalVariable';
-import { PhysChemProperty } from './classes/PhysChemProperty';
-import { Summary } from './classes/Summary';
+import * as mocks from '../mocks/project';
+import { ElementProperties } from './contracts/Interfaces/ElementProperties';
+import { Material } from './contracts/Interfaces/Material';
+import { OperationalVariable } from './contracts/Interfaces/OperationalVariable';
+import { ProjectConfiguration } from './contracts/Interfaces/ProjectConfiguration';
 
 @Component({
   selector: 'app-root',
@@ -18,14 +16,11 @@ export class AppComponent implements OnInit {
   doConsoleLog(): void {
 
     const materials: Material[] = mocks.MATERIALS;
-    const physChemProperties: PhysChemProperty[] = mocks.PHYSQUEM_PROPERTIES;
-    const materialTypes: MaterialType[] = mocks.MATERIAL_TYPES;
-    const economicVariables: Material[] = mocks.MATERIALS;
     const modelConstants: ElementProperties[] = mocks.MODEL_CONSTANTS;
     const OperationalVariableArray: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES_RANGES;
-    const summary: Summary = mocks.SUMMARY;
+    const projectConfiguration: ProjectConfiguration = mocks.PROJECT_CONFIGURATION;
 
-    console.log(JSON.stringify(mocks.PROJECT_CONFIGURATIONS));
+    console.log(JSON.stringify(mocks.PROJECT));
   }
 
   ngOnInit(): void {

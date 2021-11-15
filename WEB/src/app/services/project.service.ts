@@ -1,5 +1,5 @@
-import { ProjectConfigurations } from './../classes/ProjectConfigurations';
-import { ProjectSimulationResults } from '../classes/ProjectSimulationResults';
+import { Project } from '../contracts/Interfaces/Project';
+import { ProjectSimulationResults } from '../contracts/DTOs/ProjectSimulationResults';
 import { API_URL } from './apiUrl';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,19 +14,19 @@ export class ProjectService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public postProjectConfigurations(projectConfigurations: ProjectConfigurations): Observable<boolean> {
-    const endPoint = 'post-project-configurations/';
-    return this.httpClient.post<boolean>(this.PROJECT_URL + endPoint, projectConfigurations);
+  public postProject(project: Project): Observable<boolean> {
+    const endPoint = 'post-project/';
+    return this.httpClient.post<boolean>(this.PROJECT_URL + endPoint, project);
   }
 
-  public getProjects(): Observable<ProjectConfigurations[]> {
+  public getProjects(): Observable<Project[]> {
     const endPoint = 'get-projects/';
-    return this.httpClient.get<ProjectConfigurations[]>(this.PROJECT_URL + endPoint);
+    return this.httpClient.get<Project[]>(this.PROJECT_URL + endPoint);
   }
 
-  public runProjectsSimulation(projectsConfigurations: ProjectConfigurations[]): Observable<ProjectSimulationResults[]> {
-    const endPoint = 'simulate-project/';
-    return this.httpClient.post<ProjectSimulationResults[]>(this.PROJECT_URL + endPoint, projectsConfigurations);
+  public runProjectsSimulation(projects: Project[]): Observable<ProjectSimulationResults[]> {
+    const endPoint = 'simulate-projects/';
+    return this.httpClient.post<ProjectSimulationResults[]>(this.PROJECT_URL + endPoint, projects);
   }
 
 }

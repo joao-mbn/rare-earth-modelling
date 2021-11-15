@@ -1,8 +1,8 @@
-import { SimulationTableDto } from './../../classes/DTOs/SimulationTableDto';
-import { IsothermSimulationDto } from '../../classes/DTOs/IsothermSimulationDto';
-import { SingleElementMcCabeThieleChart } from '../../classes/SingleElementMcCabeThieleChart';
-import { SingleElementDto } from '../../classes/DTOs/SingleElementDto';
-import { SingleElementDataSet } from '../../classes/SingleElementDataSet';
+import { SimulationTableDto } from './../../contracts/DTOs/SimulationTableDto';
+import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
+import { SingleElementMcCabeThieleChart } from '../../contracts/DTOs/SingleElementMcCabeThieleChart';
+import { SingleElementDto } from '../../contracts/DTOs/SingleElementDto';
+import { SingleElementDataSet } from '../../contracts/DTOs/SingleElementDataSet';
 import { IsothermService } from '../../services/isotherm.service';
 import { Component, OnInit } from '@angular/core';
 import * as PlotlyJS from 'plotly.js-dist-min';

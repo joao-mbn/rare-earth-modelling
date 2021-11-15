@@ -44,15 +44,15 @@
   </mat-grid-list>
 
   <mat-accordion multi="true">
-    <ng-container *ngFor="let project of projectConfigurations">
+    <ng-container *ngFor="let project of projects">
       <mat-expansion-panel class="panel" *ngIf="project.isSelected">
         <mat-expansion-panel-header class="panel-header">
-          <mat-panel-title class="panel-title">{{project.name}}</mat-panel-title>
+          <mat-panel-title class="panel-title">{{project.longString}}</mat-panel-title>
           <mat-panel-description>
             <app-button (clickEvent)="onConfigureProject(project)" buttonName="Config" class="button configure-button"></app-button>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <app-summary [summary]="project.summary"></app-summary>
+        <app-summary [summary]="project.projectConfiguration"></app-summary>
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>

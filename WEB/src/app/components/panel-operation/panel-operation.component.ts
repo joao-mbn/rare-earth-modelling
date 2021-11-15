@@ -1,13 +1,13 @@
 import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
-import { OperationalVariable } from '../../classes/OperationalVariable';
-import { ProjectSimulationResults } from '../../classes/ProjectSimulationResults';
-import { IsothermSimulationDto } from '../../classes/DTOs/IsothermSimulationDto';
+import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
+import { ProjectSimulationResults } from '../../contracts/DTOs/ProjectSimulationResults';
+import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
 import { IsothermService } from '../../services/isotherm.service';
-import { ProjectConfigurations } from '../../classes/ProjectConfigurations';
+import { Project } from '../../contracts/Interfaces/Project';
 import { ProjectService } from '../../services/project.service';
 import { Component, Input, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import * as mocks from '../../../mocks/mocks';
+import * as mocks from '../../../mocks/project';
 
 @Component({
   selector: 'app-panel-operation',
@@ -21,13 +21,10 @@ export class PanelOperationComponent implements OnInit {
   // TODO get proper @Input
   isIsotherm = true;
 
-  concentrationUomOptions = mocks.CONCENTRATION_UOM_LIST;
-  chosenConcentrationUom?: string;
-
   //@Input()
   operationalVariable: OperationalVariable = mocks.OPERATIONAL_VARIABLE
   operationalVariables: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES;
-  projectConfigurations: ProjectConfigurations[] = mocks.PROJECTS_CONFIGURATIONS;
+  projects: Project[] = mocks.PROJECTS;
   projectOptionsToDropdown!: { value: (number | string), id: number | string, disabled: boolean }[];
 
 
@@ -44,21 +41,21 @@ export class PanelOperationComponent implements OnInit {
   private loadProjects(): void {
 
     this.ProjectService.getProjects().subscribe(
-      (response: ProjectConfigurations[]) => {
+      (response: Project[]) => {
       } //TODO implement)
     );
-    this.projectConfigurations.forEach(project => project.isSelected = project.isSelected ?? false);
+    this.projects.forEach(project => project.isSelected = project.isSelected ?? false);
     this.updateProjectOptionsToDropdown();
   }
 
   public onRunSimulation(): void {
     //TODO implement
     if (this.isIsotherm) {
-      this.IsothermService.runIsothermSimulation(this.projectConfigurations[0], this.operationalVariable).subscribe(
+      this.IsothermService.runIsothermSimulation(this.projects[0], this.operationalVariables).subscribe(
         (response: IsothermSimulationDto) => { } // TODO implement
       )
     } else {
-      this.ProjectService.runProjectsSimulation(this.projectConfigurations).subscribe(
+      this.ProjectService.runProjectsSimulation(this.projects).subscribe(
         (response: ProjectSimulationResults) => { } // TODO implement
       )
     }
@@ -74,25 +71,25 @@ export class PanelOperationComponent implements OnInit {
   }
 
   public onClickCheckbox(selectedProject: string | number): void {
-    const projectConfigurations = this.projectConfigurations.find(project => project.name === selectedProject as string);
-    if (projectConfigurations) { projectConfigurations.isSelected = projectConfigurations.isSelected ? false : true };
+    const project = this.projects.find(project => project.longString === selectedProject as string);
+    if (project) { project.isSelected = project.isSelected ? false : true };
   }
 
-  public onConfigureProject(projectConfigurations: ProjectConfigurations): void {
-    this.openConfigurationModal(projectConfigurations);
+  public onConfigureProject(project: Project): void {
+    this.openConfigurationModal(project);
   }
 
   private updateProjectOptionsToDropdown(): void {
-    this.projectOptionsToDropdown = this.projectConfigurations.map(project => {
-      return { value: project.name, id: project.id, disabled: project.isDeleted ?? false as boolean };
+    this.projectOptionsToDropdown = this.projects.map(project => {
+      return { value: project.longString, id: project.projectId, disabled: project.isDeleted ?? false as boolean };
     })
   }
 
-  private openConfigurationModal(projectConfigurations?: ProjectConfigurations): void {
+  private openConfigurationModal(project?: Project): void {
     const dialogRef = this.dialog.open(ModalConfigurationComponent, {
       width: '800px',
       height: '600px',
-      data: projectConfigurations ? { projectConfigurations: projectConfigurations } : undefined
+      data: project ? { project: project } : undefined
     })
     dialogRef.afterClosed().subscribe(result => { console.table(result) });//TODO
   }

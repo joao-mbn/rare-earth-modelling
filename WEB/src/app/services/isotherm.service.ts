@@ -1,6 +1,6 @@
-import { OperationalVariable } from './../classes/OperationalVariable';
-import { ProjectConfigurations } from './../classes/ProjectConfigurations';
-import { IsothermSimulationDto } from '../classes/DTOs/IsothermSimulationDto';
+import { OperationalVariable } from './../contracts/Interfaces/OperationalVariable';
+import { Project } from '../contracts/Interfaces/Project';
+import { IsothermSimulationDto } from '../contracts/DTOs/IsothermSimulationDto';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -26,10 +26,10 @@ export class IsothermService {
     return this.httpClient.post<ArrayBuffer>(this.ISOTHERM_URL + 'post-conditions/', requestParameters);
   }
 
-  public runIsothermSimulation(ProjectConfigurations: ProjectConfigurations, operationVariables: OperationalVariable): Observable<IsothermSimulationDto> {
+  public runIsothermSimulation(project: Project, operationVariables: OperationalVariable[]): Observable<IsothermSimulationDto> {
     //TODO this should combine post and get services
     const endPoint = 'simulate-isotherm/';
-    return this.httpClient.post<IsothermSimulationDto>(this.ISOTHERM_URL + endPoint, { ProjectConfigurations, operationVariables });
+    return this.httpClient.post<IsothermSimulationDto>(this.ISOTHERM_URL + endPoint, { project, operationVariables });
   }
 
 }

@@ -1,4 +1,4 @@
-import { OperationalVariable } from '../../classes/OperationalVariable';
+import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({

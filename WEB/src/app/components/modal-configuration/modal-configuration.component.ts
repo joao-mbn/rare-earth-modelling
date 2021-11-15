@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ProjectService } from '../../services/project.service';
-import { PROJECT_CONFIGURATIONS } from '../../../mocks/mocks';
-import { ProjectConfigurations } from './../../classes/ProjectConfigurations';
+import { PROJECT } from '../../../mocks/project';
+import { Project } from '../../contracts/Interfaces/Project';
 
 @Component({
   selector: 'app-modal-configuration',
@@ -15,18 +15,18 @@ export class ModalConfigurationComponent implements OnInit {
   constructor(
     private projectService: ProjectService,
     public dialogRef: MatDialogRef<ModalConfigurationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: { projectConfigurations: ProjectConfigurations }
+    @Inject(MAT_DIALOG_DATA) public data?: { project: Project }
   ) { }
 
-  projectConfigurations!: ProjectConfigurations;
+  project!: Project;
 
   ngOnInit(): void {
-    this.projectConfigurations = this.data ? this.data.projectConfigurations : this.buildProjectTemplate();
+    this.project = this.data ? this.data.project : this.buildProjectTemplate();
   }
 
   public onSave(): void {
     //TODO implement
-    this.projectService.postProjectConfigurations(this.projectConfigurations as ProjectConfigurations).subscribe(
+    this.projectService.postProject(this.project as Project).subscribe(
       (response: boolean) => { console.log('to implement') }
     );
 
@@ -43,8 +43,8 @@ export class ModalConfigurationComponent implements OnInit {
     this.dialogRef.close(this.data);
   }
 
-  private buildProjectTemplate(): ProjectConfigurations {
-    return PROJECT_CONFIGURATIONS;
+  private buildProjectTemplate(): Project {
+    return PROJECT;
   }
 
 }
