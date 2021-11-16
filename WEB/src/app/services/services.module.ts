@@ -1,3 +1,4 @@
+import { ValidationService } from './validation.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -12,6 +13,7 @@ import { IsothermService } from './isotherm.service';
   providers: [
     IsothermService,
     ProjectService,
+    ValidationService
   ]
 })
 export class ServicesModule { }

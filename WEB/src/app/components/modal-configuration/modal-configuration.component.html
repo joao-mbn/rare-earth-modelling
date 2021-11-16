@@ -1,7 +1,52 @@
-<h2 mat-dialog-title>Project name: {{project.longString}}</h2>
+<h2 mat-dialog-title>Project name: {{projectName}}</h2>
 <h2 mat-dialog-title>
   <app-button (clickEvent)="onCancel()" buttonName="X"></app-button>
 </h2>
+
+
+<mat-accordion multi="true">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Model Parameters</mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-dropdown [options]="etrs" [label]="'ETR'" multi="true" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
+    <!-- <ng-container *ngFor="let element of modelConstants">
+      <mat-list>
+        <mat-list-item *ngFor="let property of element.defaultProperties">{{property.description}}: {{property.value}} {{property.uomId !== 0 ? property.uomLongString : ''}}</mat-list-item>
+      </mat-list>
+    </ng-container> -->
+  </mat-expansion-panel>
+
+  <!-- <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Operational Variables</mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngFor="let variable of summary.operationalVariables">
+      <h3>{{ variable.name }}</h3>
+      <mat-list>
+        <mat-list-item>min: {{ variable.value[0] }}</mat-list-item>
+        <mat-list-item>max: {{ variable.value[1] }}</mat-list-item>
+      </mat-list>
+    </ng-container>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Economic Variables</mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngFor="let variable of summary.economicVariables">
+      <h3>{{ variable.symbol ?? variable.longString }}</h3>
+      <mat-list>
+        <mat-list-item *ngFor="let property of variable.defaultProperties">{{property.description}}: {{property.value}} {{property.uomId !== 0 ? property.uomLongString : ''}}</mat-list-item>
+      </mat-list>
+    </ng-container>
+    <mat-divider></mat-divider>
+  </mat-expansion-panel> -->
+
+</mat-accordion>
+
+
+
 <mat-dialog-actions align="end">
   <app-button (clickEvent)="onSave()" buttonName="Save"></app-button>
   <app-button (clickEvent)="onCancel()" buttonName="Cancel"></app-button>

@@ -1,3 +1,4 @@
+import { OptionToDropdown } from './../../contracts/Interfaces/OptionsToDropdown';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -8,10 +9,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class DropdownComponent implements OnInit {
 
   @Input() label!: string;
-  @Input() options!: { value: (number | string), id: number | string, disabled: boolean }[];
+  @Input() options!: OptionToDropdown[];
   @Input() multiple?: boolean;
-  @Output() onSelectEvent = new EventEmitter<number | string>();
-  value!: number | string;
+  @Output() onSelectEvent = new EventEmitter<OptionToDropdown>();
+  option!: OptionToDropdown;
 
   constructor() { }
 
@@ -20,12 +21,12 @@ export class DropdownComponent implements OnInit {
   }
 
   /* workaround to prevent double emissions from onSelectionChange that may happen */
-  onChanges(value: number | string): void {
-    this.value = value;
+  onChanges(option: OptionToDropdown): void {
+    this.option = option;
   }
 
   onSelect(): void {
-    this.onSelectEvent.emit(this.value);
+    this.onSelectEvent.emit(this.option);
   }
 
 }

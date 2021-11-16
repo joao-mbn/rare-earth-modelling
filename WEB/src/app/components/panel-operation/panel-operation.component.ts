@@ -1,3 +1,4 @@
+import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionsToDropdown';
 import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
 import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
 import { ProjectSimulationResults } from '../../contracts/DTOs/ProjectSimulationResults';
@@ -65,18 +66,18 @@ export class PanelOperationComponent implements OnInit {
     this.openConfigurationModal();
   }
 
+  public onConfigureProject(project: Project): void {
+    this.openConfigurationModal(project);
+  }
+
   public onChangeSliderValue(params: OperationalVariable): void {
     const valueToUpdateIndex = this.operationalVariables.findIndex(operationVariable => operationVariable.shortString === params.shortString);
     this.operationalVariables[valueToUpdateIndex].value = params.value;
   }
 
-  public onClickCheckbox(selectedProject: string | number): void {
-    const project = this.projects.find(project => project.longString === selectedProject as string);
+  public onSelectProject(option: OptionToDropdown): void {
+    const project = this.projects.find(project => project.longString === option.value as string);
     if (project) { project.isSelected = project.isSelected ? false : true };
-  }
-
-  public onConfigureProject(project: Project): void {
-    this.openConfigurationModal(project);
   }
 
   private updateProjectOptionsToDropdown(): void {
@@ -91,7 +92,7 @@ export class PanelOperationComponent implements OnInit {
       height: '600px',
       data: project ? { project: project } : undefined
     })
-    dialogRef.afterClosed().subscribe(result => { console.table(result) });//TODO
+    dialogRef.afterClosed().subscribe((project: Project) => { console.table(project) });//TODO
   }
 
 }

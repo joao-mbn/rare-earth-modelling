@@ -6,6 +6,7 @@ export interface Material {
   longString: string;
   symbol?: string;
   isDefaultOption?: boolean;
+  isSelected?: boolean;
   defaultProperties: DefaultProperties[];
 
 }

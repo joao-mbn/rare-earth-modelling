@@ -34,7 +34,7 @@
         </app-button>
         <app-dropdown label="Load Existing Project..."
                       [options]="projectOptionsToDropdown"
-                      (onSelectEvent)="onClickCheckbox($event)"
+                      (onSelectEvent)="onSelectProject($event)"
                       [multiple]="true"
                       class="load-projects-dropdown">
         </app-dropdown>

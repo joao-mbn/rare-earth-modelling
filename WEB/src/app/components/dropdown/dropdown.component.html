@@ -2,7 +2,7 @@
   <mat-label>{{label}}</mat-label>
   <mat-select (selectionChange)="onSelect()" [multiple]="multiple">
     <mat-option *ngFor="let option of options"
-                (onSelectionChange)="onChanges(option.value)"
+                (onSelectionChange)="onChanges(option)"
                 [value]="option.value"
                 [disabled]="option.disabled">
       {{option.value}}

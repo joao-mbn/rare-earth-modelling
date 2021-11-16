@@ -27,19 +27,19 @@ export const PROPERTIES = [
 ]
 
 export const UOMS = [
-  { uomId: 0, shortString: 'none', longString: 'Dimensionless' },
-  { uomId: 1, shortString: 'usd/kg', longString: 'USD/Kg' },
-  { uomId: 2, shortString: 'usd/l', longString: 'USD/L' },
-  { uomId: 3, shortString: 'usd/un', longString: 'USD/Un.' },
-  { uomId: 4, shortString: 'brl/kg', longString: 'BRL/Kg' },
-  { uomId: 5, shortString: 'brl/l', longString: 'BRL/L' },
-  { uomId: 6, shortString: 'brl/un', longString: 'BRL/Un.' },
-  { uomId: 7, shortString: 'mol/l-element', longString: 'mol/L of Element' },
-  { uomId: 8, shortString: 'mol/l-oxide', longString: 'mol/L of Oxide' },
-  { uomId: 9, shortString: 'g/l-element', longString: 'g/L of Element' },
-  { uomId: 10, shortString: 'g/l-oxide', longString: 'g/L of Oxide' },
-  { uomId: 11, shortString: 'mol/l', longString: 'mol/L' },
-  { uomId: 12, shortString: 'g/l', longString: 'g/L' },
+  { uomId: 0, uomType: 'none', shortString: 'none', longString: 'Dimensionless' },
+  { uomId: 1, uomType: 'pounderal-price', shortString: 'usd/kg', longString: 'USD/Kg' },
+  { uomId: 2, uomType: 'volumetric-price', shortString: 'usd/l', longString: 'USD/L' },
+  { uomId: 3, uomType: 'unit-price', shortString: 'usd/un', longString: 'USD/Un.' },
+  { uomId: 4, uomType: 'pounderal-price', shortString: 'brl/kg', longString: 'BRL/Kg' },
+  { uomId: 5, uomType: 'volumetric-price', shortString: 'brl/l', longString: 'BRL/L' },
+  { uomId: 6, uomType: 'unit-price', shortString: 'brl/un', longString: 'BRL/Un.' },
+  { uomId: 7, uomType: 'etr-concentration', shortString: 'mol/l-element', longString: 'mol/L of Element' },
+  { uomId: 8, uomType: 'etr-concentration', shortString: 'mol/l-oxide', longString: 'mol/L of Oxide' },
+  { uomId: 9, uomType: 'concentration', shortString: 'g/l-element', longString: 'g/L of Element' },
+  { uomId: 10, uomType: 'concentration', shortString: 'g/l-oxide', longString: 'g/L of Oxide' },
+  { uomId: 11, uomType: 'concentration', shortString: 'mol/l', longString: 'mol/L' },
+  { uomId: 12, uomType: 'concentration', shortString: 'g/l', longString: 'g/L' },
 ]
 
 export const ETRS = [
