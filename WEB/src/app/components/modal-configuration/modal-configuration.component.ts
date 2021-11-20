@@ -12,6 +12,7 @@ import { PROJECT } from '../../../mocks/project';
 import { Material } from 'src/app/contracts/Interfaces/Material';
 import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionsToDropdown';
 import * as defaultOptions from '../../../mocks/defaultOptions';
+import { groupBy } from 'src/app/utils/groupBy';
 
 @Component({
   selector: 'app-modal-configuration',
@@ -32,6 +33,11 @@ export class ModalConfigurationComponent implements OnInit {
   materials: Material[] = defaultOptions.MATERIALS;
 
   etrs!: OptionToDropdown[];
+  acids!: OptionToDropdown[];
+  bases!: OptionToDropdown[];
+  extractants!: OptionToDropdown[];
+  solvents!: OptionToDropdown[];
+
   etrConcentrationUoms!: OptionToDropdown[];
   pounderalPriceUoms!: OptionToDropdown[];
   volumetricPriceUoms!: OptionToDropdown[];
@@ -50,8 +56,8 @@ export class ModalConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.addSelections();
     this.separateByType();
-
     this.data ? this.destructureProject() : this.buildProjectTemplate();
+    this.buildForms();
   }
 
   private addSelections(): void {
@@ -60,11 +66,26 @@ export class ModalConfigurationComponent implements OnInit {
   }
 
   private separateByType(): void {
-    this.etrConcentrationUoms = this.uoms.filter(uom => uom.uomType === 'etr-concentration').map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
-    this.pounderalPriceUoms = this.uoms.filter(uom => uom.uomType === 'pounderal-price').map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
-    this.volumetricPriceUoms = this.uoms.filter(uom => uom.uomType === 'volumetric-price').map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
-    this.unitPriceUoms = this.uoms.filter(uom => uom.uomType === 'unit-price').map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
-    this.etrs = this.materials.filter(material => material.type === 'etr').map(material => { return { value: material.longString, id: material.materialId, disabled: false }; });
+    const uomsByType = groupBy(this.uoms, 'type');
+    Object.entries(uomsByType).forEach(entry => {
+      switch (entry[0]) {
+        case 'etr-concentration':
+          this.etrConcentrationUoms = entry[1].map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
+          break
+        case 'pounderal-price':
+          this.pounderalPriceUoms = entry[1].map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
+          break
+        case 'volumetric-price':
+          this.volumetricPriceUoms = entry[1].map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
+          break
+        case 'unit-price':
+          this.unitPriceUoms = entry[1].map(uom => { return { value: uom.longString, id: uom.uomId, disabled: false }; });
+          break
+      }
+    })
+    this.etrs = this.materials
+      .filter(material => material.type === 'etr')
+      .map(material => { return { value: material.longString, id: material.materialId, disabled: false }; });
   }
 
   private buildProjectTemplate(): Project {
@@ -79,6 +100,14 @@ export class ModalConfigurationComponent implements OnInit {
     this.economicVariables = this.data.project.projectConfiguration.economicVariables;
   }
 
+  private buildForms(): void {
+    this.forms = this.formBuilder.group({
+      etrOptions: '',
+      modelConstants: this.formBuilder.array([]),
+      operationalVariables: this.formBuilder.group(this.buildOperationalVariablesForms()),
+      economicVariables: this.formBuilder.array(this.buildEconomicVariablesForms()),
+    });
+  }
 
   public onSave(): void {
     //TODO implement
@@ -95,27 +124,15 @@ export class ModalConfigurationComponent implements OnInit {
   }
 
   public onSelectEtr(option: OptionToDropdown): void {
-
     const etr = this.materials.find(material => material.materialId === option.id);
     if (etr) {
       etr.isSelected = etr.isSelected ? false : true;
       etr.isSelected ? this.addEtrs(etr) : this.removeEtrs(etr);
     };
-
   }
 
   private closeModal(): void {
     this.dialogRef.close(this.data);
-  }
-
-  private buildForms(): void {
-    this.forms = this.formBuilder.group({
-      etrOptions: '',
-      modelConstants: this.formBuilder.array([]),
-      operationalVariables: this.formBuilder.group(this.buildOperationalVariablesForms()),
-      economicVariables: this.formBuilder.array([]),
-    });
-    this.buildOperationalVariablesForms();
   }
 
   private addEtrs(etr: Material): void {
@@ -163,6 +180,19 @@ export class ModalConfigurationComponent implements OnInit {
     return operationalVariablesForms;
   }
 
-
+  private buildEconomicVariablesForms(): FormGroup[] {
+    const economicVariablesByType = groupBy(this.economicVariables, 'type');
+    let economicVariableToForm: FormGroup[] = [];
+    Object.keys(economicVariablesByType)
+      .filter(materialType => materialType !== 'etr')
+      .forEach((materialType) => {
+        const defaultMaterial = economicVariablesByType[materialType][0] as Material;
+        const price = defaultMaterial.defaultProperties.find(property => property.propertyLongString === 'Price');
+        economicVariableToForm.push(
+          this.formBuilder.group({ materialType: materialType, material: defaultMaterial.longString, price: price?.value, priceUom: price?.uomLongString })
+        )
+      })
+    return economicVariableToForm;
+  }
 
 }
