@@ -4,7 +4,7 @@
     <mat-option *ngFor="let option of options"
                 (onSelectionChange)="onChanges(option)"
                 [value]="option.value"
-                [disabled]="option.disabled">
+                [disabled]="option.isDisabled">
       {{option.value}}
     </mat-option>
   </mat-select>

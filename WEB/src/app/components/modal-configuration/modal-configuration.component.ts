@@ -32,8 +32,8 @@ export class ModalConfigurationComponent implements OnInit {
   modelConstants!: ElementProperties[];
   operationalVariables!: ProjectOperationalVariable[];
 
-  uoms: Uom[] = defaultOptions.UOMS;
-  materials: Material[] = defaultOptions.MATERIALS;
+  uoms!: Uom[];
+  materials!: Material[];
   uomsByType!: { [type: string]: Uom[] };
   materialsByType!: { [type: string]: Material[] };
   etrs!: OptionToDropdown[];
@@ -48,25 +48,43 @@ export class ModalConfigurationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.addSelections();
+    this.getOptions();
     this.groupByType();
-    this.data ? this.destructureProject() : this.buildProjectTemplate();
+    this.data ? this.destructureProject() : this.getProjectTemplate();
+    this.addSelections();
     this.buildForms();
   }
 
-  private addSelections(): void {
-    this.uoms.forEach(uom => uom.isSelected = uom.isSelected ?? false);
-    this.materials.forEach(material => material.isSelected = material.isSelected ?? false);
+  private getOptions(): void {
+    //TODO implement service
+    this.uoms = defaultOptions.UOMS;
+    this.materials = defaultOptions.MATERIALS;
   }
 
   private groupByType(): void {
-    this.materialsByType = groupBy(this.economicVariables, 'type');
+    this.materialsByType = groupBy(this.materials, 'type');
     this.uomsByType = groupBy(this.uoms, 'uomType');
     this.etrs = materialsToOptionsToDropdown(this.materialsByType['etr']);
   }
 
-  private buildProjectTemplate(): Project {
-    return PROJECT;
+  private addSelections(): void {
+    const selectedEtrsIds = this.economicVariables.filter(variable => variable.type === 'etr').map(variable => variable.materialId);
+    this.etrs.forEach(etr => {
+      if (selectedEtrsIds.some(id => id === etr.id)) { etr.isSelected = true }
+      else { etr.isSelected = false };
+    })
+    this.materials
+      .filter(material => material.type === 'etr')
+      .forEach(etr => {
+        if (selectedEtrsIds.some(id => id === etr.materialId)) { etr.isSelected = true }
+        else { etr.isSelected = false };
+      })
+  }
+
+  private getProjectTemplate(): void {
+    //TODO implement the service that gets this template
+    this.data = { project: PROJECT };
+    this.destructureProject();
   }
 
   private destructureProject(): void {
@@ -88,6 +106,7 @@ export class ModalConfigurationComponent implements OnInit {
     });
     this.buildOperationalVariablesForms();
     this.buildEconomicVariablesForms();
+    this.materials.filter(material => material.type === 'etr').forEach(material => material.isSelected ? this.addEtr(material) : false);
   }
 
   public onSelectEtr(option: OptionToDropdown): void {
@@ -132,7 +151,7 @@ export class ModalConfigurationComponent implements OnInit {
 
   private buildModelConstantsForms(etr: Material): void {
     const modelConstant = this.modelConstants.find(constant => constant.materialId === etr.materialId)!;
-    let modelConstantFormsArray!: FormArray;
+    let modelConstantFormsArray = this.formBuilder.array([]);
 
     modelConstant.defaultProperties.forEach(property => {
       const uomOptionsToDropdown = uomsToOptionsToDropdown(this.uomsByType[property.uomType] as Uom[]);
@@ -166,7 +185,6 @@ export class ModalConfigurationComponent implements OnInit {
     Object.keys(this.materialsByType)
       .filter(materialType => isEtr ? materialType === 'etr' : materialType !== 'etr')
       .forEach((materialType) => {
-
         const materialOptions = this.materialsByType[materialType] as Material[];
         const material = etr ? materialOptions.find(material => material.shortString === etr)! : materialOptions[0];
         const materialOptionsToDropdown = materialsToOptionsToDropdown(materialOptions);
@@ -176,7 +194,7 @@ export class ModalConfigurationComponent implements OnInit {
         (this.forms.get('economicVariables') as FormArray).push(
           this.formBuilder.group({
             materialType: this.formBuilder.control(new InputField({ value: materialType, label: materialType, isEditable: false, key: 'material-type' })),
-            material: this.formBuilder.control(new DropdownField({ options: materialOptionsToDropdown, value: material.longString, label: materialType, isMandatory: true, key: 'material' })),
+            material: this.formBuilder.control(new DropdownField({ options: materialOptionsToDropdown, value: material.longString, label: materialType, isEditable: !isEtr, isMandatory: true, key: 'material' })),
             price: this.formBuilder.control(new InputField({ value: price?.value, label: '$', isMandatory: true, key: 'price' })),
             priceUom: this.formBuilder.control(new DropdownField({ options: priceUomOptionsToDropdown, value: price?.uomLongString, label: 'Choose UOM...', isMandatory: true, key: 'price-uom' })),
           })
