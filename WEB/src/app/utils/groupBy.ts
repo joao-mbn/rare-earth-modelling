@@ -1,12 +1,9 @@
-type ObjectType = { [property: string]: any };
-type groupedByObject = { [property: string]: Array<ObjectType> };
+export function groupBy<ObjectType>(objectsArray: Array<ObjectType>, property: string): { [property: string]: Array<ObjectType> } {
 
-export function groupBy(objectsArray: Array<ObjectType>, property: string): groupedByObject {
-
-  return objectsArray.reduce((acc: groupedByObject, object) => {
-    let key = object[property];
+  return objectsArray.reduce((acc: { [property: string]: Array<ObjectType> }, obj: ObjectType) => {
+    let key = obj[property as keyof ObjectType] as unknown as string;
     if (!acc[key]) { acc[key] = [] };
-    acc[key].push(object);
+    acc[key].push(obj);
     return acc;
   }, {})
 

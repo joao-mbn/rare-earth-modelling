@@ -4,12 +4,12 @@
 </h2>
 
 
+<app-dropdown [options]="etrs" [label]="'ETR'" [multiple]="true" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
 <mat-accordion multi="true">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Model Parameters</mat-panel-title>
     </mat-expansion-panel-header>
-    <app-dropdown [options]="etrs" [label]="'ETR'" multi="true" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
     <!-- <ng-container *ngFor="let element of modelConstants">
       <mat-list>
         <mat-list-item *ngFor="let property of element.defaultProperties">{{property.description}}: {{property.value}} {{property.uomId !== 0 ? property.uomLongString : ''}}</mat-list-item>

@@ -1,10 +1,10 @@
 import { ElementProperties } from './ElementProperties';
 import { Material } from './Material';
-import { SummaryOperationalVariable } from './OperationalVariable';
+import { ProjectOperationalVariable } from './OperationalVariable';
 
 export interface ProjectConfiguration {
 
-  operationalVariables: SummaryOperationalVariable[];
+  operationalVariables: ProjectOperationalVariable[];
   modelConstants: ElementProperties[];
   economicVariables: Material[];
   applyForms?: boolean;

@@ -1,4 +1,4 @@
-import { OptionToDropdown } from './../../contracts/Interfaces/OptionsToDropdown';
+import { OptionToDropdown } from '../../contracts/Interfaces/OptionToDropdown';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({

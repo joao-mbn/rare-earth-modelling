@@ -1,4 +1,4 @@
-import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionsToDropdown';
+import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionToDropdown';
 import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
 import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
 import { ProjectSimulationResults } from '../../contracts/DTOs/ProjectSimulationResults';

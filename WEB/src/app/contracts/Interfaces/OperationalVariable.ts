@@ -13,7 +13,7 @@ export interface OperationalVariable extends ProtoOperationalVariable {
 
 }
 
-export interface SummaryOperationalVariable extends ProtoOperationalVariable {
+export interface ProjectOperationalVariable extends ProtoOperationalVariable {
 
   value: number[];
 

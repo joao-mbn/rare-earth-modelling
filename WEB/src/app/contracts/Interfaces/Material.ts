@@ -14,6 +14,7 @@ export interface Material {
 interface DefaultProperties {
 
   uomId: number;
+  uomType: string;
   propertyId: number;
   propertyLongString: string;
   uomLongString: string;
