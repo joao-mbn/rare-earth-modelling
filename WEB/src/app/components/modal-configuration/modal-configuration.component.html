@@ -1,49 +1,66 @@
-<h2 mat-dialog-title>Project name: {{projectName}}</h2>
-<h2 mat-dialog-title>
+<form [formGroup]="form">
+  <h2 mat-dialog-title>
+    <app-input [properties]="propertiesToForm.project" [form]="form"></app-input>
+  </h2>
   <app-button (clickEvent)="onCancel()" buttonName="X"></app-button>
-</h2>
+  <app-dropdown [properties]="propertiesToForm.etrOptions" [form]="form" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
+
+  <mat-accordion multi="true">
+
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>Model Parameters</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngFor="let modelConstant of getModelConstants.controls; let i=index">
+
+        <app-input [properties]="propertiesToForm.modelConstants[i].etr" [form]="getGroupInArray(modelConstant)"></app-input>
+
+        <ng-container *ngFor="let params of getModelConstantPropertyToForms(i).controls; let j=index">
+          <app-input [properties]="propertiesToForm.modelConstants[i].modelConstantPropertyToForms[j].constant" [form]="getGroupInArray(params)"></app-input>
+          <app-dropdown [properties]="propertiesToForm.modelConstants[i].modelConstantPropertyToForms[j].constantUom"
+                        [form]="getGroupInArray(params)"
+                        *ngIf="propertiesToForm.modelConstants[i].modelConstantPropertyToForms[j].constantUom.value !== 'Dimensionless'">
+          </app-dropdown>
+        </ng-container>
+      </ng-container>
+
+    </mat-expansion-panel>
 
 
-<app-dropdown [options]="etrs" [label]="'ETR'" [multiple]="true" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
-<mat-accordion multi="true">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Model Parameters</mat-panel-title>
-    </mat-expansion-panel-header>
-    <!-- <ng-container *ngFor="let element of modelConstants">
-      <mat-list>
-        <mat-list-item *ngFor="let property of element.defaultProperties">{{property.description}}: {{property.value}} {{property.uomId !== 0 ? property.uomLongString : ''}}</mat-list-item>
-      </mat-list>
-    </ng-container> -->
-  </mat-expansion-panel>
+    <mat-expansion-panel>
 
-  <!-- <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Operational Variables</mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-container *ngFor="let variable of summary.operationalVariables">
-      <h3>{{ variable.name }}</h3>
-      <mat-list>
-        <mat-list-item>min: {{ variable.value[0] }}</mat-list-item>
-        <mat-list-item>max: {{ variable.value[1] }}</mat-list-item>
-      </mat-list>
-    </ng-container>
-  </mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Operational Variables</mat-panel-title>
+      </mat-expansion-panel-header>
 
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Economic Variables</mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-container *ngFor="let variable of summary.economicVariables">
-      <h3>{{ variable.symbol ?? variable.longString }}</h3>
-      <mat-list>
-        <mat-list-item *ngFor="let property of variable.defaultProperties">{{property.description}}: {{property.value}} {{property.uomId !== 0 ? property.uomLongString : ''}}</mat-list-item>
-      </mat-list>
-    </ng-container>
-    <mat-divider></mat-divider>
-  </mat-expansion-panel> -->
+      <ng-container *ngFor="let operationalVariable of getOperationalVariables.controls; let i=index">
+        <app-input [properties]="propertiesToForm.operationalVariables[i].variableName" [form]="getGroupInArray(operationalVariable)"></app-input>
+        <app-slider [properties]="propertiesToForm.operationalVariables[i].sliderRange" [form]="getGroupInArray(operationalVariable)"></app-slider>
+        <app-input [properties]="propertiesToForm.operationalVariables[i].step" [form]="getGroupInArray(operationalVariable)"></app-input>
+      </ng-container>
 
-</mat-accordion>
+    </mat-expansion-panel>
+
+
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>Economic Variables</mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <ng-container *ngFor="let economicVariables of getEconomicVariables.controls; let i=index">
+        <app-input [properties]="propertiesToForm.economicVariables[i].materialType" [form]="getGroupInArray(economicVariables)"></app-input>
+        <app-dropdown [properties]="propertiesToForm.economicVariables[i].material" [form]="getGroupInArray(economicVariables)"></app-dropdown>
+        <app-input [properties]="propertiesToForm.economicVariables[i].price" [form]="getGroupInArray(economicVariables)"></app-input>
+        <app-dropdown [properties]="propertiesToForm.economicVariables[i].priceUom" [form]="getGroupInArray(economicVariables)"></app-dropdown>
+      </ng-container>
+
+    </mat-expansion-panel>
+
+  </mat-accordion>
+</form>
 
 
 

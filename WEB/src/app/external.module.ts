@@ -11,6 +11,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   exports: [
     CommonModule,
@@ -42,6 +46,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule
   ]
 })
 export class ExternalModule { }

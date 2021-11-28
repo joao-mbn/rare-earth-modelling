@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServicesModule } from '../services/services.module';
+import { InputComponent } from './input/input.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ServicesModule } from '../services/services.module';
     ModalConfigurationComponent,
     SliderComponent,
     MatRangeSliderComponent,
-    SummaryComponent
+    SummaryComponent,
+    InputComponent
   ],
   imports: [
     CommonModule,

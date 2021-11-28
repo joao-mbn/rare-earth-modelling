@@ -1,3 +1,5 @@
+import { InputField } from './../../contracts/Classes/InputField';
+import { DropdownField } from 'src/app/contracts/Classes/DropdownField';
 import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionToDropdown';
 import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
 import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
@@ -6,7 +8,7 @@ import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDt
 import { IsothermService } from '../../services/isotherm.service';
 import { Project } from '../../contracts/Interfaces/Project';
 import { ProjectService } from '../../services/project.service';
-import { Component, Input, OnInit, TrackByFunction } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as mocks from '../../../mocks/project';
 
@@ -26,7 +28,7 @@ export class PanelOperationComponent implements OnInit {
   operationalVariable: OperationalVariable = mocks.OPERATIONAL_VARIABLE
   operationalVariables: OperationalVariable[] = mocks.OPERATIONAL_VARIABLES;
   projects: Project[] = mocks.PROJECTS;
-  projectOptionsToDropdown!: { value: (number | string), id: number | string, disabled: boolean }[];
+  projectPropertiesToDropdown!: DropdownField;
 
 
   constructor(
@@ -70,10 +72,10 @@ export class PanelOperationComponent implements OnInit {
     this.openConfigurationModal(project);
   }
 
-  public onChangeSliderValue(params: OperationalVariable): void {
+  /* public onChangeSliderValue(params: InputField): void {
     const valueToUpdateIndex = this.operationalVariables.findIndex(operationVariable => operationVariable.shortString === params.shortString);
-    this.operationalVariables[valueToUpdateIndex].value = params.value;
-  }
+    this.operationalVariables[valueToUpdateIndex].value = params.value as number | number[];
+  } */
 
   public onSelectProject(option: OptionToDropdown): void {
     const project = this.projects.find(project => project.longString === option.value as string);
@@ -81,15 +83,18 @@ export class PanelOperationComponent implements OnInit {
   }
 
   private updateProjectOptionsToDropdown(): void {
-    this.projectOptionsToDropdown = this.projects.map(project => {
-      return { value: project.longString, id: project.projectId, disabled: project.isDeleted ?? false as boolean };
+    this.projectPropertiesToDropdown = new DropdownField({
+      options: this.projects.map(project => { return { value: project.longString, id: project.projectId, disabled: project.isDeleted ?? false as boolean }; }),
+      multiple: true,
+      label: 'Load Existing Project...',
+      key: 'projectProperties'
     })
   }
 
   private openConfigurationModal(project?: Project): void {
     const dialogRef = this.dialog.open(ModalConfigurationComponent, {
-      width: '800px',
-      height: '600px',
+      width: '1800px',
+      height: '900px',
       data: project ? { project: project } : undefined
     })
     dialogRef.afterClosed().subscribe((project: Project) => { console.table(project) });//TODO

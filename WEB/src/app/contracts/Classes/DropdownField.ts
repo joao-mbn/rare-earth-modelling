@@ -1,27 +1,20 @@
 import { OptionToDropdown } from '../Interfaces/OptionToDropdown';
-import { FormField } from "./FormField";
+import { FormField, ParamsToForms } from "./FormField";
 
+type ParamsToDropdown = ParamsToForms & { options?: OptionToDropdown[], multiple?: boolean };
 export class DropdownField extends FormField {
 
   options!: OptionToDropdown[];
+  multiple?: boolean;
 
-  constructor(params: {
-    options?: OptionToDropdown[],
-    key?: string,
-    formsId?: number,
-    label?: string,
-    isMandatory?: boolean,
-    isEditable?: boolean,
-    value?: string | number | number[],
-    placeHolder?: string | number,
-    hidden?: boolean,
-  } = {}) {
-
+  constructor(params: ParamsToDropdown = {}) {
     let paramsToForms;
     let options;
-    ({ options, ...paramsToForms } = params);
+    let multiple;
+    ({ options, multiple, ...paramsToForms } = params);
     super(paramsToForms);
     this.options = options || [];
+    this.multiple = multiple || false;
   }
 
 }

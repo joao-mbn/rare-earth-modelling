@@ -1,22 +1,22 @@
 import { Material } from './../app/contracts/Interfaces/Material';
 
 export const FORMS_TYPES = [
-  { formsId: 1, isMandatory: true, isEditable: true, hasDefaultValue: true, isInput: true, description: 'mandatory editable Input with default value' },
-  { formsId: 2, isMandatory: true, isEditable: true, hasDefaultValue: true, isInput: false, description: 'mandatory editable Dropdown with default value' },
-  { formsId: 3, isMandatory: true, isEditable: true, hasDefaultValue: false, isInput: true, description: 'mandatory editable Input without default value' },
-  { formsId: 4, isMandatory: true, isEditable: true, hasDefaultValue: false, isInput: false, description: 'mandatory editable Dropdown without default value' },
-  { formsId: 5, isMandatory: true, isEditable: false, hasDefaultValue: true, isInput: true, description: 'mandatory uneditable Input with default value' },
-  { formsId: 6, isMandatory: true, isEditable: false, hasDefaultValue: true, isInput: false, description: 'mandatory uneditable Dropdown with default value' },
-  { formsId: 7, isMandatory: true, isEditable: false, hasDefaultValue: false, isInput: true, description: 'mandatory uneditable Input without default value' },
-  { formsId: 8, isMandatory: true, isEditable: false, hasDefaultValue: false, isInput: false, description: 'mandatory uneditable Dropdown without default value' },
-  { formsId: 9, isMandatory: false, isEditable: true, hasDefaultValue: true, isInput: true, description: 'optional editable Input with default value' },
-  { formsId: 10, isMandatory: false, isEditable: true, hasDefaultValue: true, isInput: false, description: 'optional editable Dropdown with default value' },
-  { formsId: 11, isMandatory: false, isEditable: true, hasDefaultValue: false, isInput: true, description: 'optional editable Input without default value' },
-  { formsId: 12, isMandatory: false, isEditable: true, hasDefaultValue: false, isInput: false, description: 'optional editable Dropdown without default value' },
-  { formsId: 13, isMandatory: false, isEditable: false, hasDefaultValue: true, isInput: true, description: 'optional uneditable Input with default value' },
-  { formsId: 14, isMandatory: false, isEditable: false, hasDefaultValue: true, isInput: false, description: 'optional uneditable Dropdown with default value' },
-  { formsId: 15, isMandatory: false, isEditable: false, hasDefaultValue: false, isInput: true, description: 'optional uneditable Input without default value' },
-  { formsId: 16, isMandatory: false, isEditable: false, hasDefaultValue: false, isInput: false, description: 'optional uneditable Dropdown without default value' },
+  { formsId: 1, isMandatory: true, isDisabled: false, hasDefaultValue: true, isInput: true, description: 'mandatory editable Input with default value' },
+  { formsId: 2, isMandatory: true, isDisabled: false, hasDefaultValue: true, isInput: false, description: 'mandatory editable Dropdown with default value' },
+  { formsId: 3, isMandatory: true, isDisabled: false, hasDefaultValue: false, isInput: true, description: 'mandatory editable Input without default value' },
+  { formsId: 4, isMandatory: true, isDisabled: false, hasDefaultValue: false, isInput: false, description: 'mandatory editable Dropdown without default value' },
+  { formsId: 5, isMandatory: true, isDisabled: true, hasDefaultValue: true, isInput: true, description: 'mandatory uneditable Input with default value' },
+  { formsId: 6, isMandatory: true, isDisabled: true, hasDefaultValue: true, isInput: false, description: 'mandatory uneditable Dropdown with default value' },
+  { formsId: 7, isMandatory: true, isDisabled: true, hasDefaultValue: false, isInput: true, description: 'mandatory uneditable Input without default value' },
+  { formsId: 8, isMandatory: true, isDisabled: true, hasDefaultValue: false, isInput: false, description: 'mandatory uneditable Dropdown without default value' },
+  { formsId: 9, isMandatory: false, isDisabled: false, hasDefaultValue: true, isInput: true, description: 'optional editable Input with default value' },
+  { formsId: 10, isMandatory: false, isDisabled: false, hasDefaultValue: true, isInput: false, description: 'optional editable Dropdown with default value' },
+  { formsId: 11, isMandatory: false, isDisabled: false, hasDefaultValue: false, isInput: true, description: 'optional editable Input without default value' },
+  { formsId: 12, isMandatory: false, isDisabled: false, hasDefaultValue: false, isInput: false, description: 'optional editable Dropdown without default value' },
+  { formsId: 13, isMandatory: false, isDisabled: true, hasDefaultValue: true, isInput: true, description: 'optional uneditable Input with default value' },
+  { formsId: 14, isMandatory: false, isDisabled: true, hasDefaultValue: true, isInput: false, description: 'optional uneditable Dropdown with default value' },
+  { formsId: 15, isMandatory: false, isDisabled: true, hasDefaultValue: false, isInput: true, description: 'optional uneditable Input without default value' },
+  { formsId: 16, isMandatory: false, isDisabled: true, hasDefaultValue: false, isInput: false, description: 'optional uneditable Dropdown without default value' },
 ]
 
 export const PROPERTIES = [

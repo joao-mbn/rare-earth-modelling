@@ -1,0 +1,17 @@
+<div [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>{{properties.label}}</mat-label>
+    <input matInput
+           [formControlName]="properties.key"
+           [placeholder]="properties.placeholder"
+           [value]="properties.value"
+           [required]="properties.isMandatory"
+           [hidden]="properties.hidden"
+           [type]="valueType"
+           [readonly]="properties.isDisabled">
+  </mat-form-field>
+  <mat-hint>{{properties?.hint}}</mat-hint>
+  <mat-error>
+    <!-- implement -->
+  </mat-error>
+</div>

@@ -165,19 +165,19 @@
       "materialTypes": [
         {
           "type": "extractant",
-          "isEditable": true,
+          "isDisabled": true,
           "isMandatory": false,
           "hasDefaultValue": false
         },
         {
           "type": "acid",
-          "isEditable": true,
+          "isDisabled": true,
           "isMandatory": false,
           "hasDefaultValue": true
         },
         {
           "type": "rare-earth",
-          "isEditable": true,
+          "isDisabled": true,
           "isMandatory": true,
           "hasDefaultValue": false
         }

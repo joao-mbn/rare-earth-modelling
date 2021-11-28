@@ -1,5 +1,7 @@
+import { InputField } from './../../contracts/Classes/InputField';
 import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-slider',
@@ -8,8 +10,9 @@ import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 })
 export class SliderComponent implements OnInit {
 
-  @Input() params!: OperationalVariable;
-  @Output() changeValueEvent = new EventEmitter<OperationalVariable>();
+  @Input() properties!: InputField;
+  @Input() form!: FormGroup;
+  @Output() changeValueEvent = new EventEmitter<InputField>();
   value!: number | null;
   rangeValue!: number[] | null;
 
@@ -18,9 +21,9 @@ export class SliderComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.isRangeSlider()) {
-      this.value = this.params.value as number;
+      this.value = this.properties.value as number;
     } else {
-      this.rangeValue = this.params.value as number[];
+      this.rangeValue = this.properties.value as number[];
     }
 
   }
@@ -28,17 +31,17 @@ export class SliderComponent implements OnInit {
   public onChangeValue(): void {
 
     if (this.isRangeSlider()) {
-      this.params.value = this.rangeValue;
+      this.properties.value = this.rangeValue as number[];
     } else {
-      this.params.value = this.value;
+      this.properties.value = this.value as number;
     }
-    this.changeValueEvent.emit(this.params);
+    this.changeValueEvent.emit(this.properties);
 
   }
 
   public isRangeSlider(): boolean {
 
-    return typeof (this.params.value) === 'object';
+    return typeof (this.properties.value) === 'object';
 
   }
 

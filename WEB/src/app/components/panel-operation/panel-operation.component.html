@@ -17,12 +17,11 @@
 
     <mat-grid-tile class="operation-variables-tile" colspan="4" rowspan="8">
       <div *ngIf="isIsotherm" class="sliders-wrapper">
-        <div class="slider-wrapper" *ngFor="let variable of operationalVariables">
+        <!-- <div class="slider-wrapper" *ngFor="let variable of operationalVariables">
           <label for="slider" class="slider-label">{{variable.name}}</label>
-          <app-slider class="slider" [params]="variable" (changeValueEvent)="onChangeSliderValue($event)">
-          </app-slider>
+          <app-slider class="slider" [params]="variable" (changeValueEvent)="onChangeSliderValue($event)"></app-slider>
           <label for="slider" class="slider-label">{{variable.value}}</label>
-        </div>
+        </div> -->
       </div>
     </mat-grid-tile>
 
@@ -32,10 +31,9 @@
                     buttonName="Create New Project"
                     class="create-new-project-button">
         </app-button>
-        <app-dropdown label="Load Existing Project..."
-                      [options]="projectOptionsToDropdown"
+        <app-dropdown
+                      [properties]="projectPropertiesToDropdown"
                       (onSelectEvent)="onSelectProject($event)"
-                      [multiple]="true"
                       class="load-projects-dropdown">
         </app-dropdown>
       </div>

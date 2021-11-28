@@ -1,20 +1,24 @@
-<mat-slider class="slider"
-            *ngIf="!isRangeSlider(); else isRanged"
-            [min]="params.min"
-            [max]="params.max"
-            [step]="params.step"
-            [(value)]="value"
-            (change)="onChangeValue()"
-            thumbLabel="true">
-</mat-slider>
+<div [formGroup]="form">
+  <mat-slider class="slider"
+              *ngIf="!isRangeSlider(); else isRanged"
+              [min]="properties.min!"
+              [max]="properties.max!"
+              [step]="properties.step!"
+              [disabled]="properties.isDisabled"
+              [(value)]="value"
+              (change)="onChangeValue()"
+              thumbLabel="true">
+  </mat-slider>
 
-<ng-template #isRanged>
-  <div style="display: flex; width: 100%">
-    <mat-range-slider [min]="params.min"
-                      [max]="params.max"
-                      [step]="params.step"
-                      thumbLabel="true"
-                      [(ngModel)]="rangeValue">
-    </mat-range-slider>
-  </div>
-</ng-template>
+  <ng-template #isRanged>
+    <div style="display: flex; width: 100%">
+      <mat-range-slider [min]="properties.min!"
+                        [max]="properties.max!"
+                        [step]="properties.step!"
+                        [disabled]="properties.isDisabled"
+                        thumbLabel="true"
+                        [(ngModel)]="rangeValue">
+      </mat-range-slider>
+    </div>
+  </ng-template>
+</div>
