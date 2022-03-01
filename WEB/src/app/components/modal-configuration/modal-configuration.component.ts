@@ -1,22 +1,21 @@
-import { InputField } from './../../contracts/Classes/InputField';
-import { DropdownField } from './../../contracts/Classes/DropdownField';
-import { Uom } from 'src/app/contracts/Interfaces/Uom';
-import { ProjectOperationalVariable } from './../../contracts/Interfaces/OperationalVariable';
-import { ElementProperties } from './../../contracts/Interfaces/ElementProperties';
-import { ValidationService } from './../../services/validation.service';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit, Input } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { ProjectService } from '../../services/project.service';
-import { Project } from '../../contracts/Interfaces/Project';
-import { PROJECT } from '../../../mocks/project';
 import { Material } from 'src/app/contracts/Interfaces/Material';
 import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionToDropdown';
-import * as defaultOptions from '../../../mocks/defaultOptions';
-import { groupBy } from 'src/app/utils/groupBy';
-import { materialsToOptionsToDropdown, uomsToOptionsToDropdown } from 'src/app/contracts/Mappers/ToOptionToDropdown';
 import { ProjectForms } from 'src/app/contracts/Interfaces/ProjectForms';
+import { Uom } from 'src/app/contracts/Interfaces/Uom';
+import { materialsToOptionsToDropdown, uomsToOptionsToDropdown } from 'src/app/contracts/Mappers/ToOptionToDropdown';
+import { groupBy } from 'src/app/utils/groupBy';
+import * as defaultOptions from '../../../mocks/defaultOptions';
+import { PROJECT } from '../../../mocks/project';
+import { Project } from '../../contracts/Interfaces/Project';
+import { ProjectService } from '../../services/project.service';
+import { DropdownField } from './../../contracts/Classes/DropdownField';
+import { InputField } from './../../contracts/Classes/InputField';
+import { ElementProperties } from './../../contracts/Interfaces/ElementProperties';
+import { ProjectOperationalVariable } from './../../contracts/Interfaces/OperationalVariable';
+import { ValidationService } from './../../services/validation.service';
 
 @Component({
   selector: 'app-modal-configuration',

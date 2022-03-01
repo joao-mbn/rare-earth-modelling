@@ -1,14 +1,14 @@
-import { SimulationTableDto } from './../../contracts/DTOs/SimulationTableDto';
-import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
-import { SingleElementMcCabeThieleChart } from '../../contracts/DTOs/SingleElementMcCabeThieleChart';
-import { SingleElementDto } from '../../contracts/DTOs/SingleElementDto';
-import { SingleElementDataSet } from '../../contracts/DTOs/SingleElementDataSet';
-import { IsothermService } from '../../services/isotherm.service';
 import { Component, OnInit } from '@angular/core';
-import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
-import { hasKey } from 'src/app/utils/hasKey';
+import * as PlotlyJS from 'plotly.js-dist-min';
 import { formatNumber } from 'src/app/utils/formatNumber';
+import { hasKey } from 'src/app/utils/hasKey';
+import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
+import { SingleElementDataSet } from '../../contracts/DTOs/SingleElementDataSet';
+import { SingleElementDto } from '../../contracts/DTOs/SingleElementDto';
+import { SingleElementMcCabeThieleChart } from '../../contracts/DTOs/SingleElementMcCabeThieleChart';
+import { IsothermService } from '../../services/isotherm.service';
+import { SimulationTableDto } from './../../contracts/DTOs/SimulationTableDto';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 

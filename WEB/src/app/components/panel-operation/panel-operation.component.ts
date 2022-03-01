@@ -1,16 +1,15 @@
-import { InputField } from './../../contracts/Classes/InputField';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DropdownField } from 'src/app/contracts/Classes/DropdownField';
 import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionToDropdown';
-import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
-import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
-import { ProjectSimulationResults } from '../../contracts/DTOs/ProjectSimulationResults';
-import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
-import { IsothermService } from '../../services/isotherm.service';
-import { Project } from '../../contracts/Interfaces/Project';
-import { ProjectService } from '../../services/project.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import * as mocks from '../../../mocks/project';
+import { IsothermSimulationDto } from '../../contracts/DTOs/IsothermSimulationDto';
+import { ProjectSimulationResults } from '../../contracts/DTOs/ProjectSimulationResults';
+import { OperationalVariable } from '../../contracts/Interfaces/OperationalVariable';
+import { Project } from '../../contracts/Interfaces/Project';
+import { IsothermService } from '../../services/isotherm.service';
+import { ProjectService } from '../../services/project.service';
+import { ModalConfigurationComponent } from './../modal-configuration/modal-configuration.component';
 
 @Component({
   selector: 'app-panel-operation',
@@ -84,7 +83,13 @@ export class PanelOperationComponent implements OnInit {
 
   private updateProjectOptionsToDropdown(): void {
     this.projectPropertiesToDropdown = new DropdownField({
-      options: this.projects.map(project => { return { value: project.longString, id: project.projectId, disabled: project.isDeleted ?? false as boolean }; }),
+      options: this.projects.map(project => {
+        return {
+          value: project.longString,
+          id: project.projectId,
+          disabled: project.isDeleted ?? false
+        };
+      }),
       multiple: true,
       label: 'Load Existing Project...',
       key: 'projectProperties'
@@ -95,7 +100,7 @@ export class PanelOperationComponent implements OnInit {
     const dialogRef = this.dialog.open(ModalConfigurationComponent, {
       width: '1800px',
       height: '900px',
-      data: project ? { project: project } : undefined
+      data: { project: project }
     })
     dialogRef.afterClosed().subscribe((project: Project) => { console.table(project) });//TODO
   }
