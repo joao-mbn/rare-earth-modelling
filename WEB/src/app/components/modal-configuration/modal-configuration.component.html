@@ -27,6 +27,9 @@
                         *ngIf="propertiesToForm.modelConstants[i].modelConstantPropertyToForms[j].constantUom.value !== 'Dimensionless'">
           </app-dropdown>
         </ng-container>
+
+        <app-button (clickEvent)="onRemoveEtr(i)" buttonName="Delete"></app-button>
+
       </ng-container>
 
     </mat-expansion-panel>

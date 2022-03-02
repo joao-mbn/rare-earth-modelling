@@ -1,5 +1,6 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Material } from 'src/app/contracts/Interfaces/Material';
 import { OptionToDropdown } from 'src/app/contracts/Interfaces/OptionToDropdown';
@@ -47,8 +48,8 @@ export class ModalConfigurationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getOptions();
-    this.data ? this.destructureProject() : this.getProjectTemplate();
-    this.updateSelections();
+    if (!this.data) { this.getProjectTemplate(); };
+    this.destructureProject();
     this.buildForms();
   }
 
@@ -61,32 +62,17 @@ export class ModalConfigurationComponent implements OnInit {
     this.etrs = materialsToOptionsToDropdown(this.materialsByType['etr']);
   }
 
+  private getProjectTemplate(): void {
+    //TODO implement the service that gets this template
+    this.data = { project: PROJECT };
+  }
+
   private destructureProject(): void {
     this.data = this.data as { project: Project };
     this.projectName = this.data.project.longString;
     this.modelConstants = this.data.project.projectConfiguration.modelConstants;
     this.operationalVariables = this.data.project.projectConfiguration.operationalVariables;
     this.economicVariables = this.data.project.projectConfiguration.economicVariables;
-  }
-
-  private getProjectTemplate(): void {
-    //TODO implement the service that gets this template
-    this.data = { project: PROJECT };
-    this.destructureProject();
-  }
-
-  private updateSelections(): void {
-    const etrsIds = this.economicVariables.filter(variable => variable.type === 'etr').map(variable => variable.materialId);
-    this.etrs.forEach(etr => {
-      if (etrsIds.some(id => id === etr.id)) { etr.isSelected = true; etr.isDisabled = true; }
-      else { etr.isSelected = false; etr.isDisabled = false; };
-    });
-    this.materials
-      .filter(material => material.type === 'etr')
-      .forEach(etr => {
-        if (etrsIds.some(id => id === etr.materialId)) { etr.isSelected = true; }
-        else { etr.isSelected = false; };
-      });
   }
 
   private buildForms(): void {
@@ -98,33 +84,29 @@ export class ModalConfigurationComponent implements OnInit {
       economicVariables: this.formBuilder.array([]),
     });
     this.propertiesToForm.project = new InputField({ value: this.projectName, label: 'Name your project...', isMandatory: true, key: 'project' });
+    this.economicVariables.filter(material => material.type === 'etr').forEach(etr => this.addEtr(etr));
     this.buildOperationalVariablesForms();
     this.buildEconomicVariablesForms();
-    this.materials.filter(material => material.type === 'etr').forEach(material => { if (material.isSelected) this.addEtr(material); });
   }
 
   public onSelectEtr(option: OptionToDropdown): void {
-    const etr = this.materials.find(material => material.materialId === option.id);
-    if (etr) {
-      etr.isSelected ? this.addEtr(etr) : this.removeEtr(etr);
-      etr.isSelected = !etr.isSelected;
-    };
+
   }
+
+  public onRemoveEtr(index: number): void {
+    const modelConstantsArray = (this.form.get('modelConstants') as FormArray);
+    //let index = Array(modelConstantsArray.length).findIndex((index) => { this.form.get(['modelConstants', index, 'etr'])?.value as string === etr.symbol });
+    modelConstantsArray.removeAt(index);
+
+    /* const economicVariablesArray = (this.form.get('economicVariables') as FormArray);
+    index = Array(modelConstantsArray.length).findIndex((index) => { this.form.get(['economicVariables', index, 'etr'])?.value as string === etr.longString });
+    modelConstantsArray.removeAt(index); */
+  };
 
   private addEtr(etr: Material): void {
     this.buildModelConstantsForms(etr);
     this.buildEconomicVariablesForms(true, etr.shortString);
   }
-
-  private removeEtr(etr: Material): void {
-    const modelConstantsArray = (this.form.get('modelConstants') as FormArray);
-    let index = Array(modelConstantsArray.length).findIndex((index) => { this.form.get(['modelConstants', index, 'etr'])?.value as string === etr.symbol });
-    modelConstantsArray.removeAt(index);
-
-    const economicVariablesArray = (this.form.get('economicVariables') as FormArray);
-    index = Array(modelConstantsArray.length).findIndex((index) => { this.form.get(['economicVariables', index, 'etr'])?.value as string === etr.longString });
-    modelConstantsArray.removeAt(index);
-  };
 
   private buildModelConstantsForms(etr: Material): void {
     const modelConstant = this.modelConstants.find(constant => constant.materialId === etr.materialId)!;
