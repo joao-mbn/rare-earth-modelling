@@ -15,7 +15,6 @@ import { DropdownField } from './../../contracts/Classes/DropdownField';
 import { InputField } from './../../contracts/Classes/InputField';
 import { ElementProperties } from './../../contracts/Interfaces/ElementProperties';
 import { ProjectOperationalVariable } from './../../contracts/Interfaces/OperationalVariable';
-import { ValidationService } from './../../services/validation.service';
 
 @Component({
   selector: 'app-modal-configuration',
@@ -41,18 +40,15 @@ export class ModalConfigurationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private validationService: ValidationService,
     private projectService: ProjectService,
     public dialogRef: MatDialogRef<ModalConfigurationComponent>,
     @Inject(MAT_DIALOG_DATA) public data?: { project: Project },
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.getOptions();
-    this.groupByType();
     this.data ? this.destructureProject() : this.getProjectTemplate();
-    this.addSelections();
+    this.updateSelections();
     this.buildForms();
   }
 
@@ -60,32 +56,9 @@ export class ModalConfigurationComponent implements OnInit {
     //TODO implement service
     this.uoms = defaultOptions.UOMS;
     this.materials = defaultOptions.MATERIALS;
-  }
-
-  private groupByType(): void {
     this.materialsByType = groupBy(this.materials, 'type');
     this.uomsByType = groupBy(this.uoms, 'uomType');
     this.etrs = materialsToOptionsToDropdown(this.materialsByType['etr']);
-  }
-
-  private addSelections(): void {
-    const selectedEtrsIds = this.economicVariables.filter(variable => variable.type === 'etr').map(variable => variable.materialId);
-    this.etrs.forEach(etr => {
-      if (selectedEtrsIds.some(id => id === etr.id)) { etr.isSelected = true }
-      else { etr.isSelected = false };
-    })
-    this.materials
-      .filter(material => material.type === 'etr')
-      .forEach(etr => {
-        if (selectedEtrsIds.some(id => id === etr.materialId)) { etr.isSelected = true }
-        else { etr.isSelected = false };
-      })
-  }
-
-  private getProjectTemplate(): void {
-    //TODO implement the service that gets this template
-    this.data = { project: PROJECT };
-    this.destructureProject();
   }
 
   private destructureProject(): void {
@@ -96,45 +69,46 @@ export class ModalConfigurationComponent implements OnInit {
     this.economicVariables = this.data.project.projectConfiguration.economicVariables;
   }
 
+  private getProjectTemplate(): void {
+    //TODO implement the service that gets this template
+    this.data = { project: PROJECT };
+    this.destructureProject();
+  }
+
+  private updateSelections(): void {
+    const etrsIds = this.economicVariables.filter(variable => variable.type === 'etr').map(variable => variable.materialId);
+    this.etrs.forEach(etr => {
+      if (etrsIds.some(id => id === etr.id)) { etr.isSelected = true; etr.isDisabled = true; }
+      else { etr.isSelected = false; etr.isDisabled = false; };
+    });
+    this.materials
+      .filter(material => material.type === 'etr')
+      .forEach(etr => {
+        if (etrsIds.some(id => id === etr.materialId)) { etr.isSelected = true; }
+        else { etr.isSelected = false; };
+      });
+  }
+
   private buildForms(): void {
     //TODO transfer all of this to a service
     this.form = this.formBuilder.group({
       project: this.formBuilder.control(this.projectName),
-      etrOptions: this.formBuilder.control(''),
       modelConstants: this.formBuilder.array([]),
       operationalVariables: this.formBuilder.array([]),
       economicVariables: this.formBuilder.array([]),
     });
     this.propertiesToForm.project = new InputField({ value: this.projectName, label: 'Name your project...', isMandatory: true, key: 'project' });
-    this.propertiesToForm.etrOptions = new DropdownField({ options: this.etrs, multiple: true, label: 'Choose ETRs...', isMandatory: true, key: 'etrOptions' });
     this.buildOperationalVariablesForms();
     this.buildEconomicVariablesForms();
-    this.materials.filter(material => material.type === 'etr').forEach(material => material.isSelected ? this.addEtr(material) : false);
+    this.materials.filter(material => material.type === 'etr').forEach(material => { if (material.isSelected) this.addEtr(material); });
   }
 
   public onSelectEtr(option: OptionToDropdown): void {
     const etr = this.materials.find(material => material.materialId === option.id);
     if (etr) {
-      etr.isSelected = etr.isSelected ? false : true;
       etr.isSelected ? this.addEtr(etr) : this.removeEtr(etr);
+      etr.isSelected = !etr.isSelected;
     };
-  }
-
-  public onSave(): void {
-    //TODO implement
-    this.projectService.postProject(this.project as Project).subscribe(
-      (response: boolean) => { console.log('to implement') }
-    );
-    this.closeModal();
-  }
-
-  public onCancel(): void {
-    //TODO modal "are you sure you want to leave without saving your changes?"
-    this.closeModal();
-  }
-
-  private closeModal(): void {
-    this.dialogRef.close(this.data);
   }
 
   private addEtr(etr: Material): void {
@@ -164,23 +138,24 @@ export class ModalConfigurationComponent implements OnInit {
           constant: this.formBuilder.control(property.value),
           constantUom: this.formBuilder.control(property.uomLongString),
         })
-      )
+      );
       modelConstantPropertyToForms.push({
         constant: new InputField({ value: property.value, label: property.description, isMandatory: true, key: 'constant' }),
         constantUom: new DropdownField({ options: uomOptionsToDropdown, value: property.uomLongString, label: 'Choose UOM...', isMandatory: property.uomType !== 'none', key: 'constantUom', hidden: property.uomType === 'none' })
+      });
+    });
+
+    (this.form.get('modelConstants') as FormArray).push(
+      this.formBuilder.group({
+        etr: this.formBuilder.control(modelConstant.longString),
+        modelConstantFormsArray: modelConstantFormsArray
       })
-    });
-
-    const modelConstantToForm = this.formBuilder.group({
-      etr: this.formBuilder.control(modelConstant.symbol),
-      modelConstantFormsArray: modelConstantFormsArray
-    });
-    (this.form.get('modelConstants') as FormArray).push(modelConstantToForm);
-
+    );
     this.propertiesToForm.modelConstants.push({
-      etr: new InputField({ value: modelConstant.symbol, label: modelConstant.longString, isDisabled: true, key: 'etr' }),
+      etr: new DropdownField({ options: this.etrs, value: modelConstant.longString, label: 'Choose ETR...', key: 'etr' }),
       modelConstantPropertyToForms: modelConstantPropertyToForms
-    })
+    });
+
   }
 
   private buildOperationalVariablesForms(): void {
@@ -228,6 +203,23 @@ export class ModalConfigurationComponent implements OnInit {
         })
 
       })
+  }
+
+  public onSave(): void {
+    //TODO implement
+    this.projectService.postProject(this.project as Project).subscribe(
+      (response: boolean) => { console.log('to implement') }
+    );
+    this.closeModal();
+  }
+
+  public onCancel(): void {
+    //TODO modal "are you sure you want to leave without saving your changes?"
+    this.closeModal();
+  }
+
+  private closeModal(): void {
+    this.dialogRef.close(this.data);
   }
 
   get getModelConstants() {
