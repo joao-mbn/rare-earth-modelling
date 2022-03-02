@@ -1,4 +1,5 @@
 import { ETRS, ACIDS, BASES, EXTRACTANT, SOLVENT, CELLS } from './defaultOptions';
+
 export const OPERATIONAL_VARIABLE = {
   name: 'pH', shortString: 'ph', min: 0, max: 2, step: 0.1, value: 0.5
 };

@@ -6,7 +6,7 @@ export interface ProjectForms {
   project: InputField,
   etrOptions: DropdownField,
   modelConstants: {
-    etr: InputField,
+    etr: DropdownField,
     modelConstantPropertyToForms: {
       constant: InputField,
       constantUom: DropdownField

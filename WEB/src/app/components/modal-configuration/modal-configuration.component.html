@@ -1,9 +1,9 @@
 <form [formGroup]="form">
+
   <h2 mat-dialog-title>
     <app-input [properties]="propertiesToForm.project" [form]="form"></app-input>
   </h2>
   <app-button (clickEvent)="onCancel()" buttonName="X"></app-button>
-  <app-dropdown [properties]="propertiesToForm.etrOptions" [form]="form" (onSelectEvent)="onSelectEtr($event)"></app-dropdown>
 
   <mat-accordion multi="true">
 
@@ -15,7 +15,10 @@
 
       <ng-container *ngFor="let modelConstant of getModelConstants.controls; let i=index">
 
-        <app-input [properties]="propertiesToForm.modelConstants[i].etr" [form]="getGroupInArray(modelConstant)"></app-input>
+        <app-dropdown [properties]="propertiesToForm.modelConstants[i].etr"
+                      [form]="getGroupInArray(modelConstant)"
+                      (onSelectEvent)="onSelectEtr($event)">
+        </app-dropdown>
 
         <ng-container *ngFor="let params of getModelConstantPropertyToForms(i).controls; let j=index">
           <app-input [properties]="propertiesToForm.modelConstants[i].modelConstantPropertyToForms[j].constant" [form]="getGroupInArray(params)"></app-input>

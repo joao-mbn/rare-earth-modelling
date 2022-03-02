@@ -12,8 +12,7 @@ CORS(app)
 
 @app.route('/isotherm/get-results/', methods=['GET'])
 def get_isoterma_dto() -> Response:
-    isotherm_dto: dict[Union[Proton, ETR]
-                       ] = Instancias.isotherm.create_all_elements_extraction_data_dto()
+    isotherm_dto: dict[Union[Proton, ETR]] = Instancias.isotherm.create_all_elements_extraction_data_dto()
     isotherm_dto_json = jsonify(isotherm_dto)
     return isotherm_dto_json
 
